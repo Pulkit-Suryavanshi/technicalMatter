@@ -1,0 +1,1959 @@
+Explain Normalization? benefits etc?
+
+Normalization is a database design technique to remove/avoid redundant data
+ex:
+Lets take a transaction table:
+it can have column Country which could have Inida,IND(redundant data) and Nepal which could be moved to another table which have links as country id and name and then the id could be used in this trasaction table.
+
+how implemented:
+by splitting tables in to two, one with reference data(master table) and other with transaction data
+---------------------------------
+What is denormalization?
+
+Denormalization is a database design technique to improve search performance
+in normalization we split the table into multiple sub tables because of which the data has to be fetched from multiple tables so sql query can take alot of time.
+In denormalization we actually merge the table into one table having duplicate data.
+We are ok with having duplicate data.
+---------------------------------
+Explain OLTP vs OLAP?
+
+OLTP: Online Transaction Processing
+OLAP:Online Analytical Processing
+
+In case of system with millions processes, hight intensity we create two databases as one is not enough
+OLTP: inserts, updates, delete and in this we have/follow NORMALIZATION as we do not want redundant data.
+OLAP: analysis, fethcing, reads/writes, selects we want these queries to be faster(performance good) hence we do DENORMALIZATION
+
+FROM OLTP ->ETL(extraction,transform,loading)->OLAP
+---------------------------------
+ACID:??
+Atomicity
+Consistency
+Isolation
+Durability
+
+Atomicity
+All changes to data are performed as if they are a single operation. That is, all the changes are performed, or none of them are.
+For example, in an application that transfers funds from one account to another, the atomicity property ensures that, if a debit is made successfully from one account, the corresponding credit is made to the other account.
+Consistency
+Data is in a consistent state when a transaction starts and when it ends.
+For example, in an application that transfers funds from one account to another, the consistency property ensures that the total value of funds in both the accounts is the same at the start and end of each transaction.
+Isolation
+The intermediate state of a transaction is invisible to other transactions. As a result, transactions that run concurrently appear to be serialized.
+For example, in an application that transfers funds from one account to another, the isolation property ensures that another transaction sees the transferred funds in one account or the other, but not in both, nor in neither.
+Durability
+After a transaction successfully completes, changes to data persist and are not undone, even in the event of a system failure.
+For example, in an application that transfers funds from one account to another, the durability property ensures that the changes made to each account will not be reversed.
+
+---------------------------------
+What is CTE:
+
+A common table expression, or CTE, is a temporary named result set created from a simple SELECT statement that can be used in a subsequent SELECT statement. Each SQL CTE is like a named query, whose result is stored in a virtual table (a CTE) to be referenced later in the main query
+
+WITH my_cte AS (
+  SELECT a,b,c
+  FROM T1
+)
+SELECT a,c
+FROM my_cte
+WHERE ....
+---------------------------------
+1st 2nd and 3rd NORMAL form?
+
+1st: when columns have ATOMIC value or not have repeating groups:
+1column:			fname  sname  city
+Shiv,Hari,Kolkata--> shiv   hari  kolkata
+
+2nd: All non-key columns should be fully dependent on primary key + 1st normal form
+ex:
+ID  CountryID  Fname  Sname  CountryName
+ID and CountryID are primary key combined and we notice that all other non-key columns are dependent on these two except CountryName which is partially dependent on CountryID and not ID so we place this CountryName in another table and connect that table with theis table by CountryID
+
+3rd: No transient dependency should be present +2nd +1st normal form
+No non-key column should not depend on a non-key column
+ex: 
+ID CountrID Fname Lname Product PerCost
+Product and PerCost are connected so its a partially dependent on a non-key column hence we keep decompose these two in another table and connect them with Product column
+
+TO REMEMBER:
+APT:
+A atomic 
+P partial dependency
+T transient or transitive dependency
+
+Boyce Codd normal form (BCNF)
+BCNF is the advance version of 3NF. It is stricter than 3NF.
+A table is in BCNF if every functional dependency X → Y, X is the super key of the table.
+For BCNF, the table should be in 3NF, and for every FD, LHS is super key.
+
+4th: Fourth normal form (4NF) is a level of database normalization where there are no non-trivial multivalued dependencies other than a candidate key. It builds on the first three normal forms (1NF, 2NF and 3NF) and the Boyce-Codd Normal Form (BCNF). It states that, in addition to a database meeting the requirements of BCNF, it must not contain more than one multivalued dependency
+
+5th: A relation R is in 5NF if and only if every join dependency in R is implied by the candidate keys of R. A relation decomposed into two relations must have loss-less join Property, which ensures that no spurious or extra tuples are generated, when relations are reunited through a natural join 
+---------------------------------
+KEYS:
+
+Super Key – A super key is a group of single or multiple keys which identifies rows in a table.
+Primary Key – is a column or group of columns in a table that uniquely identify every row in that table.
+Candidate Key – is a set of attributes that uniquely identify tuples in a table. Candidate Key is a super key with no repeated attributes.{  CONSTRAINT CollegePK PRIMARY KEY (college_id, college_code)}
+Alternate Key – is a column or group of columns in a table that uniquely identify every row in that table.
+Foreign Key – is a column that creates a relationship between two tables. The purpose of Foreign keys is to maintain data integrity and allow navigation between two different instances of an entity.
+
+Compound Key – has two or more attributes that allow you to uniquely recognize a specific record. It is possible that each column may not be unique by itself within the database.
+Composite Key – is a combination of two or more columns that uniquely identify rows in a table. The combination of columns guarantees uniqueness, though individual uniqueness is not guaranteed.
+Surrogate Key – An artificial key which aims to uniquely identify each record is called a surrogate key. These kind of key are unique because they are created when you don’t have any natural primary key.
+{In database design, a composite key is a candidate key that consists of two or more attributes (table columns) that together uniquely identify an entity occurrence (table row). A compound key is a composite key for which each attribute that makes up the key is a foreign key in its own right}
+
+PRIMARY KEY in DBMS is a column or group of columns in a table that uniquely identify every row in that table. The Primary Key can’t be a duplicate meaning the same value can’t appear more than once in the table. A table cannot have more than one primary key
+Two rows can’t have the same primary key value
+It must for every row to have a primary key value.
+The primary key field cannot be null.
+The value in a primary key column can never be modified or updated if any foreign key refers to that primary key.
+
+A superkey is a group of single or multiple keys which identifies rows in a table. A Super key may have additional attributes that are not needed for unique identification
+
+CANDIDATE KEY in SQL is a set of attributes that uniquely identify tuples in a table. Candidate Key is a super key with no repeated attributes. The Primary key should be selected from the candidate keys. Every table must have at least a single candidate key. A table can have multiple candidate keys but only a single primary key
+It must contain unique values
+Candidate key in SQL may have multiple attributes
+Must not contain null values
+It should contain minimum fields to ensure uniqueness
+Uniquely identify each record in a table
+---------------------------------
+Primary key vs Unique key?
+
+they ensure we donot have duplicate values
+1N:in unique key we can put nulls but not in primary keys
+2N: we can have multiple unique keys(columns) but only one primary key(column) in a table
+---------------------------------
+Char vs Varchar?
+
+Char is fixed length while VarChar is variable length:
+char(3) means 3 would be the length even if 2 put
+varchar(5) means 1to5 in length can be put and same
+---------------------------------
+Char vs Nchar?
+
+N in this stand for unicode:
+If you want to just store english characters in db then use char, for multilingual non-english use Nchar(chinesse,hindi,malayalam)
+Nchar for one charater it will take 2 byte
+char for one charater it will take 1 byte
+---------------------------------
+Use of index?
+
+Indexes help to increase the sql sever search performance{Search becomes faster because of balance tree. Internally it creates Node and leaf nodes to reach the data quick}
+INDEX CREATES, nodes, leaf nodes and a B-TREE Structure
+Rather than a sequential searching it creates a tree and based on the match it searches using that b-tree
+ex: index of a book
++++++++
+Types of indexes in sql server? Difference
+There can be only one clustered index on a table because the data rows can be stored in only one order.
+
+Clustered Index : If you apply primary key to any column, then automatically it will become clustered index
+Non-Clustered Index
+BOTH HAVE A B-TREE
++++++++
+Clustered Index: Leaf node will point towards actual data
+
+Clustered index is created only when both the following conditions satisfy – 
+
+The data or file, that you are moving into secondary memory should be in sequential or sorted order.
+There should be a key value, meaning it can not have repeated values. 
+ 
+Whenever you apply clustered indexing in a table, it will perform sorting in that table only. You can create only one clustered index in a table like primary key. Clustered index is as same as dictionary where the data is arranged by alphabetical order. 
+
+In clustered index, index contains pointer to block but not direct data
+CREATE CLUSTERED INDEX CIX_EmpDetails_EmpId
+ON dbo.EmployeeDetails(EmployeeID)
+
+++++++++
+Non-Clustered Index: Leaf node will point towards clustered index
+Non-Clustered Index is similar to the index of a book
+The data is stored in one place, and index is stored in another place. Since, the data and non-clustered index is stored separately, then you can have multiple non-clustered index in a table. 
+In non-clustered index, index contains the pointer to data
+
+create nonclustered index NIX_FTE_Name
+on Student (Name ASC); 
+
+1 CLUSTERED INDEX where as MANY NON_CLUSTERED index
+There can be only one clustered index per table, because the data rows themselves can be stored in only one order. The only time the data rows in a table are stored in sorted order is when the table contains a clustered index. When a table has a clustered index, the table is called a clustered table
+---------------------------------
+VIEWS vs FUNCTION:
+
+Views: Used for organizing and reusing SELECT statements. A view behaves as a table and returns a specific pre-defined statement as exactly one result set. Views are limited to a single SELECT statement.
+Functions: Used for encapsulating complex calculations and returning a single value or table. Functions can accept parameters, where as views cannot. The output of a User Defined Function can be directly used in the SELECT clause. Functions can have multiple SELECT statements and provide more powerful logic than is possible with views.
+
+Views and Functions almost serve the same purpose. But the major difference is that Function can accept parameters, where as Views cannot. And also the output of the User Defined Function can be directly used in the SELECT clause, whereas you cannot do it with a View.
+---------------------------------
+GLOBAL TEMP TABLE VS LOCAL TEMP TABLE:
+
+1.) A local temporary table exists only for the duration of a connection or, if defined inside a compound statement, for the duration of the compound statement.
+
+Local temp tables are only available to the SQL Server session or connection (means single user) that created the tables. These are automatically deleted when the session that created the tables has been closed. Local temporary table name is stared with single hash ("#") sign.
+
+CREATE TABLE #LocalTemp
+(
+ UserID int,
+ Name varchar(50), 
+ Address varchar(150)
+)
+GO
+insert into #LocalTemp values ( 1, 'Name','Address');
+GO
+Select * from #LocalTemp
+The scope of Local temp table exist to the current session of current user means to the current query window. If you will close the current query window or open a new query window and will try to find above created temp table, it will give you the error.
+
+2.) A global temporary table remains in the database permanently, but the rows exist only within a given connection. When connection is closed, the data in the global temporary table disappears. However, the table definition remains with the database for access when database is opened next time.
+
+Global temp tables are available to all SQL Server sessions or connections (means all the user). These can be created by any SQL Server connection user and these are automatically deleted when all the SQL Server connections have been closed. Global temporary table name is stared with double hash ("##") sign.
+
+CREATE TABLE ##GlobalTemp
+(
+ UserID int,
+ Name varchar(50), 
+ Address varchar(150)
+)
+GO
+insert into ##GlobalTemp values ( 1, 'Name','Address');
+GO
+Select * from ##GlobalTemp
+Global temporary tables are visible to all SQL Server connections while Local temporary tables are visible to only current SQL Server connection.
+
+Local temp tables created in a stored procedure within a connection cannot be referenced outside of the stored procedure. However, global temp tables created inside a stored procedure can be referenced from outside the stored procedure
+
+Table variables (DECLARE @t TABLE) are visible only to the connection that creates it, and are deleted when the batch or stored procedure ends.
+Local temporary tables (CREATE TABLE #t) are visible only to the connection that creates it, and are deleted when the connection is closed.
+Global temporary tables (CREATE TABLE ##t) are visible to everyone, and are deleted when all connections that have referenced them have closed.
+Tempdb permanent tables (USE tempdb CREATE TABLE t) are visible to everyone, and are deleted when the server is restarted.
+---------------------------------
+DIFFERENCE BETWEN FUNCTION AND A STORED PROCEDURE?
+
+1 GOAL: Functions does computation and get computed values but not make any permanent changes to the environment therefore only selects allowed and no insert/update/delete allowed where as in the stored procedure its a Mini Batch Program can change environment i.e. insert/update/deletes allowed
+3 Execution: Functions can be called form select/where/call from other stored procedure where as SP can be not be executed from select/where and from other functions
+4 OUTPUT: Functions return Mostly scalar values, table valued function  but in SP can have single or multiple outputs
+
+The function must return a value but in Stored Procedure it is optional. 
+Even a procedure can return zero or n values.
+
+Functions can have only input parameters for it whereas Procedures 
+can have input or output parameters.
+
+Functions can be called from Procedure whereas Procedures cannot be 
+called from a Function.
+
+/*advanced difference */
+
+The procedure allows SELECT as well as DML(INSERT/UPDATE/DELETE) statement 
+in it whereas Function allows only SELECT statement in it.
+
+Procedures cannot be utilized in a SELECT statement whereas Function 
+can be embedded in a SELECT statement.
+
+Stored Procedures cannot be used in the SQL statements anywhere in 
+the WHERE/HAVING/SELECT section whereas Function can be.
+
+Functions that return tables can be treated as another rowset. 
+This can be used in JOINs with other tables.
+
+Inline Function can be though of as views that take parameters and 
+can be used in JOINs and other Rowset operations.
+
+An exception can be handled by try-catch block in a Procedure 
+whereas try-catch block cannot be used in a Function.
+
+We can use Transactions in Procedure whereas we
+can not use Transactions in Function.
+
++++++++++++++++++++++++++
+You cannot execute a stored procedure inside a function, because a function is not allowed to modify database state, and stored procedures are allowed to modify database state.
+
+This is by definition (see CREATE FUNCTION - Limitations and Restrictions).
+
+User-defined functions cannot be used to perform actions that modify the database state.
+
+A stored procedure might modify database state, or it might not. But the SQL Server compiler shouldnt have to analyze the stored procedure to know whether or not it modifies database state. Therefore, it is not allowed to execute a stored procedure from within a function.
+
+Functions exist to simply calculate something, a value or a table result, nothing more than that. These functions can be called within a SELECT query for instance, e.g.
+
+SELECT calculate_something(a) FROM some_table;
+Now consider what would happen if the function calculate_something were allowed to execute a stored procedure which would delete all rows in some_table. Your intention is to calculate something using the value of the some_table.a columns, but you end up... deleting all rows in some_table. That is clearly not something you want to happen.
+-------------------------------
+Execute store procedute in function:   OPENROWSET
+
+A common understanding of the database developer is that the procedure cannot be utilized or executed inside a user-defined function because the user-defined function does not allow performing DML operation with the table. The procedure is allowed to play with the database and its property, whereas a user-defined function isn’t
+ A procedure and function both can be defined with parameters and return the result set with data manipulation with multiple tables as required. But the restriction with the function is that function cannot performs any ALTER, INSERT, UPDATE or DELETE operation on the table except temp and variable tables
+ The primary purpose of a tabular function is an alternative of view, yet as an add-on with function is that the user can write the logic in the function with the help of a temp table and table variable for more data processing where a view isn’t. Functions and views are both helpful in terms of use cases for business logic and requirement side as well as the performance side
+ 
+ {{OLE DB stands for Object Linking and Embedding, Database. It is an API designed by Microsoft, that allows users to access a variety of data sources in a uniform manner}}
+ A procedure can be executed inside the function with the help of OPENROWSET() using OLE DB provider connection MSDASQL. Users can define the OPENROWSET() connection with the necessary details of SQL Server instance with declared Linked Server and credentials that has access to the database
+ 
+ MSDASQL connection is established with the local SQL Server instance in the OPENROWSET statement. The server is set to localhost and then we have Trusted_Connection=yes for making your trusted connection, which does not require credentials to connect your database for MSDASQL connection:
+
+SELECT *
+FROM OPENROWSET('MSDASQL','DRIVER={SQL Server}; SERVER=localhost; Trusted_Connection=yes', 'EXEC AdventureWorks..[usp_get]');
+
+Function:
+
+CREATE FUNCTION [fn_getusp]()
+RETURNS TABLE
+AS
+RETURN
+  SELECT *
+  FROM OPENROWSET('MSDASQL','DRIVER={SQL Server}; SERVER=localhost; Trusted_Connection=yes', 'EXEC AdventureWorks..[usp_get]') AS a;
+Execution:
+
+SELECT *
+FROM [fn_getusp]()
+---------------------------------
+Passing table to SP:
+CREATE TABLE [dbo].[Student]
+(
+    [StudentID] [int] NULL,
+    [StudentName] [varchar](30) NULL,
+    [StudentFees] [int] NULL
+)
+
+CREATE TYPE dbo.StudentTypeTable AS TABLE
+(
+   [StudentID] [int] ,
+   [StudentName] [varchar](30) ,
+   [StudentFees] [int]
+)
+
+CREATE PROCEDURE dbo.StudentDetailProcedure
+   @StudentDetail dbo.StudentTypeTable READONLY
+AS
+BEGIN
+   SET NOCOUNT ON
+   INSERT INTO dbo.[Student] ([StudentID], [StudentName], [StudentFees])
+   SELECT [StudentID], [StudentName], [StudentFees] FROM @StudentDetail
+END
+
+
+DECLARE @StudentVariable AS StudentType
+INSERT INTO @StudentVariable([StudentID], [StudentName], [StudentFees]) VALUES(1,'Smith','20000')
+EXEC  dbo.StudentDetailProcedure @StudentVariable
+-------------------------------
+Table valued function:
+
+CREATE FUNCTION udfProductInYear (
+    @model_year INT
+)
+RETURNS TABLE
+AS
+RETURN
+    SELECT 
+        product_name,
+        model_year,
+        list_price
+    FROM
+        production.products
+    WHERE
+        model_year = @model_year;
+		
+
+SELECT 
+    * 
+FROM 
+    udfProductInYear(2017);
+-------------------------------
+Creating Multi statement TABLE valued function: 
+
+CREATE FUNCTION GetAvg(@Name varchar(50))  
+RETURNS @Marks TABLE  
+(Name VARCHAR(50),  
+ Subject1 INT,   
+ Subject2 INT,   
+ Subject3 INT,   
+ Average DECIMAL(4,2)  
+)  
+AS  
+BEGIN  
+		DECLARE @Avg DECIMAL(4,2)  
+		DECLARE @Rno INT       
+		INSERT INTO @Marks (Name)VALUES(@Name)       
+		SELECT @Rno=Rno FROM Student WHERE Name=@Name  
+		SELECT @Avg=(Subject1+Subject2+Subject3)/3 FROM Subjects WHERE Rno=@Rno  
+      
+        UPDATE @Marks SET   
+		Subject1=(SELECT Subject1 FROM Subjects WHERE Rno=@Rno),  
+        Subject2=(SELECT Subject2 FROM Subjects WHERE Rno=@Rno),  
+        Subject3=(SELECT Subject3 FROM Subjects WHERE Rno=@Rno),  
+        Average=@Avg  
+        WHERE Name=@Name  
+RETURN   
+END 
+To execute this function use the following command.
+
+SELECT * FROM GetAvg('Ram') 
+-------------------------------
+CALLING FUNCTION IN SP ex:
+
+Create FUNCTION [dbo].[MultiplyofTwoNumber]
+(
+       @Number1 int,
+       @Number2 int
+)
+RETURNS int ////RETURNS TABLE
+AS
+BEGIN
+       -- Declare the return variable here
+       DECLARE @Result int
+       SELECT @Result = @Number1 * @Number2;
+       -- Return the result of the function
+       RETURN @Result
+END
+
+Create PROCEDURE [dbo].[procCallingFunction]
+(
+@FirstNumber int,
+@SecondNumber int
+)
+AS
+begin
+declare @setval int
+select dbo.[MultiplyofTwoNumber](@FirstNumber, @SecondNumber)
+end
+
+
+USE [registration]
+GO
+DECLARE  @return_value int
+EXEC  @return_value = [dbo].[procCallingFunction]
+    @FirstNumber = 3,
+    @SecondNumber = 4
+
+Select dbo.[MultiplyofTwoNumber](3, 4) as MultiplyOfNumbers
+--------------------------------------------
+EXECUTING SP in SP ex:
+
+create procedure Sp_insert  
+(  
+@ID int,  
+@TempName varchar(max) 
+)
+as 
+begin  
+Declare @SampleTable Table(id int, Name varchar(max))  
+Insert into @SampleTable(id,Name)values(@ID,@TempName)  
+select*from @SampleTable  
+end
+
+create procedure Sp_Call
+(
+@SID int,
+@Name varchar(max)
+)
+as
+begin
+exec Sp_insert @ID=@SID,@TempName=@Name
+end
+From t  
+
+Exec Sp_Call @SID=1,@Name='Arun'  
+
+---------------------------------------------
+What are triggers and why needed?
+
+Small piece of logic that we wish to execute when certain events like insert/update/delete occurs
+
+USE [ CustomerDBEF ]
+go
+CREATE/ALTER TRIGGER [ dbo ] . [ trg_datamanipulation ]
+   ON [ dbo ] . [ tblCustomer ]
+   FOR/AFTER/INSTEADOF INSERT , DELETE , UPDATE
+AS
+BEGIN
+insert into tblAudit ( Last updated ) values ( Getdate ( ) )
+END
+---------------------------------
+Two different types of triggers?
+
+After trigger:Fires After the event has happened
+Insteadof trigger: Fires Instead of the even happening(insert/update/delete dont happen but these trigger happen)
+---------------------------------
+What is Identity column?
+
+Helps to define auto-incremented columns
+---------------------------------
+What is a transaction and how to implement?
+
+Transaction helps us to treat a series of activities as one logical UNIT. Either everything is successful and or everything rollsback
+
+begin try
+begin transaction
+ insert into tblCustomer ( FirstName ) values ( ' Shiv1 ' )
+ insert into tblCustomer ( FirstName ) values ( ' Shiv2 ' )
+ -- delete
+    update --
+commit transaction
+end try
+begin catch
+    rollback
+end catch
+
+ALSO:
+after some insert:
+IF(@@ERROR>0)
+BEGIN
+	ROLLBACK TRANSACTION
+END
+ELSE
+BEGIN
+	COMMIT TRANSACTION 
+END
+
+
+++++++++++
+SAVE point:
+
+BEGIN TRANSACTION //nameOfTransaction
+INSERT INTO Products VALUES(...)
+SAVE TRANSACTION InsertStatement
+DELETE FROM Producs WHERE Product_Id=116
+SELECT * FROM Products
+ROLLBACK TRANSACTION InsertStatement
+commit //TRANSACTION
+
+SELECT * FROM Products
+----------------------------------------
+INNER JOIN:
+JOIN:
+Select matching records from both table
+The comma-separated join is a type of inner join.
+
+SELECT Products.ProductID, Products.ProductName, Categories.CategoryName
+FROM Products
+INNER JOIN Categories ON Products.CategoryID = Categories.CategoryID;
++++++++++++
+LEFT JOIN:
+All from left table and only matching record from right and NULL where no MATCHING
+The LEFT JOIN returns all rows from the left table and the matching rows from the right table. If no matching rows are found in the right table, NULL are used.
++++++++++++
+RIGHT JOIN:
+All from right table and only matching record from left and NULL where no MATCHING
+The RIGHT JOIN returns all rows from the RIGHT table and the matching rows from the LEFT table. If no matching rows are found in the left table, NULL are used.
++++++++++++
+FULL OUTER JOIN:
+ALL from right and left table selected and NULL where ever no match
++++++++++++
+NATURAL JOIN:
+Natural Join in SQL joins two tables based on the same attribute name and datatypes. The resulting table will contain all the attributes of both tables but keep only one copy of each common column
+NO CONDITION or ON:
+SELECT * 
+FROM table1 NATURAL JOIN table2; 
++++++++++++
+CROSS JOIN:
+It is the cartesian product so no ON clause
+EVERY RECORD WITH EVERY RECORD
+---------------------------------
+VIEWS:
+In SQL, a view is a virtual table based on the result-set of an SQL statement.
+
+A view contains rows and columns, just like a real table. The fields in a view are fields from one or more real tables in the database
+A view always shows up-to-date data! The database engine recreates the view, every time a user queries it.
+
+CREATE VIEW [Brazil Customers] AS
+SELECT CustomerName, ContactName
+FROM Customers
+WHERE Country = 'Brazil';
+---------------------------------
+rank() vs dense_rank():
+Simply put, RANK skips the number of positions after records with the same rank number. The ranking RANK_DENSE returns position numbers from 1 to 6 because it doesn’t skip records with the same rank number:
+
+rnk	dnsrnk	first_name	last_name	month	sold products
+1	1		Alex			Smith	6			2900
+2	2		Lisa			Black	6			2700
+2	2		Mary			Jacobs	6			2700
+4	3		Mary			Jacobs	5			2400
+5	4		Lisa			Black	5			2300
+6	5		Mary			Jacobs	7			1200
+6	5		Lisa			Black	7			1200
+8	6		Alex			Smith	7			1000
+
+SELECT EMPNO,
+       DEPTNO,
+       SAL,
+       rank() OVER (PARTITION BY DEPTNO ORDER BY SAL) AS MYRANK
+FROM EMP;
+
+SELECT
+	v,
+	DENSE_RANK() OVER (ORDER BY v) my_dense_rank,
+	RANK() OVER (ORDER BY v) my_rank
+FROM
+	sales.dense_rank_demo;
+---------------------------------
+Dynamic sql:
+
+Dynamic SQL is a programming technique where you build SQL query as a string and execute it dynamically at runtime. It lets you build the general-purpose query on the fly using variables, based on the requirements of the application. This makes a dynamic SQL more flexible as it is not hardcoded.
+
+DECLARE @sql nvarchar(max) --declare variable
+DECLARE @empId nvarchar(max) --declare variable for parameter
+
+set @empId = '5' --assign value to parameter variable
+set @sql = 'SELECT * FROM EMPLOYEE WHERE EMPID =' + @empId --build query string with parameter
+
+exec(@sql) --execute sql query
+or
+exec sp_executesql @sql
+
+---------------------------------
+Optimizing sp:
+
+The guidelines given below will help to improve the performance of the stored procedures.
+1. The simplest guidance is do not create the stored procedure with prefix "sp_". I prefer to create the procedures with a convention like <projectabbreviation_spProcedureName>.{{According to the documentation, Microsoft states: Avoid the use of the sp_ prefix when naming procedures. This prefix is used by SQL Server to designate system procedures. Using the prefix can cause application code to break if there is a system procedure with the same names}}
+2. INCLUDE THE SET NOCOUNT ON STATEMENT AS THE FIRST STATEMENT OF THE PROCEDURE.
+3. DO NOT WRITE "SELECT COUNT(*) FROM TABLE" STATEMENT TO GET THE COUNT OF THE RECORDS. ALTERNATIVELY, USE "SELECT COUNT (PRIMARYKEYCOLUMN) FROM TABLE".
+4. TRY TO AVOID DYNAMIC SQL QUERIES AS MUCH AS POSSIBLE.
+5. PREFER TO HAVE THE TABLE VARIABLES INSTEAD OF TEMP TABLES. KEEP MINIMAL USE OF TEMP TABLES.
+6. AVOID THE USE OF THE CURSORS TO LOOP THROUGH THE RECORDS. INSTEAD KEEP THE RECORDS IN THE TABLE VARIABLE OR TEMP TABLES.
+7. USE SCHEMA NAME WITH AN OBJECT NAME.
+8. PREFER TABLE JOINS OVER THE USE OF SUBQUERIES IN THE WHERE CONDITIONS.
+9. Transfer the relevant records from the primary tables to the table variable and do further processing with the table variable, thereby disconnecting the primary tables reference.
+10. Try to avoid using NOT LIKE operator.
+11. CREATE NON-CLUSTERED INDEXES, WHEREVER IT IS NECESSARY.
+12. Use the sp_executesql stored procedure instead of the EXECUTE statement.
+13. CREATE VIEWS FOR REPEATEDLY USED SELECT QUERIES.
+14. KEEP ONLY THE REQUIRED COLUMNS AS PART OF THE FINAL SELECT QUERY INSTEAD OF SAYING "SELECT * FROM..".
+15. Instead of keeping a very large stored procedure, try to break it into smaller sub-procedures, wherever possible.
+16. When you fetch the records from the stored procedure and display in the grid format on the front-end, prefer to have custom paging logic when the underlying results set contains many records.
+---------------------------------
+Optimizing query:
+
+Tip 1: Add missing indexes
+Tip 2: Check for unused indexes
+Tip 3: Avoid using multiple OR in the FILTER predicate
+Tip 4: Use wildcards at the end of a phrase only
+Tip 5: Avoid too many JOINs
+Tip 6: Avoid using SELECT DISTINCT
+Tip 7: Use SELECT fields instead of SELECT *
+Tip 8: Use TOP to sample query results
+Tip 9: Run the query during off-peak hours
+Tip 10: Minimize the usage of any query hint
+Tip 11: Minimize large write operations
+Tip 12: Create joins with INNER JOIN (not WHERE)
+
+The purpose of query tuning is to find a way to decrease the response time of the query, prevent the excessive consumption of resources, and identify poor query performance.
+
+In the context of query optimization, query processing identifies how to faster retrieve data from SQL Server by analyzing execution steps of the query, optimization techniques, and other information about the query
+
+Execution plan: A SQL Server query optimizer executes the query step by step, scans indexes to retrieve data, and provides a detailed overview of metrics during query execution.
+Input/Output statistics: Used to identify the number of logical and physical reading operations during the query execution that helps users detect cache/memory capacity issues.
+Buffer cache: Used to reduce memory usage on the server.
+Latency: Used to analyze the duration of queries or operations.
+Indexes: Used to accelerate reading operations on the SQL Server.
+Memory-optimized tables: Used to store table data in memory to make reading and writing operations run faster
+
+Execution plan will be generated by Query optimizer with the help of statistics and Algebrizer\processor tree. It is the result of Query optimizer and tells how to do\perform your work\requirement.
+
+There are two different execution plans - Estimated and Actual.
+
+Estimated execution plan indicates optimizer view.
+
+Actual execution plan indicates what executed the query and how was it done.
+
+Execution plans are stored in memory called plan cache, hence can be reused. Each plan is stored once unless optimizer decides parallelism for the execution of the query.
+
+There are three different formats of execution plans available in SQL Server - Graphical plans, Text plans, and XML plans.
+
+SHOWPLAN is the permission which is required for the user who wants to see the execution plan.
+
+......
+Execution plan: A SQL Server query optimizer executes the query step by step, scans indexes to retrieve data, and provides a detailed overview of metrics during query execution.
+Input/Output statistics: Used to identify the number of logical and physical reading operations during the query execution that helps users detect cache/memory capacity issues.
+Buffer cache: Used to reduce memory usage on the server.
+Latency: Used to analyze the duration of queries or operations.
+Indexes: Used to accelerate reading operations on the SQL Server.
+Memory-optimized tables: Used to store table data in memory to make reading and writing operations run faster.
+
+
+https://blog.devart.com/how-to-optimize-sql-query.html
+---------------------------------
+SQL server profiler:
+
+SQL profiler is a GUI tool in Microsoft SQL Server relational database management system that allows us to monitor, analyze, troubleshoot, re-create, and trace the problems of SQL databases and their environments. It was first introduced in the SQL Server 2000 version. It traces activities or operations on a particular database engine.
+Developers and Database Administrators can use the profiler to create and handle traces, as well as replay and analyze trace results. Its like a dashboard that displays the health of a Microsoft SQL Server instance. The profiler saves the events in a trace file that can be analyzed or used later to replay a specific series of steps when diagnosing an issue. We can also schedule the traces to run at specific times, such as one trace would be set up to run every morning at 9 a.m. for comparing the performance when the database is active or idle. We can also set another trace to run at 1 a.m. when the database activity is little or no activity.
+
+SQL Server Profiler allows DBA to do the following tasks:
+
+Create a trace
+See the results as the trace runs.
+Store the trace results in a table
+Start, stop, pause, and edit the trace results as needed
+Replay the trace results
+
+The following are the most important benefits of profiler to both developers and DBAs:
+
+Clarity: It shows how an instance interacts with a client.
+Troubleshoot Issues: It allows us to save and replay key events, which can help us in identifying trouble areas. It is also useful for stress testing and finding queries that take a long time to execute.
+Allow non-administrator to create traces securely.
+It also saves traces for SQL, SSIS, and Analysis Services.
+Compare activity to baselines: It allows users to save trace data and compare it to fresh data in order to identify new problems.
+
+
+---------------------------------
+NOLOCK in sql server:
+
+The NOLOCK hint allows SQL to read data from tables by ignoring any locks and therefore not get blocked by other processes. This can improve query performance by removing the blocks, but introduces the possibility of dirty reads
+
+SELECT * FROM LockTestDemo WITH (NOLOCK)
+---------------------------------
+PERSISTED in sql server
+
+The computed value is persisted into the table, as if it were a normal column value.
+If you dont have PERSISTED, then the value is computed every time the column is accessed
+
+PERSISTED : update the values when any other columns on which the computed column depends are updated
+
+Specifies that the Database Engine will physically store the computed values in the table, and update the values when any other columns on which the computed column depends are updated. Marking a computed column as PERSISTED allows an index to be created on a computed column that is deterministic, but not precise. For more information, see Indexes on Computed Columns. Any computed columns used as partitioning columns of a partitioned table must be explicitly marked PERSISTED. computed_column_expression must be deterministic when PERSISTED is specified.
+
+CREATE TABLE dbo.Customer (
+  id INT IDENTITY PRIMARY KEY
+ ,CardNo VARCHAR(128)
+ ,ReversedCardNo AS REVERSE(CardNo) PERSISTED
+)
+GO
+
+---------------------------------
+User Defined Types:
+
+When there is a requirement to create a column with a datatype in the database and creating the same data type columns multiple times by multiple people. Here there is no guarantee that all developers will create the same type. In this situation we can make use of User-Defined data types. So, we create at one time and using the type wherever you need.
+
+There are 2 ways to create it. The first one and the easiest method is from UI and the second one is using script.
+Using UI steps to create User-defined Data types
+Expand the data base where you want to create data types -> Programmability ->Types.
+Enter the Name of the type in the Name textbox and select the base type from Data Type dropdown. Length input will be enabled based on the data type selection. And click on OK button of the popup.
+
+Using Script to create User-defined Data types
+I am trying to create 3 user defined data types for Name, Age and Location.
+
+CREATE TYPE TypeName FROM VARCHAR(100)  
+CREATE TYPE TypeAge FROM INT  
+CREATE TYPE TypeLocation FROM VARCHAR(500)  
+Let’s use the above created Types for creating table or variable declaration.
+
+CREATE TABLE EMP(EMP_Name TypeName, Emp_Age TypeAge,Emp_Location TypeLocation)  
+DECLARE @Name TypeName  
+
+User Defined Table Types:
+When we have to use it:
+Generally, we declare tables to store temp data and use it in the next lines of the script
+
+CREATE TYPE empTempTabtype AS Table (name varchar(100), age int, location VARCHAR(100))  
+DECLARE @empTempTab empTempTabType  
+
+Limits of User defined types:
+User-defined types are accessible with in the Database only.
+We cannot use Table types in the table valued functions
+---------------------------------
+5. LEAD() and LAG()
+Accesses data from subsequent or previous rows within the same result set.
+
+Example:
+
+SELECT 
+    ProductID,
+    SalesAmount,
+    LEAD(SalesAmount, 1) OVER (ORDER BY ProductID) AS NextSales,
+    LAG(SalesAmount, 1) OVER (ORDER BY ProductID) AS PrevSales
+FROM Sales
+---------------------------------
+---------------------------------
+
+%	Represents zero or more characters	bl% finds bl, black, blue, and blob
+_	Represents a single character	h_t finds hot, hat, and hit
+[]	Represents any single character within the brackets	h[oa]t finds hot and hat, but not hit
+^	Represents any character not in the brackets	h[^oa]t finds hit, but not hot and hat
+-	Represents any single character within the specified range	c[a-b]t finds cat and cbt
+
+---------------------------------------
+SQL SERVER FUNCTION:
+
+ASCII	Returns the ASCII value for the specific character
+CHAR	Returns the character based on the ASCII code
+CHARINDEX	Returns the position of a substring in a string
+CONCAT	Adds two or more strings together
+Concat with +	Adds two or more strings together
+CONCAT_WS	Adds two or more strings together with a separator
+DATALENGTH	Returns the number of bytes used to represent an expression
+DIFFERENCE	Compares two SOUNDEX values, and returns an integer value
+FORMAT	Formats a value with the specified format
+LEFT	Extracts a number of characters from a string (starting from left)
+LEN	Returns the length of a string
+LOWER	Converts a string to lower-case
+LTRIM	Removes leading spaces from a string
+NCHAR	Returns the Unicode character based on the number code
+PATINDEX	Returns the position of a pattern in a string
+QUOTENAME	Returns a Unicode string with delimiters added to make the string a valid SQL Server delimited identifier
+REPLACE	Replaces all occurrences of a substring within a string, with a new substring
+REPLICATE	Repeats a string a specified number of times
+REVERSE	Reverses a string and returns the result
+RIGHT	Extracts a number of characters from a string (starting from right)
+RTRIM	Removes trailing spaces from a string
+SOUNDEX	Returns a four-character code to evaluate the similarity of two strings
+SPACE	Returns a string of the specified number of space characters
+STR	Returns a number as string
+STUFF	Deletes a part of a string and then inserts another part into the string, starting at a specified position
+SUBSTRING	Extracts some characters from a string
+TRANSLATE	Returns the string from the first argument after the characters specified in the second argument are translated into the characters specified in the third argument.
+TRIM	Removes leading and trailing spaces (or other specified characters) from a string
+UNICODE	Returns the Unicode value for the first character of the input expression
+UPPER	Converts a string to upper-case
+
+ABS	Returns the absolute value of a number
+ACOS	Returns the arc cosine of a number
+ASIN	Returns the arc sine of a number
+ATAN	Returns the arc tangent of a number
+ATN2	Returns the arc tangent of two numbers
+AVG	Returns the average value of an expression
+CEILING	Returns the smallest integer value that is >= a number
+COUNT	Returns the number of records returned by a select query
+COS	Returns the cosine of a number
+COT	Returns the cotangent of a number
+DEGREES	Converts a value in radians to degrees
+EXP	Returns e raised to the power of a specified number
+FLOOR	Returns the largest integer value that is <= to a number
+LOG	Returns the natural logarithm of a number, or the logarithm of a number to a specified base
+LOG10	Returns the natural logarithm of a number to base 10
+MAX	Returns the maximum value in a set of values
+MIN	Returns the minimum value in a set of values
+PI	Returns the value of PI
+POWER	Returns the value of a number raised to the power of another number
+RADIANS	Converts a degree value into radians
+RAND	Returns a random number
+ROUND	Rounds a number to a specified number of decimal places
+SIGN	Returns the sign of a number
+SIN	Returns the sine of a number
+SQRT	Returns the square root of a number
+SQUARE	Returns the square of a number
+SUM	Calculates the sum of a set of values
+TAN	Returns the tangent of a number
+
+CURRENT_TIMESTAMP	Returns the current date and time
+DATEADD	Adds a time/date interval to a date and then returns the date
+DATEDIFF	Returns the difference between two dates  SELECT DATEDIFF(dd, '2017/08/25', '2011/08/25') AS DateDiff --result -2192
+DATEFROMPARTS	Returns a date from the specified parts (year, month, and day values)
+DATENAME	Returns a specified part of a date (as string)
+DATEPART	Returns a specified part of a date (as integer)  --SELECT DATEPART(year, '2017/08/25') AS DatePartInt;
+DAY	Returns the day of the month for a specified date
+GETDATE()	Returns the current database system date and time
+GETUTCDATE	Returns the current database system UTC date and time
+ISDATE	Checks an expression and returns 1 if it is a valid date, otherwise 0
+MONTH	Returns the month part for a specified date (a number from 1 to 12)
+SYSDATETIME	Returns the date and time of the SQL Server
+YEAR	Returns the year part for a specified date
+
+CAST	Converts a value (of any type) into a specified datatype
+COALESCE	Returns the first non-null value in a list
+CONVERT	Converts a value (of any type) into a specified datatype
+CURRENT_USER	Returns the name of the current user in the SQL Server database
+IIF	Returns a value if a condition is TRUE, or another value if a condition is FALSE
+ISNULL	Return a specified value if the expression is NULL, otherwise return the expression
+ISNUMERIC	Tests whether an expression is numeric
+NULLIF	Returns NULL if two expressions are equal
+SESSION_USER	Returns the name of the current user in the SQL Server database
+SESSIONPROPERTY	Returns the session settings for a specified option
+SYSTEM_USER	Returns the login name for the current user
+USER_NAME	Returns the database user name based on the specified id
+
+
+search advanced queries:?
+grouping etc:
+
+
+
+
+
+-----------------------------------
+lossless and lossy decomposition:
+
+Lossless	Lossy
+The decompositions R1, R2, R2…Rn for a relation schema R are said to be Lossless if there natural join results the original relation R.	
+
+The decompositions R1, R2, R2…Rn for a relation schema R are said to be Lossy if there natural join results into addition of extraneous tuples with the original relation R.
+
+Formally, Let R be a relation and R1, R2, R3 … Rn be it’s decomposition, the decomposition is lossless if – 
+R1 ⨝ R2 ⨝ R3 .... ⨝ Rn = R
+
+Formally, Let R be a relation and R1, R2, R3 … Rn be it’s decomposition, the decomposition is lossy if – 
+ R ⊂ R1 ⨝ R2 ⨝ R3 .... ⨝ Rn
+
+There is no loss of information as the relation obtained after natural join of decompositions is equivalent to original relation. Thus, it is also referred to as non-additive join decomposition	
+
+There is loss of information as extraneous tuples are added into the relation after natural join of decompositions. Thus, it is also referred to as careless decomposition.
+
+The common attribute of the sub relations is a superkey of any one of the relation.	The common attribute of the sub relation is not a superkey of any of the sub relation.
+
+
+database sharding:
+
+Database sharding is a type of horizontal partitioning that splits large databases into smaller components, which are faster and easier to manage. A shard is an individual partition that exists on separate database server instance to spread load. Auto sharding or data sharding is needed when a dataset is too big to be stored in a single database.
+
+As both the database size and number of transactions increase, so does the response time for querying the database. Costs associated with maintaining a huge database can also skyrocket due to the number and quality of computers you need to manage your workload. Data shards, on the other hand, have fewer hardware and software requirements and can be managed on less expensive servers.
+
+
+--------------------------------------------
+Multiple Active Result Sets (MARS) is a feature that works with SQL Server to allow the execution of multiple batches on a single connection
+--------------------------------------------
+scope_identity():
+SCOPE_IDENTITY() returns the IDENTITY value inserted in T1. This was the last insert that occurred in the same scope. The SCOPE_IDENTITY() function returns the null value if the function is invoked before any INSERT statements into an identity column occur in the scope
+--------------------------------------------
+identity vs sequence:
+The IDENTITY property is tied to a particular table and cannot be shared among multiple tables since it is a table column property.
+CREATE TABLE Cars1
+(id INT PRIMARY KEY IDENTITY(1,1),
+name VARCHAR(50) NOT NULL,
+company VARCHAR(50) NOT NULL,
+power INT NOT NULL)
+
+On the flip side the SEQUENCE object is defined by the user and can be shared by multiple tables since is it is not tied to any table.
+CREATE SEQUENCE [dbo].[SequenceCounter]
+ AS INT
+ START WITH 1
+ INCREMENT BY 1
+ 
+INSERT INTO Cars2 VALUES (NEXT VALUE FOR [dbo].[SequenceCounter], '208', 'Peugeot', 5400)
+INSERT INTO Cars2 VALUES (NEXT VALUE FOR [dbo].[SequenceCounter], 'C500', 'BMW', 8000)
+INSERT INTO Cars2 VALUES (NEXT VALUE FOR [dbo].[SequenceCounter], 'C500', 'Peugeot', 5400)
+
+To generate the next IDENTITY value, a new row has to be inserted into the table. On the other hand, the next VALUE for a SEQUENCE object can simply be generated using the NEXT VALUE FOR clause with the sequence object.
+
+The value for the IDENTITY property cannot be reset to its initial value. In contrast, the value for the SEQUENCE object can be reset.
+Take a look at the following script to see how a value can be reset using SEQUENCE object.
+CREATE SEQUENCE [dbo].[RecycleSequence]
+ AS INT
+ START WITH 1
+ INCREMENT BY 1
+ MINVALUE 1
+ MAXVALUE 3
+ CYCLE
+To reset the value of a SEQUENCE object, you have to set the minimum and maximum values for the SEQUENCE and have to specify a CYCLE tag with the script. For instance in the above script, the SEQUENCE value is reset 1 once the maximum value i.e. 3 is reached. Therefore, if you execute the following script four times, you will see that 1 will be returned
+
+SELECT NEXT VALUE FOR [dbo].[RecycleSequence]
+
+A maximum value cannot be set for the IDENTITY property. On the other hand, the maximum value for a SEQUENCE object can be defined.
+
+The maximum value that the IDENTITY can take is equal to the maximum value of the data type of the column that the IDENTITY property is tied to. For example, the IDENTITY property of the id column of the Cars1 table can take the maximum value that the INT data type can hold since the type of the id column is INT.
+
+For a SEQUENCE object the MAXVALUE clause can be used to set the maximum value as shown in the following example.
+
+CREATE SEQUENCE [dbo].[MaxSequence]
+ AS INT
+ START WITH 1
+ INCREMENT BY 1
+ MAXVALUE 3
+--------------------------------------------
+
+IMP CONCEPTS AT END:
+
+CREATE DATABASE databasename;
+USE databasename;
+bigint,int,smallint,tinyint,decimal(totaldigits,afterdecimal),char(fixed),varchar(memoryefficient),nchar(symbols etc),text(65535chars),date(yyyy-mm-dd),time(hh:mm:ss){{DATE - format YYYY-MM-DD
+DATETIME - format: YYYY-MM-DD HH:MI:SS
+SMALLDATETIME - format: YYYY-MM-DD HH:MI:SS
+TIMESTAMP - format: a unique number}},
+year(yyyy)
+
+Constraints:
+Not Null, Default(City varchar(255) DEFAULT 'Sandnes'| OrderDate date DEFAULT GETDATE() | 
+ALTER TABLE tblname ADD CONSTRAINT df_City DEFAULT 'Sandnes' FOR City;), Unique, Primary Key
+
+CREATE TABLE tablename(columnname{c} datatype{d}, c d, c d, PRIMARY KEY(c));
+INSERT INTO tablename(column column column) VALUES(value value value);//column is optional or order
+SELECT column,column, FROM tablename;
+SELECT * FROM tablename;
+SELECT DISTINCT column,column FROM tablename; //removes duplicates
+SELECT column,column FROM tablename WHERE condition;
+SELECT column FROM tablename WHERE condition AND/OR condition;
+SELECT column FROM tablename WHERE NOT condition;
+SELECT column FROM tablename WHERE column LIKE '_AA%';// _ for 1, % for 0 or more
+SELECT column FROM tablename WHERE ColumnVal BETWEEN val1 AND val2;//inclusive
+SELCT [MIN(column){smallest in column},MAX(){biggest},SUM(){numeric sum of all column values},AVG(){average of columns}] FROM tablename;
+SELECT COUNT(*){numberof rows matching} FROM tablename WHERE condition;
+//COUNT([ALL | DISTINCT  ] expression)
+LTRIM(),LOWER(),UPPER(),REVERSE(),SUBSTRING('blah blah blah',start,lengthOfsubstring)
+SELECT TOP x column FROM tablename;//select top 3 * from table{* means all column}
+
+order:::::::::From,join...where...groupby...having...select...orderby...limit/ofset
+
+ORDER BY:
+sorts data by default asc
+SELECT column FROM tablename ORDER BY column ASC|DESC
+GROUP BY:
+groups data or aggregate for ex: female and male avg sal
+SELECT column FROM tablename WHERE condition GROUP BY column ORDER BY column|SELECT FROM GROUP BY
+REMEMBER::::::: Shes From Where Guys Offer
+EX: select avg(sal),gender from table group by gender
+
+1. GROUP BY Clause
+Used for aggregating data based on specified columns.
+Computes aggregate functions (like SUM, COUNT, AVG) over groups of rows sharing the same values in the specified columns.
+Example:
+Consider a Sales table with columns: ProductID, Category, and SalesAmount.
+
+SELECT Category, SUM(SalesAmount) AS TotalSales
+FROM Sales
+GROUP BY Category
+++++++++
+HAVING:
+used with GROUP BY to impose conditions of group because no where!
+SELECT column FROM tablename WHERE condition GROUP BY column ORDER BY column HAVING condition ORDER BY column;
+
+UPDATE tablename SET col=val, col=val WHERE condition;
+DELETE FROM table WHERE condition;//delete a particular row
+TRUNCATE TABLE tablename;//deletes all data from table but table exists
+
+JOIN:
+INNER JOIN//only records which match or common to both table
+SELECT column FROM    table1 INNER JOIN table2   ON table1.colx=table2.coly;//ON req
+LEFT JOIN// all records from LEFT and matched from RIGHT and NULL where no match
+SELECT column FROM    table1 LEFT JOIN table2   ON table1.colx=table2.coly;
+RIGHT JOIN// all records from RIGHT and matched from LEFT and NULL where no match
+SELECT column FROM    table1 RUGHT JOIN table2   ON table1.colx=table2.coly;
+FULL JOIN// all records from LEFT and all records from RIGHT and NULL where no match in both
+SELECT column FROM    table1 FULL JOIN table2   ON table1.colx=table2.coly;
+
+
+UPDATE using JOINS:
+adding 10 more to age values wherever location is newyork: 2 tables department and employee:
+UPDATE employee
+SET e_age=e_age+10
+FROM employee
+JOIN department ON employee.e_dept=department.d_name
+WHERE d_location='New York';
+
+DELETE using JOINS:
+DELETE employee
+FROM employee
+JOIN department ON employee.e_dept=department.d_name
+WHERE d_location='New York';
+++++++++
+UNION: BOTH table combined and no duplicates//number and order of column same in both
+SELECT column FROM table1 
+UNION 
+SELECT column FROM table2
+
+UNION: all except duplicats
+UNION all: all includes duplicates
+EXCEPT: Records from left query not part of right
+INTERSECT: common to both query
+++++++++
+VIEWS: virtual table based on result of sql statement
+CREATE VIEW v_name AS
+SELECT column,column
+FROM table
+WHERE condition
+
+SELECT * from v_name
+DROP VIEW v_name
+++++++++
+ALTER TABLE:
+ALTER TABLE tablename ADD columnname datatype;//all null
+ALTER TABLE tablename DROP COLUMN columnname;//removes column
+++++++++
+MERGE: do insert,delte and update in one:
+MERGE [Target] AS T
+USING [Source] AS S
+	ON[Join Condition]
+WHEN MATCHED//already in the target needs update
+	THEN [Update Statement]
+WHEN NOT MATCHED BY TARGET//source rows not in target then add
+	THEN [Insert Statement]//insert (a,b,c) values (d,e,f)
+WHEN NOT MATCHED BY SOURCE//extra rows need to be delete
+	THEN [Dlete Statement];//delete
+++++++++
+1.USER DEFINED FUNCTIONS:
+Scalar valued:returns scalar value: int,varchar,date...
+CREATE FUNCTION functionname(@param datatype,@param datatype..)
+RETURNS return_datatype
+AS
+BEGIN
+	function body
+RETURN value(ex:@param+1)
+END
+SELECT dbo.functionname(param);
+
+2.Table valued: returns table:
+CREATE FUNCTION functionname(@param datatype,@param datatype..)
+RETURNS table
+AS
+RETURN (SELECT column FROM tablename WHERE [condtion])
+SELECT dbo.functionname(param);
+
+SELECT 
+    * 
+FROM 
+    udfProductInYear(2017);
++++++++
+Temporary Table: created tempDB deleted as soon as the session is terminated
+CREATE TABLE #tablename(s_id int, sname varchar(20));
+System Databases>tempdb>temporarytables
+SELECT * from #tablename
+
+SELECT * | Column1,Column2...ColumnN 
+INTO #TempDestinationTable
+FROM Source_Table
+WHERE Condition
++++++++
+CASE statement:
+SELECT
+CASE
+	WHEN condition1 THEN result1
+	WHEN condition1 THEN result1
+	WHEN conditionN THEN resultN
+	ELSE result
+END;
+
+example query:
+SELECT top 5 *,grade=
+case
+when ContactName like 'A%' then 'A'
+when ContactName like 'B%' then 'B'
+when ContactName like 'C%' then 'C'
+else 'D'
+end
+from Customers
+go
+
++++++++
+IIF() function:
+select iif(condition,'true','false')
+ex: select e_id,e_name,e_age, iif(e_age>30,'old','young') as employee_gen from employee;
++++++++
+Stored Procedure: stored code saved reused:
+CREATE PROCEDURE proc_name
+AS 
+sqlstatements
+GO;
+
+EXEC proc_name
+
+CREATE PROCEDURE procname @param datatype, @param datatype 
+AS 
+sqlstatements
+GO;
+
+EX: 
+CREATE PROCEDURE findAge @age varchar(20)
+as
+select * from employee
+where age=@age
+go
+
+exec findAge @age='twenty'
+
+C#:
+SqlCommand DeleteTimeOff = new SqlCommand("DeleteTimeOff", conn)
+            {
+                CommandType = CommandType.StoredProcedure
+            };
+            DeleteTimeOff.Parameters.AddWithValue("@ID", SqlDbType.Int).Value = ID;
+            DeleteTimeOff.ExecuteNonQuery();
++++++++++
+EXCEPTION HANDLING:
+BEGIN TRY
+	sql statements
+END TRY
+BEGIN CATCH
+	print error or
+	rollback transaction
+END CATCH
+
+EXAMPLE:
+declare @val1 int;
+declare @val2 int;
+
+begin try
+set @val1=8;
+set @val2=@val1/0;
+end try
+
+begin catch
+print error_message()// print 'error message'
+end catch
+go;
++++++++++
+INDEXING:
+CREATE Index IX_tblEmployee_Salary
+ON tblEmployee (SALARY ASC)
+
+sorts according to salary
+a table is created sorted and each row has a row address
+
+BY DEFAULT Non-Unique,Non-Clustered index
+OBJECT explorer>db>tables>Indexes>...
+OR
+sp_helptext sp_name for sp
+sp_Helpindex tbl_name for index
+
+drop index tbl_name.index_name
+
+Primary Key creates a clustered index by default and its unique index
+TYPES: Clustered and Non-clustered having composite and non-composite keys
+
+WE CAN HAVE ONLY ONE CLUSTERED INDEX because one way sort only possible ex: index will get messed if gender clustered index
+Create Clustered Index IX_tblEmployee_Gender_Salary
+ON tblEmployee (Gender DESC, Salary ASC)
+
+data is stored in one place and the index in another place, index will have pointers to the storage location of data. Tbl can have more than one nonclustered index
+Create NonClustered Index IX_tblEmployee_Name
+ON tblEmployee (Name)
+not influences data stored in table as the clustered does
+
+clustered faster, no extra storage disk space
+
+Create Unique Nonclustered Index
+UIX_tblEmployee_FirstName_LastName
+On tblEmployee (FirstName, LastName)
+can be clustered and non clustered
++++++++
+UNIQUES CONSTRAINT IS SAME AS UNIQUE INDEX it basically creates index
+ALTER TABLE tblEmployee
+ADD CONSTRAINT UQ tblEmployee_city
+UNIQUE (City) 
+
+ALTER TABLE tblEmployee
+ADD CONSTRAINT UQ_tblEmployee_city
+UNIQUE CLUSTERED (City)
+keys and index both have added
+++++++++++++
+To see if a particular column in db:
+SELECT *
+FROM INFORMATION_SCHEMA.COLUMNS 
+WHERE COLUMN_NAME LIKE '%PRODUCT%'
+++++++++++++
+TO match case while searching:
+SELECT * from
+Products
+WHERE ProductName='bikes'
+COLLATE Latin1_General_CS_AS
+++++++++++++
+DROP vs TRUNCATE:
+In SQL, the DROP command is used to remove the whole database or table indexes, data, and more. Whereas the TRUNCATE command is used to remove all the rows from the table.
+DROP TABLE tableName ;
+TRUNCATE TABLE tableName ;
+++++++++++++
+TRIGGERS in sql server:
+A trigger is a set of SQL statements that reside in system memory with unique names. It is a specialized category of stored procedure that is called automatically when a database server event occurs. Each trigger is always associated with a table.
+
+CREATE TRIGGER schema.triggername
+ON tablename
+AFTER{insert,update,delete}
+[NOT FOR REPLICATION]
+AS
+{sql_statements}
+
+schema: It is an optional parameter that defines which schema the new trigger belongs to.
+trigger_name: It is a required parameter that defines the name for the new trigger.
+table_name: It is a required parameter that defines the table name to which the trigger applies
+NOT FOR REPLICATION: This option tells that SQL Server does not execute the trigger when data is modified as part of a replication process.
+ex:
+CREATE TRIGGER trInsertEmployee   
+ON Employee  
+FOR INSERT  
+AS  
+BEGIN  
+  Declare @Id int  
+  SELECT @Id = Id from inserted  
+  INSERT INTO Employee_Audit_Test //different table
+  VALUES ('New employee with Id = ' + CAST(@Id AS VARCHAR(10)) + ' is added at ' + CAST(Getdate() AS VARCHAR(22)))  
+END 
+
+CREATE TRIGGER trDeleteEmployee   
+ON Employee  
+FOR DELETE  
+AS  
+BEGIN  
+  Declare @Id int  
+  SELECT @Id = Id from deleted  
+  INSERT INTO Employee_Audit_Test  
+  VALUES ('An existing employee with Id = ' + CAST(@Id AS VARCHAR(10)) + ' is deleted at ' + CAST(Getdate() AS VARCHAR(22)))  
+END  
+
+NOTE:
+In both the triggers code, you will notice these lines:
+
+SELECT @Id = Id from inserted  
+SELECT @Id = Id from deleted  
+Here inserted and deleted are special tables used by the SQL Server. The inserted table keeps the copy of the row when you insert a new row into the actual table. And the deleted table keeps the copy of the row you have just deleted from the actual table.
+
+DROP TRIGGER [IF EXISTS] schema_name.trigger_name;  
+++++++++++++
+EXISTS:
+The EXISTS operator is a logical operator that allows you to check whether a subquery returns any row. The EXISTS operator returns TRUE if the subquery returns one or more rows.
+the subquery returned a result set that contains NULL which causes the EXISTS operator to evaluate to TRUE. Therefore, the whole query returns all rows from the customers table.
+
+
+SELECT customer_id,
+       first_name,
+       last_name
+FROM sales.customers c
+WHERE
+    EXISTS (SELECT COUNT (*)
+        FROM sales.orders o
+        WHERE customer_id = c.customer_id
+        GROUP BY customer_id
+        HAVING COUNT (*) > 2)
+ORDER BY first_name, last_name;
+	
+In this example, we had a correlated subquery that returns customers who place more than two orders.
+If the number of orders placed by the customer is less than or equal to two, the subquery returns an empty result set that causes the EXISTS operator to evaluate to FALSE.
+Based on the result of the EXISTS operator, the customer will be included in the result set.
+
+C) EXISTS vs. IN example
+The following statement uses the IN operator to find the orders of the customers from San Jose:
+
+SELECT *
+FROM sales.orders
+WHERE customer_id IN ( SELECT customer_id
+					   FROM sales.customers
+					   WHERE city = 'San Jose')
+ORDER BY customer_id, order_date;
+	
+The following statement uses the EXISTS operator that returns the same result:
+
+SELECT *
+FROM sales.orders o
+WHERE EXISTS ( SELECT customer_id
+			   FROM sales.customers c
+			   WHERE o.customer_id = c.customer_id AND city = 'San Jose')
+ORDER BY o.customer_id, order_date;
+
+++++++++++++
+CURSOR in sql server:
+A SQL cursor is a database object that is used to retrieve data from a result set one row at a time. A SQL cursor is used when the data needs to be updated row by row
+
+Declaring Cursor,Opening Cursor,Fetching Cursor,Closing Cursor,Deallocating Cursor
+
+DECLARE cursor_name CURSOR [ LOCAL | GLOBAL ]
+[ FORWARD_ONLY | SCROLL ]
+ [ STATIC | KEYSET | DYNAMIC | FAST_FORWARD ]
+[ READ_ONLY | SCROLL_LOCKS | OPTIMISTIC ]
+[ TYPE_WARNING ] FOR select_statement
+ [ FOR UPDATE [ OF column_name [ ,...n ] ] ] [;]
+
+ex::
+use Product_Database
+SET NOCOUNT ON;
+
+DECLARE @emp_id int ,@emp_name varchar(20),@message varchar(max);
+PRINT '-------- EMPLOYEE DETAILS --------';
+DECLARE emp_cursor CURSOR FOR
+SELECT emp_id,emp_name
+FROM Employee
+order by emp_id;
+
+OPEN emp_cursor
+
+	FETCH NEXT FROM emp_cursor INTO @emp_id,@emp_name
+
+	print 'Employee_ID  Employee_Name'
+
+	WHILE @@FETCH_STATUS = 0
+		BEGIN
+		  print '   ' + CAST(@emp_id as varchar(10)) +'           '+cast(@emp_name as varchar(20))
+
+		FETCH NEXT FROM emp_cursor INTO @emp_id,@emp_name
+		END
+
+CLOSE emp_cursor;
+DEALLOCATE emp_cursor;
+
+-------------------------------------
+Partition by:
+we can use a column in the select statement only if it is used in Group by clause as well. It does not allow any column in the select clause that is not part of GROUP BY clause
+We can use the SQL PARTITION BY clause to resolve this issue.
+
+The PARTITION BY clause is a subclause to OVER(). It divides the resultant rows into different partitions based on the specified columns
+SELECT person_name, product, price, years,   
+ROW_NUMBER() OVER ( PARTITION BY years ORDER BY price) AS row_num  
+FROM Persons; 
+
+To get the total number of items bought by a customer:
+Select *,count(customer_id) from Orders GROUP BY customer_id
+
+SELECT Customercity, 
+       CustomerName, 
+       OrderAmount, 
+       COUNT(OrderID) 	OVER(PARTITION BY Customercity) AS CountOfOrders, 
+       AVG(Orderamount) OVER(PARTITION BY Customercity) AS AvgOrderAmount, 
+       MIN(OrderAmount) OVER(PARTITION BY Customercity) AS MinOrderAmount, 
+       SUM(Orderamount) OVER(PARTITION BY Customercity) TotalOrderAmount
+FROM [dbo].[Orders];
+2. PARTITION BY Clause
+Divides the result set into partitions to perform calculations separately for each partition.
+Commonly used with window functions to compute aggregates within each partition.
+Example:
+Using ROW_NUMBER() with PARTITION BY to number rows within each category.
+
+sql
+Copy code
+SELECT 
+    ProductID,
+    Category,
+    SalesAmount,
+    ROW_NUMBER() OVER (PARTITION BY Category ORDER BY SalesAmount DESC) AS RowNum
+FROM Sales
+--------------------------------------
+Rank:
+The RANK() function is a window function could be used in SQL Server to calculate a rank for each row within a partition of a result set. 
+SELECT Name, 
+	   RANK () OVER (ORDER BY Name) AS Rank_no 
+FROM geek_demo;
+
+row_number:
+ROW_NUMBER function is a SQL ranking function that assigns a sequential rank number to each new record in a partition.
+When the SQL Server ROW NUMBER function detects two identical values in the same partition, it assigns different rank numbers to both
+
+SELECT 
+   ROW_NUMBER() OVER (ORDER BY first_name) row_num,
+   first_name, 
+   last_name, 
+   city
+FROM 
+   sales.customers;
+
+rowid:
+gets the number of row 
+
+SELECT first_name,
+	   age, 
+	   RowId
+FROM Customers
+
+Amount		Row_number 	  Rank    Dense_Rank 
+10000			1			1         1
+9000			2			2		  2
+9000			3			2		  2
+7000			4			4		  3
+5000			5			5		  4
+4000			6			6		  5
+2000			7			7		  6
+2000			8 			7		  6
+-------------------------------------------------------------------------
+
+Transactions in sql: group of commands that change data stored in db:
+one single unit, either all commands executed or none, if one fail then hold back!
+if all commands then transaction done:
+
+begin transaction
+update employee set e_age=30 where e_name='sam'
+rollback transaction//to bring back original
+commit transaction//to change permanaently
+
+Transaction in try/catch block:
+BEGIN try
+	BEGIN transaction
+		update employee set e_sal=50 where e_gender='male'
+		update employee set e_sal=195/0 where e_gender='female'
+	commit transaction
+	Print 'transaction committed'
+end try
+begin catch
+	rollback transaction
+	print 'transaction rollbacked'
+end catch
+
+--------------------------------------------------------------------------
+select 2nd max employee salary:
+SELECT MAX(SALARY) 'SECOND_MAX' FROM EMPLOYEES
+WHERE SALARY <> (SELECT MAX(SALARY) FROM EMPLOYEES);
+
+or 
+
+SELECT MAX(SALARY) FROM Employee WHERE SALARY < (SELECT MAX(SALARY) FROM Employee);
+
+select nth max salary:
+
+SELECT FIRST_NAME, 
+	   SALARY 
+	   FROM (SELECT FIRST_NAME, 
+			SALARY,
+			DENSE_RANK() OVER(ORDER BY SALARY DESC) AS SALARY_RANK
+			FROM EMPLOYEES)
+WHERE SALARY_RANK = n; --n is the nth salary we want
+
+
+top 3 salary:
+select distinct top 3 salary from tbl_Employees order by Salary desc 
+
+_______________________________________________________________________
+using functions:???????????????????????????????/
+
+
+
+-----------------------------------------------------------------------
+stratascratch sql server questions:
+
+1. Find the 3 most profitable companies in the entire world.
+Output the result along with the corresponding company name.
+Sort the result based on profits in descending order.
+
+company	sector	industry	continent	country	marketvalue	sales	profits	assets	rank	forbeswebpage
+ICBC	Financials	Major Banks	Asia	China	215.6	148.7	42.7	3124.9	1	http://www.forbes.com/companies/icbc/
+China Construction Bank	Financials	Regional Banks	Asia	China	174.4	121.3	34.2	2449.5	2	http://www.forbes.com/companies/china-construction-bank/
+Agricultural Bank of China	Financials	Regional Banks	Asia	China	141.1	136.4	27	2405.4	3	http://www.forbes.com/companies/agricultural-bank-of-china/
+JPMorgan Chase	Financials	Major Banks	North America	United States	229.7	105.7	17.3	2435.3	4	http://www.forbes.com/companies/jpmorgan-chase/
+Berkshire Hathaway	Financials	Investment Services	North America	United States	309.1	178.8	19.5	493.4	5	http://www.forbes.com/companies/berkshire-hathaway/
+Exxon Mobil	Energy	Oil & Gas Operations	North America	United States	422.3	394	32.6	346.8	6	http://www.forbes.com/companies/exxon-mobil/
+General Electric	Industrials	Conglomerates	North America	United States	259.6	143.3	14.8	656.6	7	http://www.forbes.com/companies/general-electric/
+Wells Fargo	Financials	Major Banks	North America	United States	261.4	88.7	21.9	1543	8	http://www.forbes.com/companies/wells-fargo/
+Bank of China	Financials	Major Banks	Asia	China	124.2	105.1	25.5	2291.8	9	http://www.forbes.com/companies/bank-of-china/
+PetroChina	Energy	Oil & Gas Operations	Asia	China	202	328.5	21.1	386.9	10	http://www.forbes.com/companies/petrochina/
+Royal Dutch Shell	Energy	Oil & Gas Operations	Europe	Netherlands	234.1	451.4	16.4	357.5	11	http://www.forbes.com/companies/royal-dutch-shell/
+Toyota Motor	Consumer Discretionary	Auto & Truck Manufacturers	Asia	Japan	193.5	255.6	18.8	385.5	12	http://www.forbes.com/companies/toyota-motor/
+Bank of America	Financials	Major Banks	North America	United States	183.3	101.5	11.4	2113.8	13	http://www.forbes.com/companies/bank-of-america/
+HSBC Holdings	Financials	Major Banks	Europe	United Kingdom	192.6	79.6	16.3	2671.3	14	http://www.forbes.com/companies/hsbc-holdings/
+Apple	Information Technology	Computer Hardware	North America	United States	483.1	173.8	37	225.2	15	http://www.forbes.com/companies/apple/
+Citigroup	Financials	Major Banks	North America	United States	145.1	94.1	13.4	1883.4	16	http://www.forbes.com/companies/citigroup/...
+
+Select TOP 3 company,profits as profit from forbes_global_2010_2014 order by profits desc;
+
+
+2. You have been asked to find the job titles of the highest-paid employees.
+Your output should include the highest-paid title or multiple titles with the same salary.
+
+worker_id	first_name	last_name	salary	joining_date	department
+1	Monika	Arora	100000	2014-02-20	HR
+2	Niharika	Verma	80000	2014-06-11	Admin
+3	Vishal	Singhal	300000	2014-02-20	HR
+4	Amitah	Singh	500000	2014-02-20	Admin
+5	Vivek	Bhati	500000	2014-06-11	Admin
+6	Vipul	Diwan	200000	2014-06-11	Account
+7	Satish	Kumar	75000	2014-01-20	Account
+8	Geetika	Chauhan	90000	2014-04-11	Admin
+9	Agepi	Argon	90000	2015-04-10	Admin
+10	Moe	Acharya	65000	2015-04-11	HR
+11	Nayah	Laghari	75000	2014-03-20	Account
+12	Jai	Patel	85000	2014-03-21	HR...
+
+select 
+    t.worker_title 
+from worker as w
+    join title as t on w.worker_Id=t.worker_ref_id
+where w.salary = (select top 1 salary from worker order by salary desc);
+
+3. Calculate each users average session time. A session is defined as the time difference between a page_load and page_exit. For simplicity, assume a user has only 1 session per day and if there are multiple of the same events on that day, consider only the latest page_load and earliest page_exit, with an obvious restriction that load time event should happen before exit time event . Output the user_id and their average session time.
+
+user_id	timestamp	action
+0	2019-04-25 13:30:15	page_load
+0	2019-04-25 13:30:18	page_load
+0	2019-04-25 13:30:40	scroll_down
+0	2019-04-25 13:30:45	scroll_up
+0	2019-04-25 13:31:10	scroll_down
+0	2019-04-25 13:31:25	scroll_down
+0	2019-04-25 13:31:40	page_exit
+1	2019-04-25 13:40:00	page_load
+1	2019-04-25 13:40:10	scroll_down
+1	2019-04-25 13:40:15	scroll_down
+1	2019-04-25 13:40:20	scroll_down
+1	2019-04-25 13:40:25	scroll_down
+1	2019-04-25 13:40:30	scroll_down
+1	2019-04-25 13:40:35	page_exit
+2	2019-04-25 13:41:21	page_load
+2	2019-04-25 13:41:30	scroll_down...
+
+-- select Top 1* from facebook_web_log where action='page_load' and user_Id=0 order by timestamp;
+-- select Top 1* from facebook_web_log where action='page_exit' and user_Id=0 order by timestamp;
+
+-- select Top 1* from facebook_web_log where action='page_load' and user_Id=1 order by timestamp;
+-- select Top 1* from facebook_web_log where action='page_exit' and user_Id=1 order by timestamp;
+
+with cte as (
+    select 
+        user_id,
+        datediff(second, max(case when action = 'page_load' then timestamp end),
+                        min(case when action = 'page_exit' then timestamp end)) as session_time
+    from facebook_web_log
+    group by user_id, cast(timestamp as date)
+)
+select 
+    user_id,
+    round(sum(session_time)*1.0/count(session_time),1) as session_time
+from cte
+where session_time is not null
+group by user_id
+
+------------
+select a.user_id, avg(exittime - loadtime) from 
+(
+    select user_id, timestamp loadtime, action, 
+    rank() over (PARTITION by user_id order by timestamp desc) loadrank
+    from facebook_web_log
+    where action = 'page_load'
+) a
+join 
+(
+    select user_id, timestamp exittime, action,
+    rank() over (PARTITION by user_id order by timestamp desc) exitrank
+    from facebook_web_log
+    where action = 'page_exit'
+) b 
+on a.user_id = b.user_id
+where loadrank = 1 and exitrank = 1
+group by a.user_id
+
+
+4. Find the email activity rank for each user. Email activity rank is defined by the total number of emails sent. The user with the highest number of emails sent will have a rank of 1, and so on. Output the user, total emails, and their activity rank. Order records by the total emails in descending order. Sort users with the same number of emails in alphabetical order.
+In your rankings, return a unique value (i.e., a unique rank) even if multiple users have the same number of emails. For tie breaker use alphabetical order of the user usernames.
+
+id	from_user	to_user	day
+0	6edf0be4b2267df1fa	75d295377a46f83236	10
+1	6edf0be4b2267df1fa	32ded68d89443e808	6
+2	6edf0be4b2267df1fa	55e60cfcc9dc49c17e	10
+3	6edf0be4b2267df1fa	e0e0defbb9ec47f6f7	6
+4	6edf0be4b2267df1fa	47be2887786891367e	1
+5	6edf0be4b2267df1fa	2813e59cf6c1ff698e	6
+6	6edf0be4b2267df1fa	a84065b7933ad01019	8
+7	6edf0be4b2267df1fa	850badf89ed8f06854	1
+8	6edf0be4b2267df1fa	6b503743a13d778200	1
+9	6edf0be4b2267df1fa	d63386c884aeb9f71d	3
+10	6edf0be4b2267df1fa	5b8754928306a18b68	2
+11	6edf0be4b2267df1fa	6edf0be4b2267df1fa	8
+12	6edf0be4b2267df1fa	406539987dd9b679c0	9
+13	6edf0be4b2267df1fa	114bafadff2d882864	5
+14	6edf0be4b2267df1fa	157e3e9278e32aba3e	2
+15	75d295377a46f83236	75d295377a46f83236	6
+16	75d295377a46f83236	d63386c884aeb9f71d	8
+17	75d295377a46f83236	55e60cfcc9dc49c17e	3
+18	75d295377a46f83236	47be2887786891367e	10
+19	75d295377a46f83236	5b8754928306a18b68	10
+20	75d295377a46f83236	850badf89ed8f06854	7
+21	75d295377a46f83236	5eff3a5bfc0687351e	2
+22	75d295377a46f83236	5dc768b2f067c56f77	8...
+
+-- select Count(from_user),from_user, day
+-- from google_gmail_emails
+-- group by from_user,day
+-- order by day,from_user desc;
+SELECT
+    from_user,
+    COUNT(from_user) AS total_emails,
+    ROW_NUMBER() OVER(ORDER BY COUNT(from_user) DESC, from_user ASC) AS activity_rank
+FROM
+    google_gmail_emails
+GROUP BY
+    from_user;
+	
+5. Write a query thatll identify returning active users. A returning active user is a user that has made a second purchase within 7 days of any other of their purchases. Output a list of user_ids of these returning active users.
+
+id	user_id	item	created_at	revenue
+1	109	milk	2020-03-03	123
+2	139	biscuit	2020-03-18	421
+3	120	milk	2020-03-18	176
+4	108	banana	2020-03-18	862
+5	130	milk	2020-03-28	333
+6	103	bread	2020-03-29	862
+7	122	banana	2020-03-07	952
+8	125	bread	2020-03-13	317
+9	139	bread	2020-03-30	929
+10	141	banana	2020-03-17	812
+11	116	bread	2020-03-31	226
+12	128	bread	2020-03-04	112
+13	146	biscuit	2020-03-04	362
+14	119	banana	2020-03-28	127
+15	142	bread	2020-03-09	503
+16	122	bread	2020-03-06	593...
+
+select distinct user_id
+from (
+        select user_id, 
+            created_at,
+            lead ( created_at ) over (partition by user_id order by created_at) as leadCreatedAt 
+        from amazon_transactions
+    ) as a
+where datediff ( day, created_at, leadCreatedAt ) <= 7
+
+
+6. You are given a table of product launches by company by year. Write a query to count the net difference between the number of products companies launched in 2020 with the number of products companies launched in the previous year. Output the name of the companies and a net difference of net products released for 2020 compared to the previous year.
+
+year	company_name	product_name
+2019	Toyota	Avalon
+2019	Toyota	Camry
+2020	Toyota	Corolla
+2019	Honda	Accord
+2019	Honda	Passport
+2019	Honda	CR-V
+2020	Honda	Pilot
+2019	Honda	Civic
+2020	Chevrolet	Trailblazer
+2020	Chevrolet	Trax
+2019	Chevrolet	Traverse...
+
+-- select company_name,
+--       lead(Count(product_name)) over (order by company_name) - Count(product_name) as net_products,
+--       year
+-- from car_launches
+-- group by company_name,year
+-- order by company_name;
+
+select company_name, net_products--, year
+from (
+    select company_name,
+           lead(Count(product_name)) over (order by company_name) - Count(product_name) as net_products,
+           year,
+           row_number() over (partition by company_name order by year) as rn
+    from car_launches
+    group by company_name, year
+) t
+where rn = 1
+order by company_name;
+
+
+7. Write a query that calculates the difference between the highest salaries found in the marketing and engineering departments. Output just the absolute difference in salaries.
+
+id	first_name	last_name	salary	department_id
+10301	Keith	Morgan		27056	2
+10302	Tyler	Booth		32199	3
+10303	Clifford	Nguyen	32165	2
+10304	Mary	Jones		49488	3
+10305	Melissa	Lucero		27024	3
+10306	Ashley	Li			28516	4
+10307	Joseph	Solomon		19945	1
+10308	Anthony	Sanchez		43801	3
+10309	Katherine	Huffman	12984	4
+10310	Dawn	Foley		28902	2
+10311	Melissa	Holmes		33575	1
+10312	Kathleen	Davis	44579	2
+10313	Adam	Simmons		15442	6
+10314	Desiree	Brewer		37494	6
+10315	Sierra	Anderson	20592	6
+10316	Beth	Torres		34902	1
+10317	Pamela	Rodriguez	48187	4
+10318	Jessica	Austin		43154	2
+10319	Stephanie	Gamble	31160	2
+10320	Gregory	Cook		22681	4
+10321	Debra	Knapp		17844	5
+10322	Paul	Horton		37431	3
+10323	Henry	Solis		45269	4
+10324	William	Brewer		15947	1
+10325	Brian	Nelson		27006	1
+10326	Randall	Kramer		20695	2
+10327	Mary	Baker		46654	5
+10328	Gene	Shepard		10143	3...
+
+id	department
+1	engineering
+2	human resource
+3	operation
+4	marketing
+5	sales
+6	customer care
+
+
+--department_id 1-engg, 2-hr, 3-operation, 4-marketing, 5-sales:
+-- select 
+-- Max(salary),e.department_id, d.department
+-- from db_employee e join db_dept d on e.department_id = d.id
+-- group by e.department_id,d.department
+--my:
+with cte as 
+(select 
+Max(salary) maxSal,e.department_id as id, d.department dept
+from db_employee e join db_dept d on e.department_id = d.id
+group by e.department_id,d.department)
+
+select top 1 (select maxSal from cte where dept='marketing' )- (select maxSal from cte where dept='engineering') salay_difference
+from cte
+
+--best:
+SELECT
+  ABS(
+	  (SELECT max(salary)
+	   FROM db_employee emp
+	   JOIN db_dept dept ON emp.department_id = dept.id
+	   WHERE department = 'marketing') 
+	   -
+	  (SELECT max(salary)
+	   FROM db_employee emp
+	   JOIN db_dept dept ON emp.department_id = dept.id
+	   WHERE department = 'engineering')
+   ) AS salary_difference
+
+
+8. We have a table with employees and their salaries, however, some of the records are old and contain outdated salary information. Find the current salary of each employee assuming that salaries increase each year. Output their id, first name, last name, department ID, and current salary. Order your list by employee ID in ascending order.
+
+-- my
+select distinct id,
+       first_name,
+       last_name,
+       max(salary) over (Partition by id order by salary desc),
+       department_id
+from ms_employee_salary
+order by id;
+
+-- best:
+SELECT id,
+       first_name,
+       last_name,
+       department_id,
+       max(salary)
+FROM ms_employee_salary
+GROUP BY id,
+         first_name,
+         last_name,
+         department_id
+ORDER BY id ASC
+
+9. What is the overall friend acceptance rate by date? Your output should have the rate of acceptances by the date the request was sent. Order by the earliest date to latest.
+Assume that each friend request starts by a user sending (i.e., user_id_sender) a friend request to another user (i.e., user_id_receiver) thats logged in the table with action = 'sent'. If the request is accepted, the table logs action = 'accepted'. If the request is not accepted, no record of action = 'accepted' is logged.
+
+user_id_sender	user_id_receiver	date	action
+ad4943sdz	948ksx123d	2020-01-04	sent
+ad4943sdz	948ksx123d	2020-01-06	accepted
+dfdfxf9483	9djjjd9283	2020-01-04	sent
+dfdfxf9483	9djjjd9283	2020-01-15	accepted
+ffdfff4234234	lpjzjdi4949	2020-01-06	sent
+fffkfld9499	993lsldidif	2020-01-06	sent
+fffkfld9499	993lsldidif	2020-01-10	accepted
+fg503kdsdd	ofp049dkd	2020-01-04	sent
+fg503kdsdd	ofp049dkd	2020-01-10	accepted
+hh643dfert	847jfkf203	2020-01-04	sent..
+
+-- best:
+with cte as
+    (
+    select user_id_sender,
+           user_id_receiver,
+           min(date) as date,
+           sum(case when action='sent' then 1 else 0 end) as sent,
+           sum(case when action='accepted' then 1 else 0 end) as accepted
+    from fb_friend_requests 
+    group by user_id_sender,user_id_receiver
+    --order by user_id_sender desc
+    )
+select date,
+       convert(float, 1.0*sum(accepted)/sum(sent)) as percentage_acceptance 
+from cte 
+group by date
+
+
+10. Find the popularity percentage for each user on Meta/Facebook. The popularity percentage is defined as the total number of friends the user has divided by the total number of users on the platform, then converted into a percentage by multiplying by 100.
+Output each user along with their popularity percentage. Order records in ascending order by user id.
+The 'user1' and 'user2' column are pairs of friends.
+
+user1	user2
+2	1
+1	3
+4	1
+1	5
+1	6...
+
+-- best:
+WITH users_union AS
+  (SELECT user1,
+          user2
+   FROM facebook_friends
+   UNION 
+   SELECT user2 AS user1,
+          user1 AS user2
+   FROM facebook_friends)
+SELECT user1,
+       CAST(count(*) AS FLOAT) / (SELECT CAST(count(DISTINCT user1) AS FLOAT) FROM users_union)*100 AS popularity_percent
+FROM users_union
+GROUP BY user1
+ORDER BY user1
+
+11. Find the last time each bike was in use. Output both the bike number and the date-timestamp of the bikes last use (i.e., the date-time the bike was returned). Order the results by bikes that were most recently used.
+
+duration	duration_seconds	start_time	start_station	start_terminal	end_time	end_station	end_terminal	bike_number	rider_type	id
+0h 10m 47sec.	647	2012-03-25 10:30:00	17th & Corcoran St NW	31214	2012-03-25 10:40:00	Calvert St & Woodley Pl NW	31106	W00576	Registered	326188
+0h 11m 45sec.	705	2012-03-28 18:59:00	Rosslyn Metro / Wilson Blvd & Ft Myer Dr	31015	2012-03-28 19:11:00	21st & M St NW	31212	W00011	Registered	345585
+0h 7m 45sec.	465	2012-03-12 22:30:00	3rd & H St NE	31616	2012-03-12 22:37:00	Florida Ave & R St NW	31503	W01215	Registered	251919
+0h 4m 27sec.	267	2012-03-12 20:11:00	14th & G St NW	31238	2012-03-12 20:15:00	14th & Rhode Island Ave NW	31203	W00455	Registered	251426
+0h 10m 2sec.	602	2012-02-03 09:06:00	Lamont & Mt Pleasant NW	31107	2012-02-03 09:16:00	17th & Rhode Island Ave NW	31239	W00300	Registered	105965
+0h 24m 59sec.	1499	2012-03-30 19:35:00	Eastern Market Metro / Pennsylvania Ave & 7th St SE	31613	2012-03-30 20:00:00	Massachusetts Ave & Dupont Circle NW	31200	W01352	Registered	357661
+0h 13m 45sec.	825	2012-03-10 16:44:00	North Capitol St & F St NW	31624	2012-03-10 16:58:00	Thomas Circle	31241	W00089	Registered	240483
+0h 12m 58sec.	778	2012-02-09 21:32:00	14th & R St NW	31202	2012-02-09 21:45:00	18th & M St NW	31221	W01158	Registered	129535
+0h 2m 2sec.	122	2012-03-29 17:36:00	18th & Bell St	31007	2012-03-29 17:38:00	23rd & Crystal Dr	31011	W00653	Registered	350819
+0h 17m 44sec.	1064	2012-02-18 08:43:00	21st & I St NW	31205	2012-02-18 09:01:00	8th & H St NW	31228	W01398	Registered	156324
+0h 19m 43sec.	1183	2012-03-31 19:08:00	19th & E Street NW	31206	2012-03-31 19:28:00	10th St & Constitution Ave NW	31219	W01278	Casual	363912
+0h 16m 33sec.	993	2012-02-22 08:20:00	7th & R St NW / Shaw Library	31245	2012-02-22 08:37:00	New York Ave & 15th St NW	31222	W00356	Registered	170556
+0h 6m 49sec.	409	2012-03-22 17:10:00	Eastern Market Metro / Pennsylvania Ave & 7th St SE	31613	2012-03-22 17:17:00	13th & D St NE	31622	W00211	Registered	310589
+0h 5m 34sec.	334	2012-01-19 20:39:00	Columbus Circle / Union Station	31623	2012-01-19 20:45:00	13th & H St NE	31611	W00724	Registered	56016
+0h 14m 17sec.	857	2012-03-31 10:30:00	13th & D St NE	31622	2012-03-31 10:44:00	4th & E St SW	31244	W01006	Registered	359385
+0h 16m 11sec.	971	2012-03-14 17:24:00	13th St & New York Ave NW	31227	2012-03-14 17:40:00	11th & H St NE	31614	W00034	Registered	261560
+0h 13m 42sec.	822	2012-03-31 09:10:00	36th & Calvert St NW / Glover Park	31304	2012-03-31 09:24:00	7th & T St NW	31109	W01242	Registered	359045...
+
+-- my:
+select bike_number,
+       Max(end_time)
+from dc_bikeshare_q1_2012
+group by end_time,bike_number
+order by end_time desc;
+
+12. Find the number of rows for each review score earned by 'Hotel Arena'. Output the hotel name (which should be 'Hotel Arena'), review score along with the corresponding number of rows with that score for the specified hotel.
+
+hotel_address	additional_number_of_scoring	review_date	average_score	hotel_name	reviewer_nationality	negative_review	review_total_negative_word_counts	total_number_of_reviews	positive_review	review_total_positive_word_counts	total_number_of_reviews_reviewer_has_given	reviewer_score	tags	days_since_review	lat	lng
+
+SELECT hotel_name,
+       reviewer_score,
+       count(*)
+FROM hotel_reviews
+WHERE hotel_name = 'Hotel Arena'
+GROUP BY hotel_name,
+         reviewer_score
+		 
+13.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

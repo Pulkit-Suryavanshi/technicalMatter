@@ -1,0 +1,85 @@
+intro:
+Hello, first of all thank you for giving me this oportunity. starting with my name, i am pulkit suryavanshi and i am basically from prayagraj,and its from where i completed my schooling after which i started my Btech in Information technology from ABES engineering college affiliated to AKTU. After completing my college i joined cognizant in the year 2021 and for the past 3 years I have been working as a full stack .net developer. My work basicaly involves Ui development(view and razor engine, razore pages) and database changes using sql server. I work on the backend part using .net mvc core 6, EntityFramework and ado.net. my work includes rest apis creation(mvc) and crystal report generation. I have Handson experience on angular as well. I have experience working in Agile development environments. //////////Azure repos and git for version control.
+
+PROJECT: Keybank {commercial real estate info; borrowers&Representatives::loan_bal,pay_hist,bill_info; 3rdprtyInv&cmbsBondhldr&splSRVCR:: portfolioStrati,crefc rep,tenant exp, excrow,wiretrans}
+BFS domain: Real estate and banking, client Keybank: key2cre site for COMMERCIAL REAL ESTATE INFORMATION
+Both Borrowers and Investors can find a wealth of information to provide answers to many commonly asked questions
+BORROWERS and authorized REPRESENTATIVES will have the ability to view:
+(LOAN BALANCES;    PAYMENT HISTORIES,   BILLING INFORMATION and more.)
+3rd Party INVESTOR, CMBS Bond Holder, SPECIAL SERVICER or RATING AGENCY, our system will (provide details concerning your PORTFOLIO).THEY can see:
+(PORTFOLIO STRATIFICATIONS, CREFC reports, TENANT EXPOSURE and more(escrow, wire transfer etc))
+If you are an Investor and would like to view your portfolio information on-line
+
+BFS domain:
+there is also and internal site made in asp.net webforms on which i worked for relatively less time. My current job  role as associate software engineer includes frontend,backend, sql server, rest apis, checkmarks, crystal reports,etc  that we get in sprints via stories. Azure repos is used for version control.
++++++++
+STRUCTURE:
+3 layer architecture: Presentation  -> Business Layer -> calling api->Rest API-> Data Layer(DAL)
+presentation layer:views cshtml
+business logic layer
+dataaccess layer (or data layer): Rest APIs
+		authentication and authorization?
+JWT for authentication and authorization
+claims and authorization filter using policies
+session stored????????????????????
+
+YASAR: Key2cre UI layer, MVC core; DI used; Filter(Authentication, Authorization); Form Auhtentication Service; [Authorization] attribute Role=Investor,Borrowers, SSv, etc; Authorization is custom; AUTH --> pass username id etc; Consecutively in api calls passed ID/etc, portfolio id etc; Generic method for all <T> req res; 1 method for all; check if post body(get post); Consume rest service; URL cred username and pass; Interfaces used;
+---------
+UL LLC project: Retial sector:-> ISO, certification, TCB(telecommunication and certification body)- project from scratch, rest apis;
+UL Wireless CB Application Filing: Accredited laboratory for FCC testing and tcb, products covered: tech device, lighting device, appliances, industry device, wireless dev, bt,wifi and cellular connectivity. US, Canada, EUUK
+Clean Architecture, CQRS(CQRS stands for Command and Query Responsibility Segregation, a pattern that separates read and update operations for a data store)-Mediatr(MediatR is a NuGet package for . NET applications that helps to implement the Mediator pattern and MediatR can be used as a useful tool to implement CQRS in a . NET application. MediatR pattern helps to reduce direct dependency between multiple objects and make them collaborative through MediatR)
+
+CLEAN ARCHITECTURE:
+https://www.c-sharpcorner.com/article/clean-architecture-in-asp-net-core-web-api/
+Introduction
+In this article, we will cover clean architecture practically. Clean architecture is a software architecture that helps us to keep an entire application code under control. The main goal of clean architecture is the code/logic, which is unlikely to change. It has to be written without any direct dependency. This means that if I want to change my development framework OR User Interface (UI) of the system, the core of the system should not be changed. It also means that our external dependencies are completely replaceable.
+
+What is Clean Architecture
+Clean architecture has a domain layer, Application Layer, Infrastructure Layer, and Framework Layer. The domain and application layer are always the center of the design and are known as the core of the system. The core will be independent of the data access and infrastructure concerns. We can achieve this goal by using the Interfaces and abstraction within the core system, but implementing them outside of the core system.
+
+Clean Architecture in Asp.net Core Web API
+
+Layer In Clean Architecture
+Clean architecture has a domain layer, Application Layer, Infrastructure Layer, and Presentation Layer. The domain and application layer are always the center of the design and are known as the core of the system.
+
+In Clean architecture, all the dependencies of the application are Independent/Inwards and the Core system has no dependencies on any other layer of the system. So, in the future, if we want to change the UI/ OR framework of the system, we can do it easily because all the other dependencies of the system are not dependent on the core of the system.
+
+Domain Layer
+The domain layer in the clean architecture contains the enterprise logic, like the entities and their specifications. This layer lies in the center of the architecture where we have application entities, which are the application model classes or database model classes, using the code first approach in the application development using Asp.net core these entities are used to create the tables in the database.
+
+Application Layer
+The application layer contains the business logic. All the business logic will be written in this layer. It is in this layer that services interfaces are kept, separate from their implementation, for loose coupling and separation of concerns.
+
+Infrastructure Layer
+In the infrastructure layer, we have model objects we will maintain all the database migrations and database context Objects in this layer. In this layer, we have the repositories of all the domain model objects.
+
+Presentation Layer
+In the case of the API Presentation layer that presents us the object data from the database using the HTTP request in the form of JSON Object. But in the case of front-end applications, we present the data using the UI by consuming the APIS.
+
+Advantages of Clean Architecture
+The immediate implementation you can implement this architecture with any programming language.
+The domain and application layer are always the center of the design and are known as the core of the system that why the core of the system is not dependent on external systems.
+This architecture allows you to change the external system without affecting the core of the system.
+In a highly testable environment, you can test your code quickly and easily.
+You can create a highly scalable and quality product.
+
+MediatR:
+https://www.c-sharpcorner.com/UploadFile/b1df45/mediator-design-pattern-using-C-Sharp/
+The Mediator Design Pattern is part of the behavioral design patterns. On the paths of bridge and adapter patterns, it might sound similar in concept that act as an intermediate. It actually does. But by being an intermediate, its actual purpose is as a helper, that is the main difference between this pattern and other patterns. In other words, its the basic goal of these patterns, that differentiate them from each other.
+Define an object that encapsulates how a set of objects interact. Mediator promotes loose coupling by keeping objects from referring to each other explicitly, and it lets you vary their interaction independently.
+This definition actually means that a centralized class is to be used for interaction between two different classes. This will receive the input from one class and pass it to the other class, for whom it was intended. And the response from the other class will be returned to the first class, from where the process started. So it results in a request-response system between the classes. This also results in a system where multiple classes from the sources can interact with multiple classes on the destination end and thus result in a loosely coupled system.
+A very important key to this process is that the mediator contains the reference of both the interacting components within itself and both the components will receive the reference to the mediator at run-time, in order to send/receive the messages from each other. The client and dev-team classes will have the reference of the mediator, through their base abstract classes.
+
+
+
+
+
+
+
+
+
+
+
+I have experience working in Agile development environments, collaborating with cross-functional teams, and delivering high-quality products on time. I am always eager to learn new technologies and tools, and I am dedicated to staying up-to-date with the latest industry trends.
+In my current role at Cognizant, I have been responsible for designing and implementing technical solutions, writing clean and maintainable code, and contributing to the development of best practices within the organization. I am passionate about creating scalable and efficient web applications, and I always strive to deliver the best possible user experience.Thank you for considering my application, and I look forward to discussing my qualifications further with you."
+I work on the .net core project which the clients client use for checking portfolios avaialable select. there is also and internal site made in asp.net webforms on which i worked for relatively less time. My job includes frontend,backend, sql server, rest apis, checkmarks, crystal reports,etc  that we get in sprints via stories. Azure repos is used for version control.

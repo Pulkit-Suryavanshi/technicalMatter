@@ -1,0 +1,354 @@
+Javascript Interview Questions:
+
+1. Why is JS a dynamic language?
+Because the data types of the variables change during runtime(int,string,boolean)
+--------------------------------------
+2. How does Javascript determine the data types?
+looking at the values assigned during the runtime...typeof(x) type() in python
+--------------------------------------
+3. How many types of datatypes are there?
+8 datatypes in js:
+a. string 
+b. number
+c. null
+d. undefined
+e. boolean 
+f. big int 
+g. symbol (Symbols are often used to add unique property keys to an object that won't collide with keys any other code might add to the object, and which are hidden from any mechanisms other code will typically use to access the object
+
+const value1 = Symbol('hello');
+const value2 = Symbol('hello');
+
+console.log(value1 === value2); // false)
+
+h. object new Object()
+
+
+SSNNUBBo (BBoNNUSS) SSUNNBBo acronym to remember
+-------------------------------------
+4. What is Undefined Data types
+variable has been declared but has not been assigned any value(not initialized)
+-------------------------------------
+5. WHat is Null?
+Intentional absence of data not an empty string not zero
+-------------------------------------
+6. Null vs undefined: above two definition
+null is assigned!
+-------------------------------------
+7. Explain Hoisting?
+mechanism where variables and function declaration are moved to the top of the scope
+hoisting does not move the initialization values
+
+In JavaScript, Hoisting is a kind of default behavior in which all the declarations either variable declaration or function declaration are moved at the top of the scope just before executing the program's code. However, it can be considered an advantage because all functions and variable declarations are placed to the top of their scope no matter where they are all declared anywhere in the whole program, even regardless of whether they are declared global or local.
+
+Due to the concept of hoisting in JavaScript, we can call a function even before we define the function definition in our program's code.
+
+In simple words, we can say that we can use the variables and functions in JavaScript before declaring them because as we discussed above JavaScript compiler moves the declarations of all the variables and functions at the top of their scope so that there will not be an error of any kind. The concept of JavaScript of moving all declarations of the variables and functions to the top of their scope by compiler itself just before the execution of code is known as Hoisting.
+
+let and const are hoisted but not initialized.
+-------------------------------------
+8.Global variables
+Global variables are accessible throughout the webpage or the document 
+-------------------------------------
+9.  What happens when you declare a variable without VAR?
+Without the VAR variable becomes GLOBAL
+-------------------------------------
+10. What is the use of strict keyword  
+To force developer to use Var keyword or the let keyword
+AT BEGINING--> same--> "use strict";
+if not throws an exception
+
+
+
+-------------------------------------
+11. How to handle or avoid global variables 
+a. putting them in one namespace:
+var global={};
+global.connectionString="Test";
+global.logDir="d:\Logs";
+
+b. Apply module pattern using closure and IIFE(Immediately Invoked Function Expression);
+closure later;
+module pattern:
+var myGlobal=(function(){
+var connectionString="Test"
+fucntion GetConnection(){return connectionString;}
+return{
+GetConnection
+}
+})();
+var str=myGlobal.GetConnection();
+-------------------------------------
+12. Explain Closures and why needed?
+Closures are functions inside functions and it makes a normal function stateful 
+hold memory location, dont let go from the stack:
+for eg:
+<script>
+function SimpleFunction(){var x=0;x++;}
+function ClosureFunction()
+{var x=0;
+function Increment(){x++;}return{Increment}
+}
+SimpleFunction();x=0,x=1 but after that x=0
+SimpleFunction(); x=0; x=1 but after that x=0
+
+var ref=ClosureFunction();
+ref.Increment();x=0,x=1
+ref.Increment();x=1,x=2
+</script>
+
+WHY NEEDED?:
+To create Self Contained Module self contained state
+self contained modules-->self contained state-->solves global variable problem
+we can use abstraction:
+
+function ClosureFunction(){
+var x;
+function Increment(){x++;}
+function GetXValue(){return x;}
+function Init(){x=1;}
+Init();
+return{Increment,GetXValue //see no Init returned}
+}
+var ref=ClosureFunction();
+ref.Increment();
+ref.Increment();
+ref.Init();//this will throw error
+
+A combination of a function object and a scope (a set of variable bindings)
+
+in which the function's variables are resolved is called a closure.
+
+Callbacks are functions that are passed into another function as an argument.
+
+Closures are functions that are nested in other functions, and it's often used to avoid scope clash
+
+with other parts of a JavaScript program
+
+Javascript
+<button type="button" onclick="funClosure()">Click to Count</button>
+
+<p id="displayValue">0</p>
+<script>
+const add = (function(){
+	let count = 0;
+    return function(){
+		count += 1;
+        return count;
+    }
+})();
+
+function funClosure(){
+  document.getElementById("displayValue").innerHTML = add();
+}
+</script>
+
+A closure is the combination of a function bundled together (enclosed) with references to its surrounding state (the lexical environment).func with lexical scope.
+Lexical Environment is the internal JS engine construct that holds identifier-variable mapping (here identifier refers to the name of variables/functions, and variable is the reference to actual object (including the function type object) or primitive value).
+
+-------------------------------------
+Higher Order Function:
+
+In Javascript, functions can be assigned to variables in the same way that strings or arrays can. They can be passed into other functions as parameters or returned from them as well. A “higher-order function” is a function that accepts functions as parameters and/or returns a function.
+
+function repeater(fn){
+fn(); fn(); fn();
+}
+
+function sayHello(){
+console.log("Hello There!")
+}
+repeater(sayHello);//at console Hello There 3 times._
+//repeater is higher order function that take sayHello as function parameter.
+-------------------------------------
+13. What is IIFE
+IIFE stand for Immediately Invoked Function Expression
+anonymous functions which gets immediately invoked automatically
+<script>
+var x=0;
+(function(){var y=10 alert("IIFE")})();
+</script>
+
+any var used inside IIFE is local
+-------------------------------------
+14. use of IIFE? Name collision in global scope and IIFE vs normal function?
+Name collision:
+Name collision happens when same name function named and variables are declared:
+
+function Init(){var x=0;}
+var Init=0; //function becomes a variable
+Init();
+BECUASE IIFE DOES NOT HAVE NAME IT SOLVES THE NAME COLLISION PROBLEM
+-------------------------------------
+15. Explain design patterns which is the most used?
+Design patterns are time tested architecture solutions.
+So to create a single instance we can use Singleton pattern, if the object creation process is complex ,we use factory pattern and so on. Also ther is mediator pattern.
+MOST use one is : Module design pattern or the Module revealing pattern.
+-------------------------------------
+16. What is Module revealing Pattern:
+a. Self contained independent components, loose coupling and well structured code
+b. Provides Encapsulation and Abstraction
+
+IT IS A COMBINATION OF: IIFE(namespace) + Closures(encapsultion)
+
+var custNs= (function(){
+function Customer(){...
+function CustomerInvoices(){...
+function CustomerVa1idation(){...
+return{
+Customer,
+CustomerInvoices//because Validations not reveald therefore also called revealing pattern
+}
+
+var cust=new custNs.Customer();
+-------------------------------------
+17. various ways to create javascript objects?
+a. Literal:
+var pat={"name":"","address":""}
+pat.Admit=function(){..}
+
+b. Object.create(): //create an instane on the current object
+ver patnew=Object.create(pat);
+patnew.age=10;
+
+c. constructor:
+function Patient(){
+this.name="";
+this.address="";
+this.Admit=function(){}
+}
+
+var pat1=new Patient();
+
+d. class or the ES6 way:
+
+class PatientClass{
+constructor(name,address){
+this.name="";
+this.address="";
+}
+}
+var p=new PatientClass();
+-------------------------------------
+18. How can we do inheritance in javascript:
+Onject inheritance or prototypical inheritance. Inheritance done using Prototype object
+NOT CLASS INHERITANCE 
+
+function Employee(){..
+function Manager(){
+var emp=new Employee();
+Manager.prototype=emp;
+}
+
+var man=new Manager();
+man.Name="Shiv";
+man.Attendance();//employee has attendance
+man.DoWork();//employee+manager has do work
+
+Prototype object basically works like a linked list
+
+Prototype chaining is the process where the property methods are first checked in the current object and if not found then it checks in the prototype object, if does not fing in that it try checking the prototypes prototype object, until he get the prototype object null.
+-------------------------------------
+19. Explain Let keyword
+introduced in ES6
+Lets you create immediate block levl scope local variable.
+-------------------------------------
+20. Are variables with the let keyword hoisted?
+Yes they are hoisted but not initialized with a value as opposed to the var keyword variables
+
+if you try to access the variables you will get an uninitialized error
+-------------------------------------
+21.Temporal Dead Zone?
+It is a period or is a state of variable where variables are named in the memory but they are not initialised with any value 
+
+console.log(x)//tdz
+console.log(x)//tdz
+let x=10;
+function Test(){console.log(y);//tdzlet y=10;}
+-------------------------------------
+22. Let vs Var?
+SCOPE: var is scoped to the immediate function body while let is scoped to the immediate enclosing block
+INITIALIZED VLAUE: var is initialised with undefined but let is not initialised
+
+function Test(){
+if(1==1){
+let y=10;//this will be scoped till the ending of this if block till the braces
+var x=10;//this will be scoped till the ending of this function
+}
+console.log(x);//no problem here as function sc 
+console.log(y);//problem here as block scoped
+}
+Test();
+-------------------------------------
+let vs var:
+
+ var:
+    -can be declared outside any function to be used inside any function
+    -can be declared inside any function or any other {} which are of only if or if-else or switch etc. and can be used anywhere inside the function
+    -can be changed again and again anywhere
+  let:
+    -can be declared outside any function to be used inside any function
+    -if declared inside any function or any other {} which are of only if or if-else or switch etc. and can't be used anywhere inside the function and can be only used inside statement
+    - can be changed again and again only inside the statement in which they are made in
+    const:
+    -can be declared outside any function to be used inside any function
+    -can be declared inside any function or any other {} which are of only if or if-else or switch etc. and can be used anywhere inside the function
+    -cannot be changed again and agan anywhere, if tried to, will result in an error
+
+*/
+// var has function scope. (this variable can be accssed from anywhere inside function)
+// let & const has block scope.(this variable can not be accessed out of block. means outside of if else but inside of a function it can not be accessed. only inside that block we can access this variable)
+// https://www.youtube.com/watch?v=--Vh17ocC_s
+function func(){
+  if(true){
+    var A = 1;
+    let B = 2;
+  }
+  A++; // 2 --> ok, inside function scope
+  B++; // B is not defined --> not ok, outside of block scope
+  return A + B; // NaN --> B is not defined
+}
+//example 2
+var variable1 // declared using var
+const variable2 // declared using const
+
+myFunction1();
+
+function myFunction1() {
+  variable1 = "hello!";
+  console.log(variable1);
+  // "hello!"
+}
+
+myFunction2();
+
+function myFunction2() {
+  variable2 = "hello!";
+  // error: variable2 is a constant and can not be redifined
+}
+
+myFunction3(true);
+
+myFunction3(codition) {
+  if(condition) {
+    let variable3 = "helo!" // declared using const
+  }
+  variable3 = "hello!";
+  // error: variable3 is out of scope
+}
+
+A variable declared with var is defined throughout the program. One of the issues with using the var keyword was redeclaring a variable inside a block will also redeclare the variable outside the block. 
+
+With the introduction of ES6 in 2015 two more keywords, let and const came into the picture. var and let are both used for variable declaration in javascript but the difference between them is that var is function scoped and let is block scoped. Variable declared by let cannot be redeclared and must be declared before use whereas variables declared with var keyword are hoisted
+-------------------------------------
+23.concatenations:
+var d = "10"
+var d1 = "10"
+console.log(d+d1); //1010
+var i=10;
+var i1=10;
+console.log(i+i1); //20
+console.log (1+1+"4" );//24
+-------------------------------------
+
+

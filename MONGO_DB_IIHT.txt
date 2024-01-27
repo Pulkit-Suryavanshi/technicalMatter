@@ -1,0 +1,465 @@
+MongoDB is an open-source document-oriented database that is designed to store a large scale of data and also allows you to work with that data very efficiently. It is categorized under the NoSQL (Not only SQL) database because the storage and retrieval of data in the MongoDB are not in the form of tables
+
+Advantages of MongoDB : 
+ 
+
+It is a schema-less NoSQL database. You need not to design the schema of the database when you are working with MongoDB.
+It does not support join operation.
+It provides great flexibility to the fields in the documents.
+It contains heterogeneous data.
+It provides high performance, availability, scalability.
+It supports Geospatial efficiently.
+It is a document oriented database and the data is stored in BSON documents.
+It also supports multiple document ACID transition(string from MongoDB 4.0).
+It does not require any SQL injection.
+It is easily integrated with Big Data Hadoop
+
+download install mongodb
+cd c:
+cd..
+cd..
+c:\> mkdir data
+c:\> cd data
+c:\> mkdir db
+c:\> cd db
+
+mongod is mongo daemon
+
+goto:
+C:\Program Files\MongoDB\Server\5.0\bin
+
+run cmd here and run "mongod" command
+
+after this open another cmd and run "mongo" command to connect to the open server
+
+now type "db" to list the dbs in the server
+
+"show databases" to list databases avaialble:
+admin, config and local
+
+use <your_db_name>
+
+if the database is not present already, then MongoDB server is going to create the database for you. Then, it will navigate into it.
+
+to make collection and insert data into it by default if not present
+c:\> db.myCollection.insert({"name": "john", "age" : 22, "location": "colombo"})
+c:\> db.createCollection("myCollection")
+c:\> db.createCollection("mySecondCollection", {capped : true, size : 2, max : 2})
+
+A “capped collection” has a maximum document count that prevents overflowing documents.
+
+Now if you try to insert more than two documents to mySecondCollection and use the find command (which we will talk about soon), you’ll only see the most recently inserted documents. Keep in mind this doesn’t mean that the very first document has been deleted — it is just not showing.
+
+
+insertOne() is used to insert a single document only.
+insertMany() is used to insert more than one document.
+insert() is used to insert documents as many as you want.
+
+db.myCollection.insertOne(
+  {
+    "name": "navindu", 
+    "age": 22
+  }
+)
+insertMany([{
+    "name": "navindu", 
+    "age": 22
+  },
+  {
+    "name": "jindu", 
+    "age": 23
+  }]
+  )
+
+c:\> db.myCollection.find()
+
+db.myCollection.find({}, _id: 0).pretty()
+we donot want _id column to be displayed and .pretty() just makes the result clear
+
+c:\> db.myCollection.find(
+  {
+    age : {$lt : 25}
+  }
+)
+
+Similarly, $gt stands for greater than, $lte is “less than or equal to”, $gte is “greater than or equal to” and $ne is “not equal”.
+c:\> db.myCollection.update({age : 20}, {$set: {age: 23}})
+
+to update
+
+c:\>db.myCollection.update({name: "navindu"}, {$unset: age});
+to remove a property or column
+
+TO REMOVE DOCUMENT OR COLLECTION------
+
+Removing a document
+As I have mentioned earlier, when you update or delete a document, you just need specify the _id not just name, age, location.
+
+c:\> db.myCollection.remove({name: "navindu"});
+
+Removing a collection:
+c:\> db.myCollection.remove({});
+
+ The difference is drop() is used to remove all the documents inside a collection, but the remove() method is used to delete all the documents along with the collection itself.
+
+$and,$not,$nor,$or
+c:\> db.myCollection.find({$and:[{age : {$lt : 25}}, {location: "colombo"}]});
+
+Imagine if we had male and female students in a recordBook collection and we want a total count on each of them. In order to get the sum of males and females, we could use the $group aggregate function.
+c:\>db.recordBook.aggregate([
+  {
+    $group : {_id : "$gender", result: {$sum: 1}}
+  }  
+]);
+
+c:\> show tables 
+this command shows the tables
+
+
+
+mongo [--username u --password p] --host host --port port
+mongo [-u u -p p] -host h -port p
+
+cls to clear screen
+
+SELECT firstName,lastName,DOE,SSN   ←-"projection":defines what is returned
+FROM employees                  ←defines where it is returned from
+WHERE DOE>"2018-01-01 00:00:00"  ←"filter/query":uses discriminant pairs to reduce the return
+ORDER BY lastName;                 ←"sort":orders the display of the return
+
+
+Mongo Equivalent:
+db.employees.find({DOE:{$gt:"2018-01-01 00:00:00"}},
+                  {id:0,firstname:1,lastName:1,DOE:1,SSN:1}).sort({lastName:1})
+                               
+db.<collection>.find({<query>},{<projection>})
+
+Matches any of the values specified in an array
+db.employees.find({$in:{Dept:["Eng","QA"]}})
+
+Returns documents that fail to match both clauses:
+$nor:[{price:1.99},{sale:true}]})db.inventory.find({                              
+
+multiple combined:
+db.inventory.find({
+  $and:[
+  {$or:[{price:0.99},{price:1.99}]},
+  {$or:[{sale:true},{qty:{$lt:20}}]}
+  ]
+})
+
+Returns documents that do not match the query expression:
+db.inventory.find({price:{$not:{$gt:1.99}}})
+     
+out of the collection print anything using forEach loop:
+c:\> db.employees.find().forEach(function(myDoc){print("user:"+myDoc.lastName);})
+
+count()
+explain()
+forEach()
+limit()
+pretty()
+skip()
+sort()
+
+update command
+c:\> db.collection.update(<query>,<update>,[{<options>}])
+
+$inc increments field by amount
+$mul-multiplies field by amount
+$rename-afield
+$setOnInsert-sets the value ofa
+field if the update results in an
+insert.No effect on modify.
+$set sets the value ofafield,
+creates the field if the field DNE
+$unset-removes the field from the
+document
+$min-only updates if the specified
+value is less than the existing field
+value
+$max only updates if the specified
+field value is greater than the
+existing field value
+$currentDate- sets the value of the
+field to the current date,either asa
+Date or Timestamp
+
+c:\> db.testData.update({map:{$exists:true}},{$set:{"map.lon":22.22"}})
+
+update command will just replace stuff if you use key value pair in query!!!!!!!!!!!!!
+use $set instead for updating
+c:\>db.testData.update({y:99,z:99},{$set:{x:0,y:0}},{multi:true})
+THIS WILL MODIFY ALL THE ROWS MATCHING THE QUERY
+
+
+DELETE COMMAND DOES NOT DELETE INDEXES
+c:\> db.collection.deleteMany({})
+deletes all the records
+
+db.collection.remove({})
+deletes all records
+
+db.collection.drop()
+deletes the entire collection including indexes
+
+c:\> db.collection.remove({y:99,z:3},1)
+THIS WILL DELETE JUST 1 MATCHING same as deleteOne
+c:\> db.collection.remove({y:99,z:3})
+THIS WILL DELETE ALL THE RECORDS MATCHING JUST as deleteMany({})
+
+count()
+group()
+reduce()
+map reduce
+AGGREGATION PIPELINE BETTER THAN MAPREDUCE etc
+
+c:\> $project,$match,$group,$sort,$skip,$limit,$unwind
+
+all numbers stored in Y in sorted for when z=7:
+c:\> db.collection.aggregate([
+{$match:{z:7}},
+{$group:{_id:"$y",count:{$sum:1}}},
+{$sort:{_id:1}
+])
+
+In aggregation: we have multiple stages inside the [] array one is i/p for other
+first we have project: chose what to display have various operations done:
+
+EX:
+db.employees.aggregate([
+{
+$project:{
+_id:0,
+'Department':{$toUpper:'$deptName'},
+'newExperience':{$add:['$experience',1]}
+}
+}
+])
+what this query does is:
+do not include _id column,
+New column name will be Department and all will be Uppercase and values from deptName
+newExperience will take values from experience and add 1 to them
+
+
+THIS WAS THE PROJECT PHASE
+Now for the MATCH PHASE:
+c:\> 
+db.employees.aggregate([
+{
+$project:{
+_id:0,
+'Department':{$toUpper:'$deptName'},
+'newExperience':{$add:['$experience',1]}
+}
+},
+
+{$match:{'DEPARTMENT':'ENGINEERING'}}
+
+])
+NOW GROUP STAGE
+c:\>
+db.employees.aggregate([
+{group:{_id:'$deptName','numEmployees':{$sum:1}}}])
+])
+
+sum up all ppl in departments
+summ up ppl with experience in departments:
+c:\>db.employees.aggregate([
+{$group:{
+_id:{
+	'Department':'$deptName','yearsExperience':'$experience'},
+	'numEmployees':{$sum:1}}
+},
+{$sort:{id:1}}
+])
+
+WE CAN ADD in the stages:
+$skip:2,
+$limit:1 
+also
+
+in $group:{lastRecord:{$last:'empId'}}
+in $group:{firstRecord:{$first:'empId'}}
+
+
+$unwind DENORMALIZES the data:
+
+c:[{foo:bar},{baz:spaz},{argle,bargle}]
+
+c will be split
+
+$sum,$avg,$min,$max
+
+c:\> db.dropDatabase() deletes everything
+db.collection.drop() deletes the collection
+
+for getting all indexes for collections before prod push:
+
+db.getCollectionNames().forEach(fucntion(collection){
+indexes=db[collection].getIndexes();
+print("Indexes for " + collection + ":");
+printjson(indexes);
+});
+
+tarball to move from one to another see again
+
+mongodump and mongorestore to move collections from one db to another
+this is done in shell and not in mongo shell
+
+c:\> mongodump -d dbname -c collection_name
+
+files are generated in ./dump/dbName/*
+
+tar cvzf collectionName.tgz ./dump/collectionName
+scp collectionName.tgz user@remote.site {secuerecopy}
+tar xvzf collectionName.tgz
+
+then restore 
+mongorestore -d otherDBName -c other collection ./dump/dbName/collectionName.bson
+just append
+
+--noIndexRestore commond to not copy indexes if there are many
+to copy db from one place to another :
+cp -pvR /home/dta/mongo /tmp/mongo {package verbose R see}
+NOTE: change config file and stuff and stop instance is to be done before see video
+
+in this copy permissions remains the the same and also the owner that should be changed(root has)
+chown mongodb:mongodb mongo!!!!
+
+vi/etc/mongod.conf: {change the dbPath: HERE}
+
+EASY BACKUP AND RECOVERY:
+mongodump -d dbName
+mongorestore -d dbName ./dump/dbName
+
+For restoring remote replSet:
+mongorestore --host replSetName/IP:Port,..IP:PORT -d dbName ./dump/dbName
+
+first create backup using mongodump command
+
+cvzf 
+create verbose filecompression and filename
+tar cvzf testdata.tgz dump/
+
+cksum testdata.tgz :to check
+
+scp testdata.tgz mshallop@deepthought:/temp
+securecopy tarball name username@machine:directory
+
+cksum in the copied place then the numbers will be same
+
+head /etc/mongod.conf 
+to seee stuff
+
+tar xvzf testdata.tgz 
+x for decompression
+
+mongorestore -d test ./dump/test
+
+RESTORED!
+
+DROP COLLECTION:
+
+use test
+db.testData.drop()
+db.runCommand({drop: collectionName})
+
+Happens in seconds
+
+DROP DATABASE:
+
+use test
+db.dropDatabase()
+db.runCommand({dropDatabase:1})
+
+global write lock!!!!!!! in this every operation is blocked! do it is maintenance window
+
+users still remain:
+dropAllUsersFromDatabase() command run it
+
+
+INDEXING:
+db.collection.createIndex({myFIeld:1})   {-1 for descending order}
+_id index default cannot be dropped atleast 1
+compund:  {fieldName:1,...fieldNameN:-1} order
+multikey {fname:1}{fname.subfield:1}
+
+compundIndexes:
+order matters in the indexing!
+db.test.createIndex({x:1,y:-1,z:1}) left most query should be used for find
+
+find({x:100,z:200}) this is correct but find({z:4300}) is wrong
+
+other: geoSpatial, Tet, Hashed
+
+COVERED QUERY:
+db.createIndex({empId:1,doe:-1})
+this is covered query:
+db.employees.find({empId:1000,doe:"12/12/2017"},{empId:1,_id:0})
+explicitly exclude _id field because it is not part of index
+
+this is not a covered query:
+db.employees.find({empId:100,doe:"12/12/2017"},{empId:1,firstName:1,_id:0})
+
+if indexes not match a COLUMN SCAN takes place that is "Are you my mommy" principle
+
+for(var i=1;i<=1000000;i++){db.testData.insert({x:1})}
+
+commands:
+getIndexes()
+getIndices()
+getIndexSpecs()
+-------------
+getIndexKeys()  other three commands are aliased to each other, ths rtrn short version of index
+
+creating index blocks all other operations on a collection therefore:
+db.collection.createIndex({fieldName:sort},{background:true})
+
+also {unique:true} for having unique indexes
+
+DROP index:
+c:\> db.collection.dropIndex({indexName})
+:::::::::::c:\> db.collection.dropIndex({"x":1})
+c:\> db.collection.dropIndexes()
+
+db.collectionName.reIndex() : drops all the index and then re creates all indexes
+BUT THIS makes the _id differnt so all foreign key ref is removed
+
+
+db.testData.find({x:99992}).explain() to get the queryplan how it is done!!!!!!
+
+
+stage: COLLSCAN means its doing all match!
+-----------------------------------
+createIndex(): after this
+db.testData.find({x:99992})
+
+winningPlan: stage:FETCH, stage:IXSCAN means its doing indexScan
+STILL NOT THE BEST QUERY AS A FETCH IS BEING PERFORMED. not a covered query
+
+so now: db.testData.find({x:99992},{x:1,_id:0})
+
+c:\>
+c:\>
+c:\>
+c:\>
+c:\>
+c:\>
+c:\>
+c:\>
+c:\>
+c:\>
+c:\>
+c:\>
+c:\>
+c:\>
+c:\>
+c:\>
+c:\>
+c:\>
+c:\>
+c:\>
+c:\>
+c:\>
+c:\>

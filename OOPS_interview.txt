@@ -1,0 +1,765 @@
+WHY OOPS?:
+OOPS helps us think in terms of real world object, so manage easily and better, code gets organised, looks nice
+
+ex: IN terms of Hospitals :
+class Program{
+static void Main(string[] args){}
+}
+class Patient{
+public string name{g;s;}
+public string address{g;s;}
+public doctor doctorwhowilltreat{g;s;}
+}
+
+class doctor{
+public string name{g;s;}
+
+}
+----------------------------
+Pillars of oops: EIPA or Apie
+
+ABSTRACTION,POLYMORPHISM,INHERITANCE,ENCAPSULATION
+----------------------------
+class and object?
+
+class is a blue print, a type, has properties, function
+if use this class we create instance or object: 
+Employee e1=new Employee();
+----------------------------
+ABSTRACTION vs ENCAPSULATION?
+
+ABSTRACTION: SHOW WHAT IS NECESSARY, abstraction is the process of HIDING certain details and SHOWING only ESSENTIAL information to the user.
+Abstraction can be achieved with either ABSTRACT classes or INTERFACES 
+To achieve security - hide certain details and only show the important details of an object. Abstraction is needed when we only inherit from a certain class but do not need to instantiate objects of that class. In such a case, the base class can be regarded as "Incomplete". Such classes are known as an "Abstract Base Class"
+Abstract class: is a restricted class that cannot be used to create objects (to access it, it must be inherited from another class).Because an abstract class is an incomplete class (incomplete in the sense it contains abstract methods without body and output) we cannot create an instance or object; the same way you say for an interface
+Abstract method: can only be used in an abstract class, and it does not have a body. The body is provided by the derived class (inherited from).
+
+ENCAPSULATION: (Hide Complexity), Encapsulation is defined 'as the process of enclosing one or more items within a physical or logical package'. Encapsulation, in object oriented programming methodology, prevents access to implementation details. Abstraction and encapsulation are related features in object oriented programming, Encapsulation allows an object to control access to its data and methods, which can improve the security and stability of the system. In OOP, encapsulation is typically achieved through the use of access modifiers, such as "private" and "protected," which restrict access to certain members of a class. Encapsulation in object-oriented programming (OOP) is a mechanism of hiding the internal details (implementation) of an object from other objects and the outside world
+
+for example:
+
+public class Employee{
+public string name{g;s;}
+public string address{g;s;}
+public void Validate(){CheckName();CheckAddress();}
+//..
+private void CheckName(){}
+private void CheckAddress(){}
+}
+
+if everything is public then everything is visible in the main class if we create an instance and use instance.prop...
+
+therefore we made those two functions as private
+
+ENCAPSULATION implements ABSTRACTION{A comes before E therefore A<-E}:   E:A
+ABSRTRACTION is a design thought process:
+during codinng phase more functions is needed then access modifiers
+
+ABSTRACTION happens during design phase, we decide what has to be shown public
+During execution phase(coding phase) developer uses encapsulation to implement abstraction!
+
+THEY both complement each other!
+-------------------------------
+1. What Is Encapsulation
+
+Encapsulation is a process of binding data members (variables, properties) and member functions (methods) together. In object oriented programming language we achieve encapsulation through Class.
+Benefits/Advantages Of Using Encapsulation:
+
+Encapsulation As Information Hiding Mechanism:
+
+As already discussed, encapsulation is a process of binding data members (variables, properties) and member functions (methods) together. Due to this approach the contents (or data members) of object is generally hidden from the outside world (By simply making the data members as private) which is nothing but information hiding.
+
+Typically, only the objects own methods can directly inspect or manipulate its fields. So the outside world only knows what a class does (Through the member functions) but don't know what are its data members and how that class do a specific task.
+
+Hiding the internals of the object or allowing access to it through only member function protects objects integrity by preventing users from setting the internal data or the component in such a way that may lead to an invalid or inconsistent state of object.
+Public Class Account  
+{  
+       private double balance;  
+       public double GetBalance()  
+       {  
+         return balance;  
+       }  
+}  
+//Imagine main as outside world  
+public static void Main()  
+{  
+        Account obj=new Account();  
+        double currentBalance=obj.GetBalance();  
+   
+        //Following thing is not possible  since that data member is private   
+        obj.balance=20000000000;  
+}  
+
+2. What Is Abstraction
+
+Abstraction is the process of showing only essential/necessary features of an entity/object to the outside world and hide the other irrelevant information.
+
+In programming language we achieve the abstraction through public and private access modifiers and a class. So in a class make things (feature) which we want to show as public and thing which are irrelevant make them as private so they won't be available to the outside world.
+Benefits/Advantages Of Using Abstraction:
+
+Advantage of Abstraction is, it reduces the complexity of end users since to the end user we have shown only things that are necessary to him and not shown the unnecessary things. Imagine what would have happened when we told the bike riders things happening inside the engine (i.e. irrelevant information) when he change the gear. So it would have increased the complexity of bike riders.
+
+Implementation In Programming Language
+
+Imagine a car. Now let's think in terms of car rider or a person who is riding a car. So to drive a car what a car rider should know and what not.
+
+Necessary things:
+
+Brakes
+Gear
+Steering
+
+Unnecessary things:
+
+Exhaust System
+What happen when he change the Gear of car.
+Silencer
+
+Here I have written the code snippet in C# for explaining the above mentioned things:
+class Car  
+{  
+     public string Brakes {get;set}  
+     //Gear is exposed using the public access modifier.  
+     public string Gear{ get;set;}  
+     public string Steering {get;set;}  
+  
+  
+     private void Exhaust_System()  
+     {  
+       ………..  
+     }  
+     //Hided using the Private Access modifier  
+     private void What_happen_we_he_change _the_Gear_of_car()  
+     {  
+       ………..  
+     }  
+     private void Silencer()  
+     {  
+        ……...  
+     }  
+}  
+-------------------------------
+INHERITANCE?
+inheritance is a process in which one object acquires all the properties and behaviors,methods of its parent object automatically. In such way, you can reuse, extend or modify the attributes and behaviors which is defined in other class.
+
+In C#, the class which inherits the members of another class is called derived class and the class whose members are inherited is called base class. The derived class is the specialized class for the base class
+code reusability
+
+SHMM
+SINGLE LEVEL B:A, MULTILEVEL B:A C:B; HIERARCHICAL B:A, C:A , D:A; MULTIPLE interfaces A,B C:A,B
+
+Define parent and a child relationship between two classes
+
+ex:
+public class Employee{
+p s name{g;s;}
+p s addr{}
+p void Vlidate(){}
+p void chk(){}
+}
+
+public class Manager : Employee{
+public void Management(){}
+}
+
+if create Employee e1=new Employee();
+this e1 will get all properties and methods of Employee
+
+but now if we create Manager m1=new Manager();
+this will get all of manager as well as Employee stuff.
+
+WHAT IS A 'is a' relationship
+---------------------------------------
+what is virtual keyword?
+what is overriding?
+
+used with methods:
+virtual keywords helps us define some logic in the parent class which can be overridden in the child class!
+
+ex:
+public class Employee{
+p s name{g;s;}
+p s addr{g;s;}
+public virtual void Vlidate(){...}
+p void chk(){...}
+}
+
+public class Manager : Employee{
+public void Management(){}
+public override void Vlidate(){base.Validate();//override with our own logic
+}
+}
+
+virtual vs abstract:
+
+Virtual methods have an implementation and provide the derived classes with the option of overriding it. Abstract methods do not provide an implementation and force the derived classes to override the method.
+
+So, abstract methods have no actual code in them, and (non-abstract) subclasses HAVE TO override the method. Virtual methods can have code, which is usually a default implementation of something, and any subclasses CAN override the method using the override modifier and provide a custom implementation.
+
+---------------------------
+Sealed classes are used to restrict the users from inheriting the class. A class can be sealed by using the sealed keyword. The keyword tells the compiler that the class is sealed, and therefore, cannot be extended. No class can be derived from a sealed class.
+
+sealed class class_name
+{..
+
+Sealed method is implemented so that no other class can overthrow it and implement its own method.
+---------------------------------------
+function vs method:
+A function is a piece of code that is called by name. It can be passed data to operate on (i.e. the parameters) and can optionally return data (the return value). All data that is passed to a function is explicitly passed.
+
+A method is a piece of code that is called by a name that is associated with an object. In most respects it is identical to a function except for two key differences:
+
+		function:
+Functions have independent existence means they can be defined outside of the class. Ex:- main() function in C, C++ Language
+Functions are defined in structured languages like Pascal, C and object-based language like javaScript
+Functions are called independently.
+Functions are a self-describing unit of code
+
+		method:
+Methods do not have independent existence they are always defined within a class. Ex:- main() method in C# Language that is defined within a class
+Methods are defined in object-oriented languages like C#, Java
+Methods are called using instance or object.
+Methods are used to a manipulate the instance variable of a class.
+
+
+---------------------------------------
+Explain overloading?
+
+same method name but different signature in the same class
+ex:
+public void Validate(){}
+public void Validate(bool strict){}
+public void Validate(int param1,string param2){}
+---------------------------------------
+What is POLYMORPHISM?
+
+Poly means many and morph means change as per situation
+ability of object to act differrently in different condition
+ex:
+Employee e=new Manager(); //becoming manager
+e = new Supervisor(); //dynamically changing to supervisor
+//both inheriting from the Employee
+//if you remove inheritance then it will throw exception
+
+can we implement polymorphism without inheritance or parent-child relationship?
+ANSWER: NO
+---------------------------------------
+Static vs dynamic POLYMORPHISM?
+
+compile time(Static) and Runtime(dynamic) polymorphism
+			static(compiletime) by method overloading
+			dynamic(Runtime) by method overriding
+---------------------------------------
+Explain operator overloading?
+
++ - * with additional functionality
+by default
+var x= "a"+"b" will give "ab"
+var x=1+2 will give 3
+
+var O1 = new SomeClass ( 10 ) ;
+var O2 = new SomeClass ( 20 ) ;
+var O3 = O1 + O2 ;
+
+public static SomeClass operator +( SomeClass arg1 , SomeClass arg2 )
+{
+    return new SomeClass( arg1.someValue + arg2.someValue );
+}
+---------------------------------------
+Why do we need Abstract classes?
+
+Abstract class is a HALF DEFINED parent class or a partially defined parent class
+
+Some implementations defined and some left for the child classes to define
+
+ex:
+public class Customer{
+p s name{g s}
+p s addr{g s}
+p s prodName{g s}
+p decimal prodAmt{g s}
+public virtual decimal CalculateDiscount(){
+throw new NotImplementedException("done by childrens");
+}
+}}
+
+public class GoldCustomer:Customer{
+public override decimal CalculateDiscount(){return prodAmt-10;}
+}
+public class SilverCustomer:Customer{
+public override decimal CalculateDiscount(){return prodAmt-5;
+}
+
+
+if anyone try to use the calculateDiscount of the parent Customer class then it will throw a not implemented error
+Although this is not good so we need abstract class
+
+hence:
+public abstract class Customer{
+p s name{g s}
+p s addr{g s}
+p s prodName{g s}
+p decimal prodAmt{g s}
+public abstract decimal CalculateDiscount();
+}
+
+NOW THIS CUTOMER CLASS IS HALF DEFINED as method is half defined and it will be defined by child!
+
+now if we try to create an instance of this parent class:
+Customer x=new Customer();......
+the compiler will throw an error!
+
+Now inherit the Customer class and implement the logic of CalculateDiscount in that child class.
+
+class OldCustomer : Customer
+{
+  public override void CalculateDiscount()
+  {
+    // The body of CalculateDiscount() is provided here
+    Console.WriteLine("The customer will get some benefits and additional discounts");
+  }
+}
+---------------------------------------
+Are abstract method of abstract class virtual?
+YES as seen in above example
+---------------------------------------
+Can we create instance of Abstract class?
+NO as seen above it will throw error/exception!
+
+Is is compulsary to implement an Abstract method?
+YES it is compulsary as the parent methods are half defined and if you dont implement them then it will throw an exception
+
+Why cant a simple base class or parent class replace Abstract class?
+we cannot define it in a half way/partially then write hack logic(return 0, etc or thorw new NotImplementedException
+---------------------------------------
+Explain interfaces and why do we need it?
+{{{{{[[[[[Interface in C# is a blueprint of a class. It is like abstract class because all the methods which are declared inside the interface are abstract methods. It cannot have method body and cannot be instantiated.
+
+It is used to achieve multiple inheritance which can't be achieved by class. It is used to achieve fully abstraction because it cannot have method body.
+
+Its implementation must be provided by class or struct. The class or struct which implements the interface, must provide the implementation of all the methods declared inside the interface]]]]]}}}}}
+
+Interface is a contract
+its a legal binding between the developer who is developing the class and the consumer who is using the class
+
+if class is interface then no need to write public as everything(method and properties) inside inteface is by default public{cannot be anything else}
+ALSO
+you cannot write any logic inside the methods in interfaces, if you try it will throw exception::
+
+.............
+C# v8 and above allows concrete implementation for methods in interfaces as well. Earlier it was allowed only for abstract classes
+interface IA
+{
+    void NotImplementedMethod(); //method having only declaration
+    void M() 
+    { 
+        WriteLine("IA.M"); 
+    }//method with declaration + definition
+}
+.............
+
+When we implement an interface i.e.
+public abstract class Customer:ICustomer
+ITS basically a promise that he will follow the ICustomer religously
+If any other child classs inherits the class that inherits the Interface then they will also follow the interface
+
+if we change anything inside the classes which implements the interface then the compiler will send an error message or alert that it does not implement that thing!
+
+so now the developer who is using your class and the developer himself now bound with the contract ICustomer.
+If the developer of the class writes something else he will get error and if the client uses x.someothername then he will also get an error
+
+NOW WHATS THE use:
+lets take for example if the developer has not inherited the interface and he changes the method name in his creation of class and then he will not know where that is affecting as there is no alert
+
+in big projects there should be an alert mechanism that if change there will be affects here and here so!
+So we have a better controll on the impact analysis and the change management.
+
+ex:
+public interface ICustomer{
+string name{g s}
+string addr{g s}
+decimal CalculateDiscount();
+}
+
+public abstract class Customer:ICustomer{
+string name{g s}
+string addr{g s}
+decimal CalculateDiscount();
+}
+---------------------------------------
+EXPLAIN MUTIPLE INTERFACE INHERITANCE
+
+ANS: WHEN WE WANT TO CHANGE THE INTERFACE
+
+HOW WILL YOU HANDLE CHANGES IN INTERFACE?
+WHAT IF WE WANT TO BREAK THE CONTRACT of interface?
+what if the interface has calculateinterest();
+
+INTERFACE CAN DO MULTIPLE INHERITANCE!!!!
+IF we want to do this: what if the interface has calculateinterest();
+then do this in a new interface
+
+public interfacce ICustomerWithInterest:ICustomer{
+decimal CalculateInterest();
+}
+now they can use this interface
+
+now:
+public abstract class Customer: ICustomer, ICustomerWithInterest{
+}
+---------------------------------------
+Explain INTERFACE Seggregation principle?
+SPLITTING OF Principle as done above!
+not letting clients use unnecessary methods
+
+SOL(I)D principle see:
+The Single Responsibility Principle “a class should have only one reason to change” 
+    which means every class should have a single responsibility
+    or single job or single purpose.
+The Open-Closed Principle
+It states that
+	“software entities (classes, modules, functions, etc.) should be open for 
+  	extension, but closed for modification” which means you should be able to 
+    extend a class behavior, without modifying it.
+The Liskov Substitution Principle
+According to this principle “Derived or 
+	child classes must be substitutable for their base or parent classes“. 
+    This principle ensures that any class that is the child of a parent class 
+	should be usable in place of its parent without any unexpected behavior.
+The Interface Segregation Principle
+It states that “do not force any client 
+	to implement an interface which is irrelevant to them“. Here you should 
+    prefer many client interfaces rather than one general interface and 
+  	each interface should have a specific responsibility.
+The Dependency Inversion Principle
+High-level modules/classes should not depend 
+	on low-level modules/classes. Both should depend upon abstractions.
+	Abstractions should not depend upon details. 
+  	Details should depend upon abstractions.
+---------------------------------------
+Can we create an instance of interface?
+No same as abstract class 
+---------------------------------------
+Can we do Multiple inheritance with abstract classes?
+No, only multiple inheritance with INTERFACE
+---------------------------------------
+INTERFACE vs ABSTRACT class?
+
+Interface is a contract{nothing implemented no body}
+abstract is a partial implemented class{some methods half implemented} i.e. also have concrete methods
+
+WHEN SAME?
+IF WE MAKE ALL THE METHODS IN ABSTRATC CLASS AS ABSTRACT then it is an interface as nothing is defined in body
+---------------------------------------
+---------------------------------------
+REF vs OUT in C#
+Ref and out keywords in C# are used to pass arguments within a method or function. Both indicate that an argument/parameter is passed by reference. By default parameters are passed to a method by value
+
+for ref: The parameter or argument must be INITIALIZED FIRST before it is passed to ref
+It is NOT required to assign or INITIALIZE the value of a parameter (which is passed by ref) BEFORE RETURNING to the calling method
+When we use REF, data can be passed bi-directionally
+The ref is a keyword in C# which is used for the passing the arguments by a reference. Or we can say that if any changes made in this argument in the method will reflect in that variable when the control return to the calling method. The ref parameter does not pass the property.
+
+for out:It is NOT COMPULSORY TO INITIALIZE a parameter or argument before it is passed to an out
+A called method is REQUIRED TO ASSIGN OR INITIALIZE a value of a parameter (which is passed to an out) BEFORE RETURNING to the calling method
+When we use OUT data is passed only in a unidirectional way (from the called method to the caller method).
+The out is a keyword in C# which is used for the passing the arguments to methods as a reference type. It is generally used when a method returns multiple values. The out parameter does not pass the property.
+
+int i = 1;
+string test = GetNextName(ref i);
+string test = GetNextNameByOut(out i);
+printing test will give new value here as we passed it as reference
+
+public static string GetNextName(ref/out int id)
+{
+    string returnText = "Next-" + id.ToString();
+    id += 1;
+    return returnText;
+}
++++++++++++++
+ANOTHER EXAPLE questpond:
+static void Main ( string [ ] args )
+{
+    int OutSideVar =20 ;
+    SomeFunction ( out OutSideVar ) ;
+	Console.WriteLine ( OutSideVar ) ;
+}
+static void Some Function ( out int InsideVar )
+{
+    InsideVar = 0 ;
+    InsideVar = InsideVar + 10 ;
+	}
+}
+---------------------------------------
+ACCESS MODIFIERS:
+by default ALL INTERNAL
+All types and type members have an accessibility level. The accessibility level controls whether they can be used from other code in your assembly or other assemblies. An assembly is a .dll or .exe created by compiling one or more .cs files in a single compilation. Use the following access modifiers to specify the accessibility of a type or member when you declare it:
+
+public: The type or member can be accessed by any other code in the same assembly or another assembly that references it. The accessibility level of public members of a type is controlled by the accessibility level of the type itself.
+private: The type or member can be accessed only by code in the same class or struct.
+protected: The type or member can be accessed only by code in the same class, or in a class that is derived from that class.
+internal: The type or member can be accessed by any code in the same assembly, but not from another assembly. In other words, internal types or members can be accessed from code that is part of the SAME COMPILATION.
+protected internal: The type or member can be accessed by any code in the assembly in which it's declared, or from within a derived class in another assembly.
+private protected: The type or member can be accessed by types derived from the class that are declared within its containing assembly.
+
+public:
+The type or member can be accessed by any other code in the same assembly or another assembly that references it.
+
+private:
+The type or member can only be accessed by code in the same class or struct.
+
+protected:
+The type or member can only be accessed by code in the same class or struct, or in a derived class.
+
+private protected (added in C# 7.2):
+The type or member can only be accessed by code in the same class or struct, or in a derived class from the same assembly, but not from another assembly.
+
+internal:
+The type or member can be accessed by any code in the same assembly, but not from another assembly.
+
+protected internal:
+The type or member can be accessed by any code in the same assembly, or by any derived class in another assembly.
+-----------------------------------------
+static modifier:
+The static modifier on a class means that the class cannot be instantiated, and that all of its members are static. A static member has one version regardless of how many instances of its enclosing type are created.
+
+A static class is basically the same as a non-static class, but there is one difference: a static class cannot be externally instantiated. In other words, you cannot use the new keyword to create a variable of the class type. Because there is no instance variable, you access the members of a static class by using the class name itself(ClassName.VariableName).
+A static variable shares the value of it among all instances of the class.
+
+However, there is a such thing as a static constructor. Any class can have one of these, including static classes. They cannot be called directly & cannot have parameters (other than any type parameters on the class itself). A static constructor is called automatically to initialize the class before the first instance is created or any static members are referenced
+
+-----------------------------------------
+READONLY vs COST:
+
+The idea behind both keywords is the same. We would like to mark a variable to hold its value during the execution of the application and not allow modification.
+ 1.] The first difference is the timeslot which initializes the const or readonly variables. The first, const, is initialized during COMPILE-TIME and the latter, readonly, initialized is by the LATEST RUN-TIME. 
+ 2.] The second difference is that readonly can only be initialized at the class-level(constructor). 
+ 3.] Another important difference is that const variables can be referenced through "ClassName.VariableName", while readonly can be referenced through "InstanceName.VariableName"
+
+readonly keyword is used to define a variable which can be assigned once after declaration either DURING DECLARATION or in CONSTRUCTOR. 
+const keyword is used to define a constant to be used in the program.
+
+ Readonly Fields: In C#, you are allowed to declare a field using readonly modifier. It indicates that the assignment to the fields is only the part of the declaration or in a constructor to the same class. Such types of fields can only be assigned or reassigned multiple times only at the declaration or in a constructor. They are not assigned after the constructor exit. If the readonly modifier is used with a value type field, then the field is immutable. And if the readonly modifier is used with a reference type field, then the readonly modifier prevents the field from replaced by the different instances of the reference type, here the readonly modifier does not stop the instance data of the field from being modified through the read-only field. In static and instance constructors, you are allowed to pass a readonly field as an out or ref parameter.
+
+A const is a compile-time constant whereas readonly allows a value to be calculated at run-time and/but be set in the constructor or field initializer. So, a 'const' is always known at compile time but 'readonly' is not necessarily known at compiletime, but once it is assigned nant be changed.
+constant and readonly both are not midificable. constant has to be known at compiletime while readonly could be left to be assign once in runtime limetedly(initilizer/constructor but not every wher of the code you like) 
+with some modification to original
+
+1	Purpose	
+readonly keyword is used to create a readonly fields.	
+const keyword is used to create constant fields.
+
+2	Type	
+readonly is a constant defined at runtime.	
+const is used to create a constant at compile time.
+
+3	Change	
+readonly field value can be changed after declaration.	
+const field value cannot be changed after declaration.
+
+4	Method	
+readonly fields cannot be defined within a method.	
+const fields can be declared within a method.
+
+5	Value assignment	
+readonly variables are declared as instance variable and assigned values in constructor.	
+const fields are to be assigned at the time of declaration.
+
+--------------------------------------
+CONST vs STATIC:
+
+const and readonly perform a similar function on data members, but they have a few important differences. A constant member is defined at compile time and cannot be changed at runtime. Constants are declared as a field, using the const keyword and must be initialized as they are declared.
+
+The static modifier is used to declare a static member, this means that the member is no longer tied to a specific object. The value belongs to the class, additionally the member can be accessed without creating an instance of the class. Only one copy of static fields and events exists, and static methods and properties can only access static fields and static events
+
+RULE OF THUMB:
+ Use the const keyword when the value contained in a variable will never change during the lifetime of the application. Use the readonly keyword when you are not sure whether the value of a variable of an object needs to change but you want to prevent other classes from changing the value. Use the static keyword when you want the member of a class to belong to the type rather than to the instance of the type.
+ 
+Use the static keyword in C#
+The static keyword in C# can be used on a variable, a method, or an object. Note that a static member of a class belongs to the type of the object rather than to the instance of the type. In other words, static members are accessed with the name of the class, not the name of an instance. 
+
+Consider the following class named Utility that contains a static method.
+
+public class Utility
+    {
+        public static void SomeMethod()
+        {
+            //Write your code here
+        }
+    }
+You cannot call the method SomeMethod() using an instance of the Utility class. Rather, you should call this method using the following syntax.
+
+Utility.SomeMethod();
+The same rule applies for a static variable or a static object. You can refer to a static member of a class only by using the syntax shown below.
+
+ClassName.Member;
+
+Use the readonly keyword in C#
+The readonly keyword can be used to define a variable or an object as readable only. This means that the variable or object can be assigned a value at the class scope or in a constructor only. You cannot change the value or reassign a value to a readonly variable or object in any other method except the constructor.
+
+Let’s understand this with an example. Consider the following class named DbManager.
+
+public class DbManager
+    {
+        public readonly string connectionString = "Specify your database connection string here.";
+        public DbManager()
+        {
+            connectionString = "You can reassign a value here.";
+        }
+        public void ReAssign()
+        {
+            connectionString = "This is not allowed"; //not allowed
+        }
+    }
+
+
+-----------------------------------------------
+C# static class
+The C# static class is like the normal class but it cannot be instantiated. It can have only static members. The advantage of static class is that it provides you guarantee that instance of static class cannot be created.
+
+Points to remember for C# static class
+C# static class contains only static members.
+C# static class cannot be instantiated.
+C# static class is sealed.
+C# static class cannot contain instance constructors.
+
+Static method:
+
+A static method in C# is a method that keeps only one copy of the method at the Type level, not the object level. The last updated value of the method is shared among all objects of that Type. That means all class instances share the exact copy of the method and its data. 
+
+Static methods are called by using the class name, not the instance of the class.
+
+
+Static vriable:
+static data is shared among all the objects of that class. That is, for all the objects of a class, there will be only one copy of static data
+
+Static classes cannot be inherited:
+Static classes are sealed and therefore cannot be inherited. They cannot inherit from any class or interface except Object. Static classes cannot contain an instance constructor
+
+Static method cannot be overriden:
+No, they can't be overridden. They are associated with the class, not with an object.
+
+
+are only the abstract methods of abstract class needed to be overridden
+
+A subclass must override all abstract methods of an abstract class. However, if the subclass is declared abstract, it's not mandatory to override abstract methods
+
+--------------------------------------
+Multiple Inheritance:
+
+using System;
+ 
+interface IShape
+{
+    double GetArea();
+}
+ 
+interface IColor
+{
+    string GetColor();
+}
+ 
+class Rectangle : IShape, IColor
+{
+    private double length;
+    private double breadth;
+    private string color;
+ 
+    public Rectangle(double length, double breadth, string color)
+    {
+        this.length = length;
+        this.breadth = breadth;
+        this.color = color;
+    }
+ 
+    public double GetArea()
+    {
+        return length * breadth;
+    }
+ 
+    public string GetColor()
+    {
+        return color;
+    }
+}
+ 
+class Program
+{
+    static void Main(string[] args)
+    {
+        Rectangle rect = new Rectangle(5, 10, "blue");
+        Console.WriteLine("Area of rectangle: " + rect.GetArea());
+        Console.WriteLine("Color of rectangle: " + rect.GetColor());
+    }
+}
+Output
+Area of rectangle: 50
+Color of rectangle: blue
+
+---------------------------
+
+SOLID principle:
+
+1. Single Responsibility Principle: It states that 
+	“a class should have only one reason to change” 
+    which means every class should have a single responsibility
+    or single job or single purpose.
+
+2. Open/Closed Principle: It states that
+	“software entities (classes, modules, functions, etc.) should be open for 
+  	extension, but closed for modification” which means you should be able to 
+    extend a class behavior, without modifying it.
+
+3. Liskov’s Substitution Principle: According to this principle “Derived or 
+	child classes must be substitutable for their base or parent classes“. 
+    This principle ensures that any class that is the child of a parent class 
+	should be usable in place of its parent without any unexpected behavior.
+
+4. Interface Segregation Principle: It states that “do not force any client 
+	to implement an interface which is irrelevant to them“. Here you should 
+    prefer many client interfaces rather than one general interface and 
+  	each interface should have a specific responsibility.
+
+5. Dependency Inversion Principle: High-level modules/classes should not depend 
+	on low-level modules/classes. Both should depend upon abstractions.
+	Abstractions should not depend upon details. 
+  	Details should depend upon abstractions.
+	
+SEEEEEE EXAMPLE OF ALLLLLLL!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	
+-------------------------------
+SOLID: SinglePurpose, OpenClose, LiskoxSubstitution, InterfaceSegregation, DependencyInversion
+IMP: SingletonS,FactoryF,StrategyS,ObserverO,BuilderB,AdapterA,StateS
+OFBASSS
+
+CREATIONAL:AbstractFctry,Buildr,FactryMethod,Prototype,Singleton;
+STRUCTURAL:Adapter,Bridge,COmposite,Decorator,Facade,Flyweight,Proxy;
+BEHAVIORAL:Mediatr,memento,interprtr,iteratot,chainOfResp,Cmd,Stt,Strtgy,Obsrvr,TempltMethd,Vstr
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

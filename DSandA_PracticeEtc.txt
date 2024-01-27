@@ -1,0 +1,560 @@
+Array,list
+Stack
+Queue
+Linked List
+Graphs
+Trees
+
+
+Stack<int> myStack = new Stack<int>();//myStack.Push(1); int[] arr = new int[]{ 1, 2, 3, 4}; Stack<int> myStack = new Stack<int>(arr);;;;;;;;;
+//Push(T) Inserts an item at the top of the stack.
+//Peek()  Returns the top item from the stack.
+//Pop()   Removes and returns items from the top of the stack.
+//Contains(T) Checks whether an item exists in the stack or not.
+//Clear() Removes all items from the stack.
+//-----------------------------------------
+Queue<int> callerIds = new Queue<int>(); callerIds.Enqueue(1);
+//Enqueue(T)  Adds an item into the queue.
+//Dequeue Returns an item from the beginning of the queue and removes it from the queue.
+//Peek()  Returns an first item from the queue without removing it.
+//Contains(T) Checks whether an item is in the queue or not
+//Clear() Removes all the items from the queue.
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++
+Linked List: 
+
+C# practice:
+class HelloWorld
+{
+    static void Main()
+    {
+        Console.WriteLine("Hello World");
+        CustomLinkedList<int> li = new CustomLinkedList<int>();
+        // Add elements to the list
+        li.Add(0);
+        li.AddAfter(1, 0);
+        li.AddLast(10);
+        li.AddAfter(2, 1);
+        li.AddBefore(5, 10);
+        li.PrintElements();
+    }
+}
+public class CustomLinkedList<T> //: IEnumerable<Node<T>>
+{
+    public Node<T>? Head { get; set; }
+    public int Count { get; set; }
+    public void Add(T valueToAdd) { var node = new Node<T>(valueToAdd); Add(node); }
+    public void Add(Node<T> nodeToAdd)
+    {
+        if (Head is null){Head = nodeToAdd;}
+        else
+        {
+            //nodeToAdd.Next = Head;
+            //Head.Prev = nodeToAdd;
+            //Head = nodeToAdd;
+            Head.Next = nodeToAdd;
+            nodeToAdd.Prev = Head;
+        }
+        Count++;
+    }
+    public void AddAfter(T valueToAdd, T valueToFind){var nodeToAdd = new Node<T>(valueToAdd);AddAfter(nodeToAdd, valueToFind);}
+
+    public void AddAfter(Node<T> nodeToAdd, T valueToFind)
+    {
+        var find = Find(valueToFind);
+
+        if (find is not null)
+        {
+            var next = find.Next;
+
+            nodeToAdd.Next = next;
+            find.Next = nodeToAdd;
+
+            if (next?.Prev is not null)
+            {
+                next.Prev = nodeToAdd;
+            }
+
+            nodeToAdd.Prev = find;
+
+            Count++;
+
+            return;
+        }
+
+        AddLast(nodeToAdd);
+    }
+    public void AddLast(T valueToAdd) { var node = new Node<T>(valueToAdd); AddLast(node); }
+    public void AddLast(Node<T> nodeToAdd)
+    {
+        var lastNode = GetLastNode();
+
+        if (lastNode is not null)
+        {
+            lastNode.Next = nodeToAdd;
+            nodeToAdd.Prev = lastNode;
+
+            Count++;
+
+            return;
+        }
+
+        Add(nodeToAdd);
+    }
+    public Node<T>? GetLastNode()
+    {
+        if (Head is null)
+        {
+            return default;
+        }
+
+        var aux = Head;
+
+        while (aux is not null)
+        {
+            if (aux.Next is null)
+            {
+                return aux;
+            }
+
+            aux = aux.Next;
+        }
+
+        return default;
+    }
+
+    public void AddBefore(Node<T> nodeToAdd, T valueToFind)
+    {
+        var find = Find(valueToFind);
+
+        if (find is not null)
+        {
+            nodeToAdd.Prev = find.Prev;
+
+            if (find.Prev?.Next is not null)
+            {
+                find.Prev.Next = nodeToAdd;
+            }
+
+            nodeToAdd.Next = find;
+            find.Prev = nodeToAdd;
+
+            Count++;
+
+            return;
+        }
+
+        AddLast(nodeToAdd);
+    }
+
+    public void AddBefore(T valueToAdd, T valueToFind){var node = new Node<T>(valueToAdd);AddBefore(node, valueToFind);}
+
+    public Node<T>? Find(T valueToFind)
+    {
+        var aux = Head;
+
+        while (aux is not null)
+        {
+            if (EqualityComparer<T>.Default.Equals(aux.Value, valueToFind))
+            {
+                return aux;
+            }
+
+            aux = aux.Next;
+        }
+
+        return default;
+    }
+
+    public void Remove(T valueToRemove)
+    {
+        var find = Find(valueToRemove);
+
+        if (find is null)
+        {
+            return;
+        }
+
+        var next = find.Next;
+        var prev = find.Prev;
+
+        if (prev is not null)
+        {
+            prev.Next = next;
+        }
+
+        if (next is not null)
+        {
+            next.Prev = prev;
+        }
+
+        Count--;
+    }
+
+    public void RemoveHead()
+    {
+        if (Head is null)
+        {
+            return;
+        }
+
+        var next = Head.Next;
+
+        if (next is not null)
+        {
+            next.Prev = null;
+            Head = next;
+
+            return;
+        }
+
+        Head = null;
+    }
+
+    public void RemoveLast()
+    {
+        var lastNode = GetLastNode();
+
+        if (lastNode is not null)
+        {
+            var prev = lastNode.Prev;
+
+            if (prev is not null)
+            {
+                prev.Next = null;
+            }
+
+            lastNode.Prev = null;
+
+            Count--;
+        }
+
+        RemoveHead();
+    }
+
+    public void Clear()
+    {
+        Head = null;
+        Count = 0;
+    }
+
+    public void PrintElements()
+    {
+        //foreach (var item in this)
+        //{
+        //    Console.Write($" ==> {item.Value}");
+        //}
+        Node<T>? currentNode = Head;
+        while(currentNode is not null)
+        {
+            Console.Write($"==>{currentNode.Value}");
+            currentNode = currentNode.Next;
+        }
+
+
+        Console.WriteLine($"\ntotal elements in the linked list is: {Count}");
+        Console.WriteLine();
+        Console.WriteLine("---------------------------------");
+    }
+
+    //public IEnumerator<Node<T>> GetEnumerator()
+    //{
+    //    Node<T>? currentNode = Head;
+
+    //    while (currentNode is not null)
+    //    {
+    //        yield return currentNode;
+    //        currentNode = currentNode.Next;
+    //    }
+    //}
+
+    //IEnumerator IEnumerable.GetEnumerator()
+    //{
+    //    return GetEnumerator();
+    //}
+}
+
+public class Node<T>
+{
+    public T Value { get; set; }
+    public Node<T>? Next { get; set; }
+    public Node<T>? Prev { get; set; }
+
+    public Node(T value)
+    {
+        Value = value;
+    }
+}
+
+
+
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++
+Trees:
+"A"  represents the Root node (which do not have a parent)
+"Edge" is a link between Parent and a Chid (Ex: B to D)
+"Leaf" node with no children (Ex: D, E, F, G)
+"Sibling" children of the same parent (Ex: D and E are Siblings, they both have Same parent B)
+"Ancestor" parent, grandparent for a given node (Ex: D's ancestor is B and A)
+"Depth of a node" length of the path from the root to that node (Ex: D's depth is 2)
+ "Height of a Node" height from a particular node to the deepest node (leaf node) (Ex: height of B is 1 (B to D))
+ 
+ Binary Tree
+ 
+A tree is said to be a Binary tree if each node has zero, one or two children.
+ 
+Types of Binary Trees:
+Strict Binary Tree
+Full Binary Tree
+Complete Binary Tree
+Strict BinaryTree
+ 
+Each node has either two children or none.
+
+Full Binary Tree
+ 
+Each Non-leaf node has two children and all the leaf nodes are at the same level.
+
+Complete Binary Tree
+ 
+If all the levels are completely filled, except the last level and the last level has all the keys as left as possible
+
+Tree Representation can be implemented in two ways.
+Using a Linkedlist
+Using an Array 
+
+
+BST from stack overflow: 
+public class Learn
+{
+    static void Main()
+    {
+        var tree = new TreeNode();
+        tree.Insert(1);
+        tree.Insert(7);
+        tree.Insert(3);
+        tree.Insert(9);
+        tree.Insert(5);
+        Console.WriteLine($"\nIn Order Traversal of BST: ");
+        tree.TraverseInOrder();
+
+    }
+}
+public class BST
+{
+    public class TreeNode
+    {
+        public TreeNode Left { get; set; }
+        public object Data { get; set; }
+        public TreeNode Right { get; set; }
+
+        public TreeNode()
+        {
+            Data = null;
+        }
+
+        public TreeNode(int Data)
+        {
+            this.Data = (object)Data;
+        }
+
+        public void Insert(int Data)
+        {
+            if (this.Data == null)
+            {
+                this.Data = (object)Data;
+                return;
+            }
+            if (Data > (int)this.Data)
+            {
+                if (this.Right == null)
+                {
+                    this.Right = new TreeNode(Data);
+                }
+                else
+                {
+                    this.Right.Insert(Data);
+                }
+            }
+            if (Data <= (int)this.Data)
+            {
+                if (this.Left == null)
+                {
+                    this.Left = new TreeNode(Data);
+                }
+                else
+                {
+                    this.Left.Insert(Data);
+                }
+            }
+        }
+
+        public void TraverseInOrder()
+        {
+            if (this.Left != null)
+                this.Left.TraverseInOrder();
+            Console.Write("{0} ", this.Data);
+            if (this.Right != null)
+                this.Right.TraverseInOrder();
+        }
+    }
+
+    public TreeNode Root { get; set; }
+    public BST()
+    {
+        Root = new TreeNode();
+    }
+}
+
+
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Graphs:
+ graph is a non-linear data structure trumped-up of nodes and edges. Edges are lines or arcs that link any two nodes in a graph, and nodes are also called vertices. A graph can be more explicitly defined as,
+
+A graph comprises a finite number of vertices (or nodes) and a set of Edges that connect them.
+
+Types of Graphs in C#
+There are various sorts of graphs based on the position of these nodes and vertices, such as:
+
+Undirected Graph
+A directed graph is defined as an ordered pair of vertices. The Graph's edges represent a precise path from one vertex to the next. The direction is from V1 to V2 when an edge is represented as (V1, V2). The starting node, or start vertex, is the first element, V1. The terminal node, also known as the end vertex, is the second part V2.
+
+undirected-graph-in-types-of-graph
+
+Directed Graph
+A directed graph (digraph) is a graph with edges that have different orientations, i.e., an edge (x, y) is not the same as an edge (x, y) (y, x).
+
+directed-graph-in-types-of-graph
+
+Cyclic Graph
+An acyclic Graph is defined as one that has at least one cycle.
+
+cyclic-graph-in-graphs
+
+Acyclic Graph
+An acyclic graph does not have any cycles in it.
+
+acyclic-graph-in-graph.
+
+Directed Acyclic Graph(DAG)
+A DAG (Directed Acyclic Graph) is a directed graph with no cycles.
+
+directed-acyclic-graph-in-types-of-graph.
+
+Multi Graph
+A multigraph is an undirected graph that allows numerous edges (and occasionally loops). Two or more edges that connect the same two vertices are multiple edges. A loop is a directed or undirected edge that connects a vertex to itself, and it may or may not be permitted.
+
+multi-graph-types-in-graph.
+
+Simple Graph
+In contrast to a multigraph, a simple graph is an undirected graph in which multiple edges and loops are forbidden. Every vertex in a simple graph with n vertices has a degree of n-1.
+
+simple-graph-in-types-of-graph.
+
+Weighted Graph
+Every edge in a weighted graph has a value (weight) associated with it. Instead of weight, we can use the phrases cost or length.
+
+weighted-graph-in-types-of-graph.
+
+Unweighted Graph
+Every edge in an unweighted graph does not have a value (weight) associated with it. To put it another way, an unweighted graph is a weighted graph with all edge weights equal to one. By default, all graphs are presumed to be unweighted unless otherwise stated.
+
+unweighted-graph-in-types-of-graph
+
+Complete Graph
+Every two vertices in a complete graph are adjacent, and all edges that could exist are present.
+
+complete-graph-in-types-of-graph
+
+Connected Graph
+Every pair of vertices has a path linking them in a connected graph. To put it another way, there are no inaccessible vertices. A graph that is not connected is referred to as a disconnected graph.
+
+connected-graph-in-types-of-graph
+
+Disconnected 
+If at least two of the Graph's vertices are not connected by a path, the Graph is disconnected. When a graph G is disconnected, every maximally connected subgraph of G is referred to as a connected component of G.
+
+disconnected-graph-in-types-of-graph.
+
+NOTE: stack for DFS {BFS breadth horizotal queue;;;; DFS depth vertical stack}
+
+BFS example:
+    public class Graph
+    {
+        // No. of vertices
+        private int _V;
+        // Adjacency Lists
+        LinkedList<int>[] _adj;
+        public Graph(int V)
+        {
+            _adj = new LinkedList<int>[V];
+            for (int i = 0; i < _adj.Length; i++)
+            {
+                _adj[i] = new LinkedList<int>();
+            }
+            _V = V;
+        }
+        // Function to add an edge into the graph
+        public void AddEdge(int v, int w)
+        {
+            _adj[v].AddLast(w);
+        }
+        // Prints BFS traversal from a given source s
+        public void BFS(int s)
+        {
+            // Mark all the vertices as not
+            // visited(By default set as false)
+            bool[] visited = new bool[_V];
+            for (int i = 0; i < _V; i++)
+                visited[i] = false;
+            // Create a queue for BFS
+            LinkedList<int> queue = new LinkedList<int>();
+            // Mark the current node as
+            // visited and enqueue it
+            visited[s] = true;
+            queue.AddLast(s);
+            while (queue.Any())
+            {
+                // Dequeue a vertex from queue
+                // and print it
+                s = queue.First();
+                Console.Write(s + " ");
+                queue.RemoveFirst();
+                // Get all adjacent vertices of the
+                // dequeued vertex s.
+                // If an adjacent has not been visited,
+                // then mark it visited and enqueue it
+                LinkedList<int> list = _adj[s];
+                foreach (var val in list)
+                {
+                    if (!visited[val])
+                    {
+                        visited[val] = true;
+                        queue.AddLast(val);
+                    }
+                }
+            }
+        }
+    }
+}
+
+public class Learn
+{
+    static void Main()
+    {
+        //GRAPH
+        Graph g = new Graph(4);
+        g.AddEdge(0, 1);
+        g.AddEdge(0, 2);
+        g.AddEdge(1, 2);
+        g.AddEdge(2, 0);
+        g.AddEdge(2, 3);
+        g.AddEdge(3, 3);
+        Console.Write("\nFollowing is Breadth First "
+                      + "Traversal(starting from "
+                      + "vertex 2) \n");
+        g.BFS(2);
+
+    }
+}

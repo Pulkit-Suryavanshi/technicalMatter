@@ -1,0 +1,423 @@
+file name: gitlab-cil.yml (yal yet another markup language or yaml aint markup language is for data)
+
+stages:
+  - build 
+  - test
+
+build the car:
+  stage: bulld 
+  script:
+    - mkdir build 
+    - cd build
+    - touch car.txt
+    - echo "chasis" >> car.txt //>>to alpend >to overwrite
+    - echo "chasis" >> car.txt 
+    - echo "chasis">> car.txt
+  artifacts:
+    paths: 
+      - build/
+
+test the car:
+  stage: test 
+  script:
+    - ls//to list all
+    - test -f build/car.txt // test to test, -f to check if the file exists 
+    - cd build
+    - cat car.txt //show the contents 
+    - grep "chasis" car.txt //to check if chasis is there in car.txt 
+    - grep "engine" car.txt
+    - grep "wheels car.txt
+___________________________
+
+CI/CD:
+file name: .gitlab-ci.yml (yml yet another markup language or yaml aint markup language is for data)
+stages:
+    - build
+    - test
+build the car:
+    stage: build
+        script:
+        - mkdir build
+        - cd build
+        - touch car.txt
+        - echo "chasis" >> car.txt //>>to append >to overwrite
+        - echo "chasis" >> car.txt
+        - echo "chasis" >> car.txt
+        artifacts:
+            paths:
+            - build/
+test the car:
+    stage: test
+        script:
+        - ls//to list all
+        - test -f build/car.txt // test to test, -f to check if the file exists
+        - cd build
+        - cat car.txt //show the contents
+        - grep "chasis" car.txt //to check if chasis is there in car.txt
+        - grep "engine" car.txt
+        - grep "wheels" car.txt
+------------------------
+require Gitlab server and 1 gitlab runner
+------------------------
+gatsby example:
+++++++++++++
+
+image: node:10
+stages:
+    - build
+    - test
+    - deploy review
+    - deploy staging
+    - deploy production
+    - production tests
+cache:
+key: ${CI_COMMIT_REF_SLUG} //by key will be saved and the cached folder will be kept after first build
+paths:
+- node_modules/
+variables:
+STAGING_DOMAIN: instazone-staging.surge.sh //the variables can be used anywhere using the $NAME
+PRODUCTION_DOMAIN: instazone.surge.sh
+build website:
+stage: build
+only:
+- master //only is used to run the stages when on particular cases like master or for every merge request
+- merge_requests
+script:
+- echo $CI_COMMIT_SHORT_SHA
+- npm install
+- npm install -g gatsby-cli
+- gatsby build
+- sed -i "s/%%VERSION%%/$CI_COMMIT_SHORT_SHA/" ./public/index.html //sed is stream editor used to change where s is substitute and %%var%% will be changed after g global
+artifacts:
+paths:
+- ./public //artifacts to forward to the next stage for used otherwise no way of using it
+test artifact:
+image: alpine //images is 5 mb much like docker available
+stage: test
+only:
+- master
+- merge_requests
+script:
+- grep -q "Gatsby" ./public/index.html
+test website:
+stage: test
+only:
+- master
+- merge_requests
+script:
+- npm install
+- npm install -g gatsby-cli
+- gatsby serve & //& to move onto the next line and sleep for 3 seconds so that server is deployed and run in background
+- sleep 3
+- curl "http://localhost:9000" | tac | tac | grep -q "Gatsby"
+deploy review:
+stage: deploy review
+only:
+- merge_requests
+environment:
+name: review/$CI_COMMIT_REF_NAME //enviroment will show in gitlab therefore
+url: https://instazone-$CI_ENVIRONMENT_SLUG.surge.sh
+script:
+- npm install --global surge
+- surge --project ./public --domain instazone-$CI_ENVIRONMENT_SLUG.surge.sh //surge used to deploy and use the version in the deployed site
+deploy staging:
+stage: deploy staging
+environment:
+name: staging
+url: http://$STAGING_DOMAIN
+only:
+- master
+script:
+- npm install --global surge
+- surge --project ./public --domain $STAGING_DOMAIN //surge for deploying stuff on site domain and checking it
+deploy production:
+stage: deploy production
+environment:
+name: production
+url: $PRODUCTION_DOMAIN
+only:
+- master
+script:
+- npm install --global surge
+- surge --project ./public --domain $PRODUCTION_DOMAIN //this will deploy production with the code
+production tests:
+image: alpine
+stage: production tests
+only:
+- master
+script:
+- apk add --no-cache curl
+- curl -s "https://$PRODUCTION_DOMAIN" | grep -q "Hi people"
+- curl -s "https://$PRODUCTION_DOMAIN" | grep -q "$CI_COMMIT_SHORT_SHA"
+++++++++++++++++++++++++++++++++++++++++
+stop env on merge:
+image: node:10
+stages:
+- build
+- test
+- deploy review
+- deploy staging
+- deploy production
+- production tests
+cache:
+key: ${CI_COMMIT_REF_SLUG}
+paths:
+- node_modules/
+variables:
+STAGING_DOMAIN: instazone-staging.surge.sh
+PRODUCTION_DOMAIN: instazone.surge.sh
+build website:
+stage: build
+only:
+- master
+- merge_requests
+script:
+- echo $CI_COMMIT_SHORT_SHA
+- npm install
+- npm install -g gatsby-cli
+- gatsby build
+- sed -i "s/%%VERSION%%/$CI_COMMIT_SHORT_SHA/" ./public/index.html
+artifacts:
+paths:
+- ./public
+test artifact:
+image: alpine
+stage: test
+only:
+- master
+- merge_requests
+script:
+- grep -q "Gatsby" ./public/index.html
+test website:
+stage: test
+only:
+- master
+- merge_requests
+script:
+- npm install
+- npm install -g gatsby-cli
+- gatsby serve &
+- sleep 3
+- curl "http://localhost:9000" | tac | tac | grep -q "Gatsby"
+deploy review:
+stage: deploy review
+only:
+- merge_requests
+environment:
+name: review/$CI_COMMIT_REF_NAME
+url: https://instazone-$CI_ENVIRONMENT_SLUG.surge.sh
+on_stop: stop review //will trigger the job afterthis
+script:
+- npm install --global surge
+- surge --project ./public --domain instazone-$CI_ENVIRONMENT_SLUG.surge.sh
+stop review:
+stage: deploy review
+only:
+- merge_requests
+variables:
+GIT_STRATEGY: none //so that nothign checked out
+script:
+- npm install --global surge
+- surge teardown instazone-$CI_ENVIRONMENT_SLUG.surge.sh //this is for closing the env and stopping
+when: manual
+environment:
+name: review/$CI_COMMIT_REF_NAME
+action: stop
+deploy staging:
+stage: deploy staging
+environment:
+name: staging
+url: http://$STAGING_DOMAIN
+only:
+- master
+script:
+- npm install --global surge
+- surge --project ./public --domain $STAGING_DOMAIN
+deploy production:
+stage: deploy production
+environment:
+name: production
+url: $PRODUCTION_DOMAIN
+only:
+- master
+script:
+- npm install --global surge
+- surge --project ./public --domain $PRODUCTION_DOMAIN
+production tests:
+image: alpine
+stage: production tests
+only:
+- master
+script:
+- apk add --no-cache curl
+- curl -s "https://$PRODUCTION_DOMAIN" | grep -q "Hi people"
+- curl -s "https://$PRODUCTION_DOMAIN" | grep -q "$CI_COMMIT_SHORT_SHA"
+before_script and after_script
+before script:
+installing etc before script
+after script:
+same etc..
+. before a job to disable it so no comment
+++++++++++++++++++++++++++++++++++++++
+anchor to make templates:
+.deploy_template: &deploy #here we create the anchor variable
+only:
+- master
+script:
+- npm install --global surge
+- surge --project ./public --domain $DOMAIN
+environment:
+url: http://$DOMAIN
+deploy staging:
+<<: *deploy #here we are using the anchor variable
+stage: deploy staging
+variables:
+DOMAIN: $STAGING_DOMAIN
+environment:
+name: staging
+
+....
++++++++++++++++++++++++++++++++++++++++
+JAVA APP SMOKE Test: if it works:
+stages:
+- build
+- test
+build:
+stage: build
+image: openjdk:12-alpine
+script:
+- ./gradlew build
+artifacts:
+paths:
+- ./build/libs/
+smoke test:
+stage: test
+image: openjdk:12-alpine #using this image
+before_script:
+- apk --no-cache add curl #to install curl so that its used later
+script:
+- java -jar ./build/libs/cars-api.jar &
+- sleep 30
+- curl http://localhost:5000/actuator/health | grep "UP" #pipe to see in the response and check if UP exists and the api is made in this way
+_________________________________________
+copy to s3 bucket from gitlab using aws cli:
+stages:
+- build
+- test
+- deploy
+build:
+stage: build
+image: openjdk:12-alpine
+script:
+- ./gradlew build
+artifacts:
+paths:
+- ./build/libs/
+smoke test:
+stage: test
+image: openjdk:12-alpine
+before_script:
+- apk --no-cache add curl
+script:
+- java -jar ./build/libs/cars-api.jar &
+- sleep 30
+- curl http://localhost:5000/actuator/health | grep "UP"
+deploy:
+stage: deploy
+image:
+name: banst/awscli #this is the image that has all now amazon/aws-cli
+entrypoint: [""]
+script:
+- aws configure set region us-east-1
+- aws s3 cp ./build/libs/cars-api.jar s3://$S3_BUCKET/cars-api.jar
+now in the gitlab copy the aws_key and aws_secret_key that is generated via the aws IAM add user AND ACCESS TYPE PROGRAMATIC ACCESS
+_______________________________________________
+deploy using aws cli: #create new application version and #update environment
+variables:
+ARTIFACT_NAME: cars-api-v$CI_PIPELINE_IID.jar
+APP_NAME: cars-api
+stages:
+- build
+- test
+- deploy
+build:
+stage: build
+image: openjdk:12-alpine
+script:
+- ./gradlew build
+- mv ./build/libs/cars-api.jar ./build/libs/$ARTIFACT_NAME
+artifacts:
+paths:
+- ./build/libs/
+smoke test:
+stage: test
+image: openjdk:12-alpine
+before_script:
+- apk --no-cache add curl
+script:
+- java -jar ./build/libs/$ARTIFACT_NAME &
+- sleep 30
+- curl http://localhost:5000/actuator/health | grep "UP"
+deploy:
+stage: deploy
+image:
+name: banst/awscli
+entrypoint: [""]
+script:
+- aws configure set region us-east-1
+- aws s3 cp ./build/libs/$ARTIFACT_NAME s3://$S3_BUCKET/$ARTIFACT_NAME
+- aws elasticbeanstalk create-application-version --application-name $APP_NAME --version-label $CI_PIPELINE_IID --source-bundle S3Bucket=$S3_BUCKET,S3Key=$ARTIFACT_NAME
+- aws elasticbeanstalk update-environment --application-name $APP_NAME --environment-name "production" --version-label=$CI_PIPELINE_IID
+____________________________________________
+Change env variable:
+variables:
+ARTIFACT_NAME: cars-api-v$CI_PIPELINE_IID.jar
+APP_NAME: cars-api
+stages:
+- build
+- test
+- deploy
+build:
+stage: build
+image: openjdk:12-alpine
+script:
+- sed -i "s/CI_PIPELINE_IID/$CI_PIPELINE_IID/" ./src/main/resources/application.yml
+- sed -i "s/CI_COMMIT_SHORT_SHA/$CI_COMMIT_SHORT_SHA/" ./src/main/resources/application.yml
+- sed -i "s/CI_COMMIT_BRANCH/$CI_COMMIT_BRANCH/" ./src/main/resources/application.yml
+- ./gradlew build
+- mv ./build/libs/cars-api.jar ./build/libs/$ARTIFACT_NAME
+artifacts:
+paths:
+- ./build/libs/
+
+
+smoke test:
+stage: test
+image: openjdk:12-alpine
+before_script:
+- apk --no-cache add curl
+script:
+- java -jar ./build/libs/$ARTIFACT_NAME &
+- sleep 30
+- curl http://localhost:5000/actuator/health | grep "UP"
+deploy:
+stage: deploy
+image:
+name: banst/awscli
+entrypoint: [""]
+script:
+- aws configure set region us-east-1
+- aws s3 cp ./build/libs/$ARTIFACT_NAME s3://$S3_BUCKET/$ARTIFACT_NAME
+- aws elasticbeanstalk create-application-version --application-name $APP_NAME --version-label $CI_PIPELINE_IID --source-bundle S3Bucket=$S3_BUCKET,S3Key=$ARTIFACT_NAME
+- aws elasticbeanstalk update-environment --application-name $APP_NAME --environment-name "production" --version-label=$CI_PIPELINE_IID
+_____________________________________________________
+To check if all done and working:
+jq to parse json:
+amazon/aws-cli
+yum install -y jq
+- CNAME=$(aws elasticbeanstalk update-environment --application-name $APP_NAME --environment-name "production" --version-label=$CI_PIPELINE_IID | jq '.CNAME' --raw-output)
+- sleep 45
+- curl http://$CNAME/actuator/info | grep $CI_PIPELINE_IID
+- curl http://$CNAME/actuator/health | grep "UP"
+in the above link th apis return stuff that is being checked
+_____________________________________________________

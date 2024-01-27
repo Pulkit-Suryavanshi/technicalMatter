@@ -1,0 +1,3502 @@
+690 LINQ complete. put togeether also linq queries. GENERICS and Non-Generics
+-------------------------------------
+Collecctions: Generics and NonGenerics:
+https://www.tutorialsteacher.com/csharp/csharp-collection
+-------------------------------------
+WCF vs WebApi:
+
+1. WCF stands for Windows Communication Foundation whereas API stands for Application Program Interface.
+2. WCF offers request-reply, one-way, or duplex while Web API is by default request-reply only.
+3. WCF is used for developing SOAP-based services whereas Web API is used for both SOAP-based and RESTful services.
+4. WCF does not offer any support for MVC features whereas Web API supports MVC features.
+5. WCF supports HTTP, UDP(User Datagram Protocol), and custom transport protocol whereas Web API supports only HTTP protocol.
+6. WCF offers Text, MTOM(Message Transmission Optimization Mechanism), and Binary Encoding support whereas Web API supports the UTF-8 encoding format.
+7. WCF supports message queues, message security, duplex communication, transaction whereas Web API doesn’t support.
+
+Characteristics of WCF
+Highly configurable transports
+Better options for serialization
+Well-integrated with IIS
+Easy for self-hosting
+Very rich metadata
+Complex model for publication
+Rich data contracts
+Characteristics of Web API
+Tightly coupled to HTTP
+Easy to test
+Offers support for content negotiation
+Allows open-ended formatting
+No reliance on a platform
+Solid resource-orientation
+Level 2 experience with nascent hypermedia support
+
+Parameter	WCF	Web API
+Message Exchange Pattern	Request reply, one-way, or duplex.	By default request-reply only. However, additional message pattern can be supported with web sockets integration.
+Hosting	IIS hosting, Self-hosting & works activation services.	Self-hosting & IIS hosting.
+Open Source	It is not open source software.	It is shipped with.Net framework.It is also available as an independent download.
+Support for MVC features	WCF does not provide any support for MVC features like controllers, routing, filter, auction results, etc.	ASP.NET Web API supports MVC features like routing, controllers, results, filter, action, etc.
+Encoding support	Text, MTOM, and Binary.	Default support for UTF-8 encoding format.
+Support for	Support for HTTP, UDP, and custom transport protocol.	Supports only HTTP protocol
+Use of model	User attributed based programming model.	Maps HTTP verbs to methods
+Configuration	Uses web.config and attributes to configure a HttpConfiguration class but not on the web.config Service.	Web API can be configured using web.config service.
+RESTful services	It offers supports for RESTFUL service but with limitations.	Ideal for building RESTFUL services.
+
+Web Service
+It is based on SOAP and return data in XML form.
+
+It support only HTTP protocol.
+
+It is not open source but can be consumed by any client that understands xml.
+
+It can be hosted only on IIS.
+
+WCF
+It is also based on SOAP and return data in XML form.
+
+It is the evolution of the web service(ASMX) and support various protocols like TCP, HTTP, HTTPS, Named Pipes, MSMQ.
+
+The main issue with WCF is, its tedious and extensive configuration.
+
+It is not open source but can be consumed by any client that understands xml.
+
+It can be hosted with in the applicaion or on IIS or using window service.
+
+WCF Rest
+To use WCF as WCF Rest service you have to enable webHttpBindings.
+
+It support HTTP GET and POST verbs by [WebGet] and [WebInvoke] attributes respectively.
+
+To enable other HTTP verbs you have to do some configuration in IIS to accept request of that particular verb on .svc files
+
+Passing data through parameters using a WebGet needs configuration. The UriTemplate must be specified
+
+It support XML, JSON and ATOM data format.
+
+Web API
+This is the new framework for building HTTP services with easy and simple way.
+
+Web API is open source an ideal platform for building REST-ful services over the .NET Framework.
+
+Unlike WCF Rest service, it use the full featues of HTTP (like URIs, request/response headers, caching, versioning, various content formats)
+
+It also supports the MVC features such as routing, controllers, action results, filter, model binders, IOC container or dependency injection, unit testing that makes it more simple and robust.
+
+It can be hosted with in the application or on IIS.
+
+It is light weight architecture and good for devices which have limited bandwidth like smart phones.
+
+Responses are formatted by Web API’s MediaTypeFormatter into JSON, XML or whatever format you want to add as a MediaTypeFormatter.
+
+To Whom Choose Between WCF or WEB API
+Choose WCF when you want to create a service that should support special scenarios such as one way messaging, message queues, duplex communication, etc.
+
+Choose WCF when you want to create a service that can use fast transport channels when available, such as TCP, Named Pipes, or maybe even UDP (in WCF 4.5), and you also want to support HTTP when all other transport channels are unavailable.
+
+Choose Web API when you want to create a resource-oriented service over HTTP that can use the full features of HTTP (like URIs, request/response headers, caching, versioning, various content formats).
+
+Choose Web API when you want to expose your service to a broad range of clients including browsers, mobiles, iphone, and tablets.
+
+-------------------------------------
+About WCF:
+Windows Communication Foundation (WCF) is a framework for building service-oriented applications. Using WCF, you can send data as asynchronous messages from one service endpoint to another. A service endpoint can be part of a continuously available service hosted by IIS, or it can be a service hosted in an application. An endpoint can be a client of a service that requests data from a service endpoint. The messages can be as simple as a single character or word sent as XML, or as complex as a stream of binary data. A few sample scenarios include:
+
+A secure service to process business transactions.
+
+A service that supplies current data to others, such as a traffic report or other monitoring service.
+
+A chat service that allows two people to communicate or exchange data in real time.
+
+A dashboard application that polls one or more services for data and presents it in a logical presentation.
+
+Exposing a workflow implemented using Windows Workflow Foundation as a WCF service.
+
+While creating such applications was possible prior to the existence of WCF, WCF makes the development of endpoints easier than ever. In summary, WCF is designed to offer a manageable approach to creating Web services and Web service clients.
+
+Features of WCF
+WCF includes the following set of features. For more information, see WCF Feature Details.
+
+Service Orientation
+
+One consequence of using WS standards is that WCF enables you to create service oriented applications. Service-oriented architecture (SOA) is the reliance on Web services to send and receive data. The services have the general advantage of being loosely-coupled instead of hard-coded from one application to another. A loosely-coupled relationship implies that any client created on any platform can connect to any service as long as the essential contracts are met.
+
+Interoperability
+
+WCF implements modern industry standards for Web service interoperability. For more information about the supported standards, see Interoperability and Integration.
+
+Multiple Message Patterns
+
+Messages are exchanged in one of several patterns. The most common pattern is the request/reply pattern, where one endpoint requests data from a second endpoint. The second endpoint replies. There are other patterns such as a one-way message in which a single endpoint sends a message without any expectation of a reply. A more complex pattern is the duplex exchange pattern where two endpoints establish a connection and send data back and forth, similar to an instant messaging program. For more information about how to implement different message exchange patterns using WCF see Contracts.
+
+Service Metadata
+
+WCF supports publishing service metadata using formats specified in industry standards such as WSDL, XML Schema and WS-Policy. This metadata can be used to automatically generate and configure clients for accessing WCF services. Metadata can be published over HTTP and HTTPS or using the Web Service Metadata Exchange standard. For more information, see Metadata.
+
+Data Contracts
+
+Because WCF is built using the .NET Framework, it also includes code-friendly methods of supplying the contracts you want to enforce. One of the universal types of contracts is the data contract. In essence, as you code your service using Visual C# or Visual Basic, the easiest way to handle data is by creating classes that represent a data entity with properties that belong to the data entity. WCF includes a comprehensive system for working with data in this easy manner. Once you have created the classes that represent data, your service automatically generates the metadata that allows clients to comply with the data types you have designed. For more information, see Using Data Contracts.
+
+Security
+
+Messages can be encrypted to protect privacy and you can require users to authenticate themselves before being allowed to receive messages. Security can be implemented using well-known standards such as SSL or WS-SecureConversation. For more information, see Security.
+
+Multiple Transports and Encodings
+
+Messages can be sent on any of several built-in transport protocols and encodings. The most common protocol and encoding is to send text encoded SOAP messages using the HyperText Transfer Protocol (HTTP) for use on the World Wide Web. Alternatively, WCF allows you to send messages over TCP, named pipes, or MSMQ. These messages can be encoded as text or using an optimized binary format. Binary data can be sent efficiently using the MTOM standard. If none of the provided transports or encodings suit your needs you can create your own custom transport or encoding. For more information about transports and encodings supported by WCF see Transports.
+
+Reliable and Queued Messages
+
+WCF supports reliable message exchange using reliable sessions implemented over WS-Reliable Messaging and using MSMQ. For more information about reliable and queued messaging support in WCF see Queues and Reliable Sessions.
+
+Durable Messages
+
+A durable message is one that is never lost due to a disruption in the communication. The messages in a durable message pattern are always saved to a database. If a disruption occurs, the database allows you to resume the message exchange when the connection is restored. You can also create a durable message using the Windows Workflow Foundation (WF). For more information, see Workflow Services.
+
+Transactions
+
+WCF also supports transactions using one of three transaction models: WS-AtomicTransactions, the APIs in the System.Transactions namespace, and Microsoft Distributed Transaction Coordinator. For more information about transaction support in WCF see Transactions.
+
+AJAX and REST Support
+
+REST is an example of an evolving Web 2.0 technology. WCF can be configured to process "plain" XML data that is not wrapped in a SOAP envelope. WCF can also be extended to support specific XML formats, such as ATOM (a popular RSS standard), and even non-XML formats, such as JavaScript Object Notation (JSON).
+
+Extensibility
+
+The WCF architecture has a number of extensibility points. If extra capability is required, there are a number of entry points that allow you to customize the behavior of a service. For more information about available extensibility points see Extending WCF.
+-------------------------------------
+Task vs Thread:
+What is Task in C#?
+ 
+.NET framework provides Threading.Tasks class to let you create tasks and run them asynchronously. A task is an object that represents some work that should be done. The task can tell you if the work is completed and if the operation returns a result, the task gives you the result.
+
+What is Thread?
+
+.NET Framework has thread-associated classes in System.Threading namespace.  A Thread is a small set of executable instructions.
+
+Why we need Tasks
+ 
+It can be used whenever you want to execute something in parallel. Asynchronous implementation is easy in a task, using’ async’ and ‘await’ keywords.
+Why we need a Thread
+ 
+When the time comes when the application is required to perform few tasks at the same time.
+
+How to create a Task
+static void Main(string[] args) {  
+    Task < string > obTask = Task.Run(() => (  
+        return “Hello”));  
+    Console.WriteLine(obTask.result);  
+} 
+How to create a Thread
+static void Main(string[] args) {  
+    Thread thread = new Thread(new ThreadStart(getMyName));  
+    thread.Start();  
+}  
+public void getMyName() {} 
+
+Differences Between Task And Thread
+ 
+Here are some differences between a task and a thread.
+The Thread class is used for creating and manipulating a thread in Windows. A Task represents some asynchronous operation and is part of the Task Parallel Library, a set of APIs for running tasks asynchronously and in parallel.
+The task can return a result. There is no direct mechanism to return the result from a thread.
+Task supports cancellation through the use of cancellation tokens. But Thread doesn't.
+A task can have multiple processes happening at the same time. Threads can only have one task running at a time.
+We can easily implement Asynchronous using ’async’ and ‘await’ keywords.
+A new Thread()is not dealing with Thread pool thread, whereas Task does use thread pool thread.
+A Task is a higher level concept than Thread.
+
+One great thing about using the await operator is that exceptions are thrown just like in our non-async code. That means we handle exceptions the way we are used to: with a standard try/catch block. If we use Task more directly (like when we need more control over the operations), we can check properties such as Task.IsFaulted and Task.Exception to see if an exception was thrown in the async method.
+
+Most async methods allow us to pass a CancellationToken as an optional parameter. When we set the token to a "cancellation requested" state, we tell the asynchronous method that we would like to stop the operation without waiting for it to complete. If we await a Task that gets canceled, it will throw an OperationCanceledException that we can catch separately from other exceptions. And if we use Task directly, we can check the Task.IsCanceled or the Task.Status property to see if cancellation occurred. Either way, we can tell if the async operation was canceled and deal with it appropriately in our code.
+
+
+Can I use 'Task.Result' rather than 'await' so that I don't have to worry about making my current method asynchronous?
+
+This is very tempting, but it a bad idea to check the Result property on a Task that has not completed. Checking Result will block the current thread until the Task is complete. Blocking threads is rarely a good idea (this is why we do asynchrous programming to start with). At best, we will get a performance hit. And in some situations, we will get a deadlock, meaning 2 asynchronous methods block each other and so they never complete. It is better to await the Task, or set up a Task continuation (code that runs after a Task is complete) to get that Result value.
+
+As an additional note, some folks use "Task.GetAwaiter().GetResult()" instead. This has the same blocking behavior, and even worse, the documentation says that GetAwaiter is for internal use only. We, as application developers, should not be using this, and its behavior could change at any time.
+
+Some people see asynchronous code as an "infection": once we start to await things, we end up with asynchronous code all the way up the stack. But I always remember a conversation I had with Kathleen Dollard when async was still fairly new. She compared async code to plumbing: You don't want your pipes to stop halfway through your house; you want them to go all the way through. Async is the same way: we want it to go all the way through our applications.
+-------------------------------------
+Race condition:
+Race Conditions
+A race condition exists when the success of your program depends on the uncontrolled order of completion of two independent threads.
+
+Suppose, for example, that you have two threads—one is responsible for opening a file and the other is responsible for writing to the file. It is important that you control the second thread so that it’s assured that the first thread has opened the file. If not, under some conditions the first thread will open the file, and the second thread will work fine; under other unpredictable conditions, the first thread won’t finish opening the file before the second thread tries to write to it, and you’ll throw an exception (or worse, your program will simply seize up and die). This is a race condition, and race conditions can be very difficult to debug.
+
+You cannot leave these two threads to operate independently; you must ensure that Thread1 will have completed before Thread2 begins. To accomplish this, you might Join( ) Thread2 on Thread1. As an alternative, you can use a Monitor and Wait( ) for the appropriate conditions
+-------------------------------------
+Async and Await in c#:
+When we are dealing with UI, and on button click, we use a long-running method like reading a large file or something else which will take a long time, in that case, the entire application must wait to complete the whole task. In other words, if any process is blocked in a synchronous application, the whole application gets blocked, and our application stops responding until the whole task completes.
+
+Asynchronous programming is very helpful in this condition. By using Asynchronous programming, the Application can continue with the other work that does not depend on the completion of the entire task.
+
+public static async Task Method1()
+    {
+        await Task.Run(() =>
+        {
+            for (int i = 0; i < 100; i++)
+            {
+                Console.WriteLine(" Method 1");
+                // Do something
+                Task.Delay(100).Wait();
+            }
+        });
+    }
+
+-------------------------------------
+yield in c#:
+The yield keyword performs custom iteration over a collection like list, array, etc.
+yield return - returns an expression at each iteration
+yield break - terminates the iteration
+
+ex:
+using System;
+using System.Collections.Generic;
+class Program
+{
+    // define an iterator method
+    static IEnumerable<int> getNumber()
+    {
+        // create a list of integers 
+        List<int> myList = new List<int> { -1, -4, 3, 5 };
+
+        foreach (var num in myList)
+        {
+            // returns positive number from myList 
+            if (num >= 0)
+            {
+                yield return num;
+
+                // location of the code is preserved 
+                // so on the next iteration getNumber() is executed from here 
+                Console.WriteLine("....");
+            }
+        }
+    }
+    static void Main()
+    {
+        // display return values of getNumber() 
+        foreach (var items in getNumber())
+        {
+            Console.WriteLine(items);
+        }
+    }
+}
+O/P:
+3
+....
+5
+....
+
+if (yield break) is used there then 3 will be printed
+
+The yield break is different from break statement because break statement terminates the closest loop in normal method and yield break terminates the iterator method and transfers the control of the program to the caller.
+
+yield break works just like return statement that returns nothing.
+-------------------------------------
+How await works:
+
+The await operator suspends evaluation of the enclosing async method until the asynchronous operation represented by its operand completes. When the asynchronous operation completes, the await operator returns the result of the operation, if any.
+
+Customer cust = await GetCustomerById("A123");
+Using the await keyword launches the method (and any code that follows it in the calling method) on a separate thread. When the method finishes running, the Customer object is pulled from the Task object and, in this case, stuffed into the cust variable
+
+without await:
+Task<Customer> cust = GetCustomerById("A123");
+This code will start the GetCustomerById method running but go right on to the next line of code following the Start method:
+
+cust.Start();
+This code will cause processing to stop dead on this line of code until the GetCustomerById method managed by the Task object returns a Customer object:
+
+Customer custResult = cust.Result;
+
+//wait 2 seconds
+Thread.Sleep(2000);
+Task.Delay(2000);
+
+//Both are valid options but Task.Delay() can be used with the async keyword
+-------------------------------------
+.ContinueWith() vs await(much like yield):
+for more:
+https://www.c-sharpcorner.com/UploadFile/pranayamr/difference-between-await-and-continuewith-keyword-in-C-Sharp/
+
+ContinueWith
+
+The ContinueWith function is a method available on the task that allows executing code after the task has finished execution. In simple words it allows continuation.
+
+Things to note here is that ContinueWith also returns one Task. That means you can attach ContinueWith one task returned by this method.
+
+Example
+
+public void ContinueWithOperation()  
+{  
+   Task<string> t = Task.Run(() => LongRunningOperation("Continuewith", 500));  
+   t.ContinueWith((t1) =>  
+   {  
+      Console.WriteLine(t1.Result);  
+   });  
+}   
+In the preceding code a new task, LongRunningOperation, runs and once the task execution is completed the ContinueWith executes on the retuned task and prints the results of the task.
+
+The ContinueWith operation is executed by the default thread scheduler. One can also provide an other scheduler for running the task on it, this is discussed later in this article.
+
+Note: The following code is LongRunningOperation called by the task. LongRunningOpertion here is just an example in a real program. One cannot call a long-running operation on a task and if one wants to call longrunning task then one must pass TaskCreationOperation.LongRunning.
+ 
+
+private string LongRunningOperation(string s, int sec)  
+{  
+   Thread.Sleep(sec);  
+   return s + " Completed";  
+}  
+await
+
+The await keyword causes the runtime to run the operation on a new task and causes the executing thread to return and continue with an execution. (In most cases it executes the main thread of the application). Once the await operation finishes it returns to the statement where it left off (in other words it returns to the caller, in other words it returns depending on the state saved) and starts executing statements.
+
+So await waits for a new task to finish and ensures the continuation once the execution of the waiting task is finished.
+
+The await keyword is used with async to do asynchronous programming in C#. It's called asynchronous programming because the runtime captures the state of the program when it encounters the await keyword (that is similar to yield in an iterator) and restores the state back once the waited task finishes so the continuation runs in the correct context.
+
+Example
+public async void AsyncOperation()  
+{  
+   string t = await Task.Run(() => LongRunningOperation("AsyncOperation", 1000));  
+   Console.WriteLine(t);  
+}  
+In the preceding example the new task calls LongRunningOperation and the execution leaves once the main thread encounters the await keyword, in other words the main thread returns to the caller of AsyncOpetion and executes further. Once LongRunningOpertaion completes then the result of the task is printed on the console.
+
+So here because the state is saved when await encountered flow returns on the same context one operation on the task is executed.
+
+Note: State has the detail about executioncontext/synchronizationcontext.
+
+So from the preceding it's clear that both Task.ContinueWith and await Task wait for the task to finish and allows continuation after the task completion. But they work differently.
+
+-------------------------------------
+WPF and WCF:
+WPF:
+ stands for Windows Presentation Foundation is a development framework and a sub-system of .NET Framework. WPF is used to build Windows client applications that run on Windows operating system. WPF uses XAML as its frontend language and C# as its backend languages
+WPF is the engine that is responsible for creating, displaying, and manipulating user-interfaces, documents, images, movies, and media in Windows 7 and later Windows operating systems. WPF is a set of libraries that have all functionality you need to build, run, execute, and manage Windows client applications
+
+While XAML is used to build user interfaces in WPF, C# is used as the code-behind languages in WPF. While Windows and their controls are created in XAML at design-time, they can also be created at runtime using C# language.
+ 
+C# is also used to write all events programming and business logic. All actions, events, and rendering is done in the code behind C# code.
+XAML is a new descriptive programming language developed by Microsoft to write user interfaces for next-generation managed applications. XAML is used to build user interfaces for Windows and Mobile applications that use Windows Presentation Foundation (WPF), UWP, and Xamarin Forms.
+ 
+The purpose of XAML is simple, to create user interfaces using a markup language that looks like XML. Most of the time, you will be using a designer to create your XAML but you’re free to directly manipulate XAML by hand.
+XAML uses the XML format for elements and attributes. Each element in XAML represents an object which is an instance of a type. The scope of a type (class, enumeration etc.) is defined a namespace that physically resides in an assembly (DLL) of the .NET Framework library
+Extensible Application Markup Language (XAML) is a declarative language that's based on XML
+UWP(universal windows platform app)
+https://www.c-sharpcorner.com/blogs/what-wpf-is1
+
+WCF:
+WCF stands for Windows Communication Foundation. It is basically used to create a distributed and interoperable Application. WCF Applications came into the picture in .Net 3.0 Framework. This is a framework, which is used for creating Service oriented Applications. You can send the data asynchronously from one end point to another
+one is protocol and the other is hosting.
+Distributed Application
+
+It means those Applications, which do not run only on single system but can run on multiple systems, which are connected over the network. For example, a Web Service that can consume by different clients.
+
+Interoperable
+
+It means that an Application can consume or connect with another Application but it does not matter in which platform it is developed.
+
+WCF
+
+There are three parts of WCF Application or we can say it consists of three things, which are-
+WCF Service : What is the service and what it is providing.
+WCF Service host: Where is the Service hosted.
+Service Client: Who is the client of the Service.
+Fundamentals of WCF
+
+Message
+
+Message is the communication unit, as it is in the form of an envelop. The transmission of the data from the client to Service and Service to client is being done by envelop. The envelop or message has the sections, given below-
+Header 
+Body
+By default Header and fault are disabled but Body is responsible for the data transmission or data exchanging.
+
+Header is useful to send some data from client to Server. Suppose we want to send user name from each request but don’t want to send it by an argument, we can easily add it into message header.
+
+Endpoint
+
+Endpoint is a very essential part of WCF Application, as it describes the address of Web Service from where a user can receive and send the message. It also specifies the communication mechanism of how the message will be sent or received.
+
+End point consists of three things, which are A,B,C and each of them have a question mark.
+Address (Where?)
+Binding (how?)
+Contract (What?)
+Endpoint = A + B+ C
+
+Address is the address of WCF Service, where the Service is hosted? It gives the exact URL of Web Service, where the Service hosts the pattern of URL, which is-
+
+Scheme://domain/[:port]/path
+net.tcp://localhost:1234/MyService
+http://localhost:1234/MyService
+
+Binding
+
+It describes the way or mechanism by which the user will communicate with Web Service. It constitutes some binding element, which creates the structure of communication such as some transport protocols like HTTP, TCP etc. Message format or security techniques etc.
+
+Contract
+ 
+Contract is the third important question. What functionality and operation is being provided by  the service is called contract. It specifies what functionality and operations are need to be exposed to the client. It is the interface name which has all operation that need to be exposed.
+
+Hosting
+
+Hosting is the important thing in WCF Application and it makes WCF Application different from other distributed Applications. WCF supports following types of hosting-
+IIS Hosting
+Self hosting 
+WAS hosting
+SOAP
+
+SOAP stands for Simple Object Access Protocol. It is not a transport protocol but an  XML based message protocol.
+-------------------------------------
+Xunit and		Nunit:
+				TestFixture
+Fact     		Test 
+[Theory]	  
+InlineData(-1)  TestCase(-1)]
+
+
+XUNIT:
+public class MathOperationTest  
+    {  
+        [Fact]  
+        public void Task_Add_TwoNumber()  
+        {  
+            // Arrange  
+            var num1 = 2.9;  
+            var num2 = 3.1;  
+            var expectedValue = 6;  
+  
+            // Act  
+            var sum = MathOperation.Add(num1, num2);  
+  
+            //Assert  
+            Assert.Equal(expectedValue, sum, 1);  
+        }  
+  
+        [Fact]  
+        public void Task_Subtract_TwoNumber()  
+        {  
+            // Arrange  
+            var num1 = 2.9;  
+            var num2 = 3.1;  
+            var expectedValue = -0.2;  
+  
+            // Act  
+            var sub = MathOperation.Subtract(num1, num2);  
+  
+            //Assert  
+            Assert.Equal(expectedValue, sub, 1);  
+        }  
+  
+        [Fact]  
+        public void Task_Multiply_TwoNumber()  
+        {  
+            // Arrange  
+            var num1 = 2.9;  
+            var num2 = 3.1;  
+            var expectedValue = 8.99;  
+  
+            // Act  
+            var mult = MathOperation.Multiply(num1, num2);  
+  
+            //Assert  
+            Assert.Equal(expectedValue, mult, 2);  
+        }  
+  
+        [Fact]  
+        public void Task_Divide_TwoNumber()  
+        {  
+            // Arrange  
+            var num1 = 2.9;  
+            var num2 = 3.1;  
+            var expectedValue = 0.94; //Rounded value  
+  
+            // Act  
+            var div = MathOperation.Divide(num1, num2);  
+  
+            //Assert  
+            Assert.Equal(expectedValue, div, 2);  
+        }  
+
+NUNIT:
+[TestFixture]  
+    public class DemoTests {  
+        List < EmployeeDetails > li;  
+        [Test]  
+        public void Checkdetails() {  
+                Program pobj = new Program();  
+                li = pobj.AllUsers();  
+                foreach(var x in li) {  
+                    Assert.IsNotNull(x.id);  
+                    Assert.IsNotNull(x.Name);  
+                    Assert.IsNotNull(x.salary);  
+                    Assert.IsNotNull(x.Geneder);  
+                }  
+            }  
+            [Test]  
+        public void TestLogin() {  
+                Program pobj = new Program();  
+                string x = pobj.Login("Ajit", "1234");  
+                string y = pobj.Login("", "");  
+                string z = pobj.Login("Admin", "Admin");  
+                Assert.AreEqual("Userid or password could not be Empty.", y);  
+                Assert.AreEqual("Incorrect UserId or Password.", x);  
+                Assert.AreEqual("Welcome Admin.", z);  
+            }  
+            [Test]  
+        public void getuserdetails() {  
+            Program pobj = new Program();  
+            var p = pobj.getDetails(100);  
+            foreach(var x in p) {  
+                Assert.AreEqual(x.id, 100);  
+                Assert.AreEqual(x.Name, "Bharat");  
+            }  
+        }  
+    }  
+	
+MORE DIFF: https://www.lambdatest.com/blog/nunit-vs-xunit-vs-mstest/#:~:text=As%20far%20as%20NUnit%20vs,of%20the%20%5BTest%5D%20attribute.
+
+DESCRIPTION
+NUNIT  MSTEST   XUNIT
+Marks a test method/individual test	[Test]	[TestMethod]	[Fact]
+Indicates that a class has a group of unit tests	[TestFixture]	[TestClass]	N.A
+Contains the initialization code, which is triggered before every test case	[SetUp]	[TestInitialize]	Constructor
+Contains the cleanup code, which is triggered after every test case	[TearDown]	[TestCleanup]	IDisposable.Dispose
+Contains method that is triggered once before test cases start	[OneTimeSetUp]	[ClassInitialize]	IClassFixture<T>
+Contains method that is triggered once before test cases end	[OneTimeTearDown]	[ClassCleanup]	IClassFixture<T>
+Contains per-collection fixture setup and teardown	N.A	N.A	ICollectionFixture<T>
+Ignores a test case	[Ignore(“reason”)]	[Ignore]	[Fact(Skip=”reason”)]
+Categorize test cases or classes	[Category()]	[TestCategory(“)]	[Trait(“Category”, “”)
+Identifies a method that needs to be called before executing any test in test class/test fixture	[TestFixtureSetup]	[ClassInitialize]	N.A
+Identifies a method that needs to be called after executing any test in test class/test fixture	[TestFixtureTearDown]	[ClassCleanUp]	N.A
+Identifies a method that needs to be called before the execution of any tests in Test Assembly	N.A	[AssemblyInitialize]	N.A
+Identifies a method that needs to be called after execution of tests in Test Assembly	N.A	[AssemblyCleanUp]	N.A
+
+
+
++++++++++++++++++++++++++++++++
+LINQ:
+//Step1: Data Source
+            List<int> integerList = new List<int>()
+            {
+                1, 2, 3, 4, 5, 6, 7, 8, 9, 10
+            };
+            //Step2: Query
+			
+            //LINQ Query using Query Syntax to fetch all numbers which are > 5
+            var QuerySyntax = from obj in integerList //Data Source
+                              where obj > 5 //Condition
+                              select obj; //Selection
+			
+			//LINQ Query using LINQ Method Syntax to fetch all numbers which are > 5
+			var QuerySyntax = integerList.Where(obj => obj > 5).ToList(); 
+			
+			//LINQ Query using Mixed Syntax
+            var MethodSyntax = (from obj in integerList
+                                where obj > 5
+                                select obj).Sum();
+			
+            //Step3: Execution
+            foreach (var item in QuerySyntax)
+            {
+                Console.Write(item + " ");
+            }
+			
+			
+			
+			
+			
+IEnumerable: namespace: Sytem.Collections.Generic; //the IEnumerable interface has one method called GetEnumerator()
+List<Student> studentList = new List<Student>()
+            {
+                new Student(){ID = 1, Name = "James", Gender = "Male"},
+                new Student(){ID = 2, Name = "Sara", Gender = "Female"},
+                new Student(){ID = 3, Name = "Steve", Gender = "Male"},
+                new Student(){ID = 4, Name = "Pam", Gender = "Female"}
+            };
+            //Linq Query to Fetch all students with Gender Male
+            IEnumerable<Student> QuerySyntax = from std in studentList
+                                               where std.Gender == "Male"
+                                               select std;
+            //Iterate through the collection
+            foreach (var student in QuerySyntax)
+            {
+                Console.WriteLine( $"ID : {student.ID}  Name : {student.Name}");
+            }
+			
+IQueryable: namespace: Sytem.Linq; //IQuerable interface is a child of the IEnumerable interface;; IQuerable interface has a property called Provider which is of type IQueryProvider interface
+The methods provided by the IQueryProvider are used to create all Linq Providers. So, this is the best choice for other data providers such as Linq to SQL, Linq to Entities, etc. Why we will discuss this in our next article
+
+List<Student> studentList = new List<Student>()
+            {
+                new Student(){ID = 1, Name = "James", Gender = "Male"},
+                new Student(){ID = 2, Name = "Sara", Gender = "Female"},
+                new Student(){ID = 3, Name = "Steve", Gender = "Male"},
+                new Student(){ID = 4, Name = "Pam", Gender = "Female"}
+            };
+            
+            //Linq Query to Fetch all students with Gender Male
+            IQueryable<Student> MethodSyntax = studentList.AsQueryable()
+                                .Where(std => std.Gender == "Male");
+                                              
+            //Iterate through the collection
+            foreach (var student in MethodSyntax)
+            {
+                Console.WriteLine( $"ID : {student.ID}  Name : {student.Name}");
+            }
+
+
+NOW IN CASE OF DB:
+using (StudentDBContext DBContext = new StudentDBContext())
+            {
+                //To See What SQL Generated By Entity Framework
+                DBContext.Database.Log = Console.Write;
+                //Fetch the Top 2 Records from the Students Database table where Gender = Male
+                IEnumerable<Student> listStudents = DBContext.Students.Where(x => x.Gender == "Male");
+                listStudents = listStudents.Take(2);
+                Console.WriteLine("Top 2 Student Where Gender = Male");
+                foreach (var std in listStudents)
+                {
+                    Console.WriteLine(std.FirstName + " " + std.LastName);
+                }
+            }
+
+WHEN USING IEnumerable the query that gets run does not have the "Select top 2 filter" but in case of the IQuerable it will have that filter :
+using (StudentDBContext DBContext = new StudentDBContext())
+            {
+                //To See What SQL Generated By Entity Framework
+                DBContext.Database.Log = Console.Write;
+                //Fetch the Top 2 Records from the Students Database table where Gender = Male
+                IQueryable<Student> listStudents = DBContext.Students
+                                   .AsQueryable()
+                                   .Where(x => x.Gender == "Male");
+                listStudents = listStudents.Take(2);
+                Console.WriteLine("Top 2 Student Where Gender = Male");
+                foreach (var std in listStudents)
+                {
+                    Console.WriteLine(std.FirstName + " " + std.LastName);
+                }
+            }
+			
+NOTE:
+As you can see in the above image, it includes the TOP (2) clause in the SQL Script and then fetches the data from the database. That means now the filtering is happening on the database side. With this kept in mind let us discuss the differences between IEnumerable and IQueryable in C#.
+
+As you can see in the above image, it includes the TOP (2) clause in the SQL Script and then fetches the data from the database. That means now the filtering is happening on the database side. With this kept in mind let us discuss the differences between IEnumerable and IQueryable in C#.
+
+While querying the data from a database, the IQueryable executes the “select query” with the applied filter on the server side i.e. on the database, and then retrieves data even though if the query is created using multiple statements.
+So, we need to use the IQueryable when we want to query the data from out-memory such as remote database, service, etc.
+The collection of type IQueryable can move only forward, it can’t move backward and between the items.
+IQueryable supports deferred execution.
+It also supports custom queries using CreateQuery and Executes methods.
+IQueryable supports lazy loading and hence it is suitable for paging-like scenarios.
+
+
+https://dotnettutorials.net/lesson/linq-operators/ ONWARDS::
+
++++++++++++++++++++++++++++++++
+NUnit
+A [TestCase] attribute is used to create a suite of tests that execute the same code but have different input arguments. You can use the [TestCase] attribute to specify values for those inputs
+[TestCase(-1)]
+[TestCase(0)]
+[TestCase(1)]
+public void IsPrime_ValuesLessThan2_ReturnFalse(int value)
++++++++++++++++++++++++++++++++
+XUnit
+In the preceding code, [Theory] and [InlineData] enable testing several values less than two
+
+[Theory]
+[InlineData(-1)]
+[InlineData(0)]
+[InlineData(1)]
+public void IsPrime_ValuesLessThan2_ReturnFalse(int value)
+{
+-------------------------------------
+MOQ:
+
+You can use Moq to do this very easily. Say your controller has this signature:
+
+public class UsersController : Controller
+{
+    private IUserRepository _userRepository;
+    private ApplicationUserManager _userManager;
+    private ApplicationSignInManager _signInManager;
+
+    public UsersController(ApplicationUserManager userManager, ApplicationSignInManager signInManager, IUserRepository userRepository)
+    {
+        UserManager = userManager;
+        SignInManager = signInManager;
+        _userRepository = userRepository;
+    }
+
+ ...
+} 
+Then the test for this will look something like this (using Moq)
+
+ [TestClass]
+public class UsersControllerTests
+{
+    private Mock<IUserRepository> _userRepository;
+    private Mock<ApplicationUserManager> _userManager;
+    private Mock<ApplicationSignInManager> _signInManager;
+    private UsersController _controller;
+    private Mock<IUserStore<ApplicationUser>> _userStore;
+    private Mock<IAuthenticationManager> _authManager;
+
+    [TestInitialize]
+    public void SetUp()
+    {
+        _userRepository = new Mock<IUserRepository>();
+
+        _userStore = new Mock<IUserStore<ApplicationUser>>();
+        _authManager = new Mock<IAuthenticationManager>();
+        _userManager = new Mock<ApplicationUserManager>(_userStore.Object);
+        _signInManager = new Mock<ApplicationSignInManager>(_userManager.Object, _authManager.Object);
+
+        _controller = new UsersController(_userManager.Object, _signInManager.Object, _userRepository.Object);
+
+        //only do this if you want to use request object in your tests
+        var returnUrl = new Uri("http://www.example.com");
+        var httpContext = new Mock<HttpContextBase>();
+        var request = new Mock<HttpRequestBase>();
+        httpContext.Setup(x => x.Request).Returns(request.Object);
+        request.Setup(x => x.Url).Returns(new Uri("http://localhost:123"));
+        var requestContext = new RequestContext(httpContext.Object, new RouteData());
+        _controller.Url = new UrlHelper(requestContext);
+    }
+	
+https://exceptionnotfound.net/unit-testing-the-business-layer-in-asp-net-core-with-moq-and-xunit/
+-------------------------------------
+// var last=splitTime.Skip(2).Take(1);
+// var last=splitTime.LastOrDefault();
+-------------------------------------
+MinMax Sum:
+ public static void miniMaxSum(List<int> arr)
+    {
+        // arr.Sort();
+        // var minsum = arr.Take(4).Sum();
+        // var maxsum=arr.TakeLast(4).Sum();
+        // Console.WriteLine($"{minsum} {maxsum}");
+        // var minsum = arr.Take(4).Sum();
+        // var maxsum= arr.Skip(1).Take(4).Sum();
+        // Console.WriteLine($"{minsum} {maxsum}");
+        // CurrentMessage
+        //                 .Where(c => c.GroupName == groupName)
+        //                 .OrderByDescending(c => c.GroupName)
+        //                 .Take(5)
+        // CurrentMessage
+        // .Where(c => c.GroupName == groupName).Skip(Math.Max(0, CurrentMessage.Count() - 5)).ToList();
+        int maxi=arr.Max();
+        int mini=arr.Min();
+        int arrSum=arr.Sum();
+        Console.WriteLine($"{arrSum-maxi} {arrSum-mini}");
+    }
+-------------------------------------
+Multidimensional array:
+
+int[,] numbers = { {1, 4, 2}, {3, 6, 8} };
+numbers[0, 0] = 5;  // Change value to 5
+Console.WriteLine(numbers[0, 0]); // Outputs 5 instead of 1
+
+
+
+using System;
+using System.Linq;
+class HelloWorld {
+  static void Main() {
+    int[,] array={{1,2,3},{4,5,6}};
+    for(int i=0;i<array.GetLength(0);i++){
+        for(int j=0; j<array.GetLength(1);j++){
+            Console.WriteLine(array[i,j]);
+        }
+    }
+    int[,] array2D = new int[,] { { 1, 2 }, { 3, 4 }, { 5, 6 }, { 7, 8 } }; 
+        Console.WriteLine(String.Join(" ", array2D.Cast<int>()));
+  }
+}
+-------------------------------------
+dictionary using action!
+Frequency of words in array:
+
+using System;
+using System.Linq;
+using System.Collections.Generic;
+class HelloWorld {
+    static Dictionary<string,int> dict= new Dictionary<string,int>();
+  static void Main() {
+    // string[] names= new string[]{"harsh", "arsh", "gautam", "varsh", "devarshana", "pulkit"};
+    // // Console.WriteLine(String.Join(" ",names));
+    // var output= from i in names
+    //             where i.Contains("arsh")
+    //             select i;
+    // Console.WriteLine(String.Join(" ",output));      
+    string sentence= "ram ram sit sita radhe radhe radhe krishna";
+    string[] wordsInSentence= sentence.Split(" ");
+    
+    Action<string> action = new Action<string>(checkAndUpdate);
+    Array.ForEach(wordsInSentence,action);
+    private static void checkAndUpdate(string val)
+    {
+        if(!dict.ContainsKey(val)){dict.Add(val, 1);}
+        else{dict[val]+=1;}//++
+    }
+	
+    foreach (KeyValuePair<string, int> kvp in dict)
+    {
+        //textBox3.Text += ("Key = {0}, Value = {1}", kvp.Key, kvp.Value);
+        Console.WriteLine("Key = {0}, Value = {1}", kvp.Key, kvp.Value);
+    }
+  }
+}
+-------------------------------------
+HASHSETS in c#:
+using System;
+using System.Collections.Generic;
+class HelloWorld {
+  static void Main() {
+    // string sentence = "pulkit is a good man, pulkit does work like a good man pulkit is good to other good man and other good people";
+    //     //display the frequency of each word
+    //     string[] splitSentence = sentence.Split(" ");
+    //     // Console.WriteLine(string.Join("-",splitSentence));
+    //     Dictionary<string,int> dicti = new Dictionary<string,int>();
+    //     // List<string> wordsCounted = List<string>();
+    //     foreach(var word in splitSentence)
+    //     {
+    //         if(dicti.ContainsKey(word)){dicti[word]+=1;}
+    //         else{dicti[word]=1;}//dict.Add(val,1)
+    //     }
+    //     foreach(KeyValuePair<string,int> kvp in dicti){Console.WriteLine("Key = {0}, Value = {1}", kvp.Key, kvp.Value);}
+        
+    List<int> numsDupli = new List<int>(){1,2,3,4,5,6,1,2,3,4,5,6};
+    HashSet<int> evenNumbers = new HashSet<int>();
+    foreach(var num in numsDupli){evenNumbers.Add(num);}
+    Console.WriteLine(String.Join("-",evenNumbers));
+    //HashSet<int> ans = new HashSet<int>(mySet1);
+    //ans.UnionWith(mySet2);
+    //myhash1.IntersectWith(myhash2);
+    //myhash1.ExceptWith(myhash2);
+    // Remove all elements from HashSet
+        // Using Clear method
+        //myhash.Clear();
+    // Remove element from HashSet
+        // Using Remove method
+        //myhash.Remove("Ruby");
+  }
+}
+
+-------------------------------------
+Reversing string in c#:
+
+7. return new string(stringToReverse.Reverse().ToArray());
+1. var charArray = stringToReverse.ToCharArray();
+    Array.Reverse(charArray);
+    return new string(charArray);
+2. return string.Concat(Enumerable.Reverse(stringToReverse));
+3.public string RecursiveStringReverseMethod(string stringToReverse)
+{
+    if (stringToReverse.Length <= 1)
+        return stringToReverse;
+    return stringToReverse[^1] + RecursiveStringReverseMethod(stringToReverse[1..^1]) + stringToReverse[0];
+}
+In C# 8.0, two new concepts were introduced, Ranges and Indices. The [^1] is called a slice notation and represents an index relative to the end of the string. In other words, s[^1] is equivalent to stringToReverse[stringToReverse.Length - 1], which accesses the last character of the string.
+
+The [1..1^] syntax specifies a range that starts at the second character and ends at the second-to-last character. The ^ symbol represents an index relative to the end of the string. In this case, 1^ means one index from the end of the string.
+4. var resultStack = new Stack<char>();
+    foreach (char c in stringToReverse)
+    {
+        resultStack.Push(c);
+    }
+    var sb = new StringBuilder();
+    while (resultStack.Count > 0)
+    {
+        sb.Append(resultStack.Pop());
+    }
+    return sb.ToString();
+5. var sb = new StringBuilder(stringToReverse.Length);
+    for (int i = stringToReverse.Length - 1; i >= 0; i--)
+    {
+        sb.Append(stringToReverse[i]);
+    }
+    return sb.ToString();
+6. return string.Create(stringToReverse.Length, stringToReverse, (chars, state) =>
+    {
+        state.AsSpan().CopyTo(chars);
+        chars.Reverse();
+    });
+
+
+-------------------------------------
+Slicing concept in c#:
+RANGE WORKs WITH ARRAY and not with list
+
+CIRCUMFLEX ^ operator;
+
+// Online C# Editor for free
+// Write, Edit and Run your C# code using C# Online Compiler
+
+using System;
+using System.Linq;
+using System.Collections.Generic;
+
+public class HelloWorld
+{
+    public static void Main(string[] args)
+    {
+        var listOfNumbers = new List<int>()
+        {
+        	1, 2, 3, 4, 5, 6, 7
+        };
+        var bla = listOfNumbers.Skip(2).Take(2);//skips 1,2 and takes 3,4
+        Console.WriteLine(string.Join(" ",bla));
+        string[] weeks = new string[] {  
+            "Monday",  
+            "Tuesday",  
+            "Wednesday",  
+            "Thursday",  
+            "Friday",  
+            "Saturday",  
+            "Sunday"  
+        }; 
+        Range range = 2..5; //Start from 2nd index and goes before 5th index means index 2, 3 and 4  
+        var slc = weeks[range];
+        var thirdlastele=weeks[^3];
+        Console.WriteLine(string.Join(" ",slc));
+        Console.WriteLine(string.Join(" ",thirdlastele));
+		
+		
+		var array = new int[] { 1, 2, 3, 4, 5 };
+    // Array.ForEach(lis.ToArray(),Console.WriteLine);
+    var slicedPosts = new int[2];
+    Array.Copy(array, 2, slicedPosts, 0, 2);//source array, starting index, destination array, starting destination index (zero because we’re copying to a new array), 
+    //and a number of elements we want to slice.
+    Array.ForEach(slicedPosts,Console.WriteLine);
+    Console.WriteLine();
+    var slcLinq = array.Skip(1).Take(2);
+    Array.ForEach(slcLinq.ToArray(),Console.WriteLine);//var bla = listOfNumbers.Skip(2).Take(2..4);
+    }
+}
+-------------------------------------
+ALL ABOUT ENUM (enumeration)
+An enum is a special "class" that represents a group of constants (unchangeable/read-only variables).
+Use enums when you have values that you know aren't going to change, like month days, days, colors, deck of cards, etc.
+
+In the C# language, enum (also called enumeration) is a user-defined value type used to represent a list of named integer constants. It is created using the enum keyword inside a class, structure, or namespace. It improves a program's readability, maintainability and reduces complexity
+
+enum Months
+{
+  January,    // 0 by default with 0 but if =1 then by 1
+  February,   // 1
+  March,      // 2
+  April,      // 3
+  May,        // 4
+  June,       // 5
+  July        // 6
+}
+
+static void Main(string[] args)
+{
+  int myNum = (int) Months.April;
+  Console.WriteLine(myNum);//prints 3
+  Array.ForEach(Enum.GetNames(typeof(Months)), x => WriteLine(x));
+  
+  Months months = (Months) 2;
+  WriteLine("Months 2="+months); // prints March
+}
+
+using System;
+using static System.Console;
+class HelloWorld {
+    public enum RequestType: byte {
+        HttpPost = 1,
+            HttpGet = 2,
+            HTTPPut = 3
+    }
+  static void Main() {
+    WriteLine("Hello World");
+    //it is easy to convert enum to value types
+            byte type = (byte) RequestType.HttpGet; //returns "2"
+            WriteLine("type num="+type);
+            //also via versa
+            RequestType requestType = (RequestType) 2;
+            WriteLine("requestType 2="+requestType); // prints HttpGet
+            //use GetNames() to retrieve names of enum values
+            Array.ForEach(Enum.GetNames(typeof(RequestType)), x => WriteLine(x));
+            //GetValues() helps to retrive values of enums as int values
+            Array.ForEach((byte[]) Enum.GetValues(typeof(RequestType)), x => WriteLine(x));
+            //Parse helps to parse enum to string
+            RequestType fromString = (RequestType) Enum.Parse(typeof(RequestType), "3");
+            WriteLine("fromString 3="+fromString);
+            // we dont have "5" so it returns false
+            bool hasCurrentValue = Enum.IsDefined(typeof(RequestType), "5");
+            WriteLine("type 5="+hasCurrentValue);
+            // Console.ReadLine();
+  }
+}
+-------------------------------------
+String Formatting in c#:
+string s = "Name:{0} {1}, Location:{2}, Age:{3}";
+            string msg = string.Format(s, "Ram", "Singh", "Mumbai", 32);
+			
+new:
+var anInt = 1;
+var aBool = true;
+var aString = "3";
+var formated = $"{anInt},{aBool},{aString}";
+-------------------------------------
+//You might have seed @ before strings like this
+string str = @"\";
+//It stops the string from escaping the \ character
+str = "\n";
+//str is NewLine character
+str = @"\n";
+//str is \n
+-------------------------------------
+ADO.net:
+1. using System.Data.SqlClient, 
+2. Connection SqlConnection to connect to database,
+3. Command SqlCommand execute query against datasource,
+4. DataReader Reads data from datasource, readonly and forward only,
+5. DataSet Creates copy of database on client machine locally,
+6. DataAdapter Fills datasets with data available in datasource and updt datasource
+
+ExecuteReader | reader object //reader.GetString(1);rdr["FirstName"].ToString();
+ExecuteScalar | returns single result count etc
+ExecuteNonQuery | if want to know how many rows affected
+
+ConnectionString: "DataSource={server};Initial Catalog={db};Integrated Security=True/SSPI" //last one User Id={};Password={};//. or (local) datasource
+
+							string ConStr=@"{above}";
+							SqlConnection con=new SqlConnection(ConStr);
+							string SqlQuery="Select * FROM [dbo].[Employees]";
+							SqlCommand cmd=new SqlCommand(SqlQuery,con);
+							con.Open();
+							SqlDataReader reader=cmd.ExecuteReader();
+							while(reader.Read()){
+								txtFName=reader.GetString(1);
+								txtLName=reader.GetString(2);
+							}
+							con.Close();
+
+IF DROPDOWN:
+List<string> ListOfCities=new List<string>();
+...
+while(reader.Read()){
+	ListOfCities.Add(reader.GetString(1));
+}
+drpDwnInput.DataSource=ListOfCities;
+
+Parameterized query:
+string addCommand = @"Insert into ... Values(@fname,@..)";
+SqlCommand cmd=new SqlCommand(addCommand,con);
+cmd.Parameters.AddWithValue("@fname",txtFirstName.Text);
+
+DataSet and DataAdapter:
+
+							string getAll="select * from employees";
+							SqlDataAdapter da=new SqlDataAdapter(getAll,ConStr);
+							DataSet ds=new DataSet();
+							da.Fill(ds);
+							DataGridView1.DataSource=ds.Tables[0];
+
+StoredProcedure:
+string GetAllEmp="[dbo].[GetEmpSP]" //this is a SP
+SqlCommand cmd=new SqlCommand(GetAllEmp,con); con){CommandType=#down}
+cmd.CommandType=CommandType.StoredProcedure;
+cmd.CommandText=GetAllEmp;
+SqlDataAdapter da=new SqlDataAdapter(cmd);
+DataSet ds=new DataSet();
+da.Fill(ds);
+GridView1.DataSource=ds.Tables[0];
+
+SP with Parameters:
+SqlParameter param1 = new SqlParameter
+                    {
+                        ParameterName = "@Id", //Parameter name defined in stored procedure
+                        SqlDbType = SqlDbType.Int, //Data Type of Parameter
+                        Value = 101, //Value passes to the paramtere
+                        Direction = ParameterDirection.Input //Specify the parameter as input
+                    };
+                    //Add the parameter to the Parameters property of SqlCommand object
+                    cmd.Parameters.Add(param1);
+
+--------------------------------------------
+ADO vs ENTITY Framework:
+1.Entity framework is ORM Model, which used LINQ to access database and code is auto generated whereas ADO.Net code is larger than Entity Framework.
+
+2.The main and the only benefit of Entity framework is it auto-generates code for the Model (middle layer), Data Access Layer and mapping code, thus reducing a lot of development time.
+
+3.Entity Framework is a wrapper for ADO.NET. There is nearly no difference between those two in performance (maybe Entity framework is littel bit slower).
+
+4.But ADO.Net is faster than Entity framework as Entity framework uses ADO.Net in background.
+
+There are some key differences between ADO.net and the entity framework as follows:
+
+Performance:
+The performance of ADO.Net is better than entity framework because ADO.Net is directly connected to the data source due to that it gives better performance than entity framework, whereas the performance of entity framework is less as compared to the ADO.Net as entity translate the LINQ queries to SQL first and then process the query.
+
+The entity framework consisting of the wrapper classes for ADO.Net so with the help of it we can able to do coding faster, entity framework uses ADO.Net in the background.
+
+Flexibility:
+In terms of raw SQL queries and procedures, ADO.Net provides more flexibility than the entity framework as ADO.net provides full control over the database. The LINQ queries are resulting in an efficient SQL query hence the raw SQL queries are useful, raw SQL queries are needful when we cannot want to express it by using LINQ, it returns a regular entity type which is the part of our model.
+
+Speed of development:
+ADO.Net provides complete control over the data layer so that by using scratch developer can create classes and methods and that allows communicating between the application and the database, this process will take more time and more efforts to build the complete structure of the data access layer, whereas, the entity framework generates the models and database context classes automatically so it handles the operations which are performed on the database, this process of performing will take less time and the fewer efforts.
+
+Code Maintainability:
+When we go from the application layer to the database layer to find what is happening in an application this process of debugging is so embarrassing, whereas, the entity framework provides modeled relationships very clearly and their tiers are dependent, the storage model and the mapping can change without changing data classes, conceptual model or application code and data classes.
+-------------------------------------
+IEnumerable:
+
+Month is List<string> containing all months:
+//create IEnumerable of string 
+IEnumerable<string> iEnumerableOfString = (IEnumerable<string>)Month;  
+//If we want to retrieve all the items from this IEnumerable object, we can use a foreach loop. 
+foreach(string AllMonths in iEnumerableOfString)
+{  
+   Console.WriteLine(AllMonths);  
+} 
+
+IEnumerator:
+//Create IEnumerator of string.
+IEnumerator<string> iEnumeratorOfString = Month.GetEnumerator();//to convert list into IEnumerator we can invoke the GetEnumerator method  
+//To retrieve all the items from the above IEnumerator object, we cannot use foreach loop instead of that we need to invoke MoveNext() Boolean method.  
+while(iEnumeratorOfString.MoveNext())
+{  
+  Console.WriteLine(iEnumeratorOfString.Current); 
+} 
+-------------------------------------
+IEnumerable vs Iqueryable:
+
+IEnumerable
+
+IEnumerable exists in the System.Collections namespace. 
+IEnumerable is suitable for querying data from IN-MEMORY collections like List, Array and so on.
+While querying data from the database, IEnumerable executes "select query" on the server-side, loads data in-memory on the client-side and then filters the data.
+IEnumerable is beneficial for LINQ to Object and LINQ to XML queries.
+
+DataClassesDataContext dc= new DataClassesDataContext();
+IEnumerable<Employee> list= dc.Employees.Where(d=>d.Department.Equals("IT"));
+list=list.Take<Employee>(3);
+foreach(var a in list){Response.Write(a.name+"</br>");}
+
+IQueryable
+IQueryable exists in the System.Linq Namespace.
+IQueryable is suitable for querying data from OUT-MEMORY (like remote database, service) collections.
+While querying data from a database, IQueryable executes a "select query" on server-side with all filters.
+IQueryable is beneficial for LINQ to SQL queries.
+
+DataClassesDataContext dc= new DataClassesDataContext();
+IQueryable<Employee> list= dc.Employees.Where(d=>d.Department.Equals("IT"));
+list=list.Take<Employee>(3);
+foreach(var a in list){Response.Write(a.name+"</br>");}
+
+-------------------------------------
+types of paths:
+/   = Root directory
+.   = This location
+..  = Up a directory
+./  = Current directory
+../ = Parent of current directory
+../../ = Two directories backwards
+~
+And if you do ASP.NET programming it means the top level of the website; rather than navigating using ../../images/some_image.jpg (and getting your nesting level wrong!) you can simply say ~/images/some_image.jpg
+-------------------------------------
+~Subscription()  
+    {  
+        if (!isDisposed)  
+            Dispose();  
+    }  
+~ is used for writing destructor logic
+~ is the destructor
+
+Destructors are invoked automatically, and cannot be invoked explicitly.
+Destructors cannot be overloaded. Thus, a class can have, at most, one destructor.
+Destructors are not inherited. Thus, a class has no destructors other than the one, which may be declared in it.
+Destructors cannot be used with structs. They are only used with classes. An instance becomes eligible for destruction when it is no longer possible for any code to use the instance.
+Execution of the destructor for the instance may occur at any time after the instance becomes eligible for destruction.
+When an instance is destructed, the destructors in its inheritance chain are called, in order, from most derived to least derived.
+Finalize
+
+In C#, the Finalize method performs the operations that a standard C++ destructor would do. In C#, you don't name it Finalize -- you use the C++ destructor syntax of placing a tilde ( ~ ) symbol before the name of the class.
+
+Dispose
+
+It is preferable to dispose of objects in a Close() or Dispose() method that can be called explicitly by the user of the class. Finalize (destructor) are called by the GC.
+
+The IDisposable interface tells the world that your class holds onto resources that need to be disposed and provides users a way to release them. If you do need to implement a finalizer in your class, your Dispose method should use the GC.SuppressFinalize() method to ensure that finalization of your instance is suppressed.
+
+What to use?
+
+It is not legal to call a destructor explicitly. Your destructor will be called by the garbage collector. If you do handle precious unmanaged resources (such as file handles) that you want to close and dispose of as quickly as possible, you ought to implement the IDisposable interface.
+
+This is a finalizer.It is used to indicate the destructor for the class. To be honest, you should very rarely need to write a finalizer. You really only need to write one if:
+
+You have direct access to an unmanaged resource (e.g. through an IntPtr) and you can't use SafeHandle which makes it easier
+You are implementing IDisposable in a class which isn't sealed. (My preference is to seal classes unless they're designed for inheritance.) A finalizer is part of the canonical Dispose pattern in such cases.
+-------------------------------------
+Extension method:
+A C# extension method allows developers to extend the functionality of an existing type without creating a new derived type, recompiling, or otherwise modifying the original type. C# extension method is a special kind of static method that is called as if it was an instance method on the extended type. In this article, we will create a class library and extend its functionality from the caller code by implementing extension methods in C#. 
+
+C# Extension Method
+C# extension method is a static method of a static class, where the "this" modifier is applied to the first parameter. The type of the first parameter will be the type that is extended.
+
+Extension methods are only in scope when you explicitly import the namespace into your source code with a using directive.
+
+using System;
+using System.Text;
+using ClassLibExtMethod;
+
+namespace ExtensionMethod1
+{
+    public static class XX
+    {
+         public static void NewMethod(this Class1 ob)
+        {
+            Console.WriteLine("Hello I m extended method");
+        }
+    }
+
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Class1 ob = new Class1();
+            ob.Display();
+            ob.Print();
+            ob.NewMethod();
+            Console.ReadKey();
+        }
+    }
+}
+
+Extension methods allow existing classes to be extended without relying on inheritance or changing the class's source code.
+If the class is sealed, there is no concept of extending its functionality. For this, a new concept is introduced, in other words, extension methods.
+This feature is important for all developers, especially if you would like to use the dynamism of the C# enhancements in your class's design.
+-------------------------------------
+length in c#
+int nameLength = name.Length;
+-------------------------------------
+iterating over a list :
+
+1
+List<int> nums = new List<int>() { 1, 2, 3, 4, 5 };
+ 
+foreach (var i in nums) {Console.WriteLine(i);}
+
+2.
+List<int> nums = new List<int>() { 1, 2, 3, 4, 5 };
+nums.ForEach(i => Console.WriteLine(i));
+
+3.
+for (var i = 0; i < nums.Count; i++) {
+	Console.WriteLine(nums[i]);
+}
+
+4.
+var Freds = new [] { "Fred", "Freddy" };
+Freds = Freds.Concat(new [] { "Frederick" }).ToArray();
+Array.ForEach(Freds, Console.WriteLine);
+
+5. 
+Console.WriteLine(string.Join(" \n",months));
+
+6.
+Array.ForEach(arr1,x=>Console.Write(x+" "));
+
+-------------------------------------------------------------------
+SUM UP FIRST 3 biggest elements in an unsorted string:
+
+default without linq:
+using System;
+					
+public class Program
+{
+	public static void Main()
+	{
+		////Get the SUM of top 3 Numbers. 
+		//
+		var foo = "23,45,21,09,33,98,36,89,-11,09,4";
+		var split= foo.Split(',');
+		int lengthsplit=split.Length;
+		
+		int[] arr = new int[lengthsplit];
+		for(int i=0;i<lengthsplit;i++){
+			arr[i]=Convert.ToInt32(split[i]);//Int32.Parse(input)
+		}
+		Array.Sort(arr);
+		Array.Reverse(arr);
+		int sum=0;
+		for(int j=0;j<3;j++){
+		sum+=arr[j];
+		}
+		Console.WriteLine(sum);
+	}
+}
+
+int number = int.Parse(textBoxNumber.Text);
+// The Try-Parse Method
+int.TryParse(textBoxNumber.Text, out number);//Parse throws an exception if it cannot parse the value, whereas TryParse returns a bool indicating whether it succeeded
+
+Convert.ToInt32 allows null value, it doesn't throw any errors Int. parse does not allow null value, and it throws an ArgumentNullException error
+
+OPTIMIZED USING LINQ:
+
+using System;
+using System.Linq;
+public class HelloWorld{
+    public static void Main(){
+        // Console.WriteLine("HelloWorld");
+        var foo = "23,45,21,09,33,98,36,89,-11,09,4";
+        // li.Sort();
+        var split = foo.Split(",").Select(x=>Int32.Parse(x)).ToArray().OrderByDescending(x=>x).Take(3).Sum();
+        // Array.ForEach(split,Console.WriteLine);
+		//studentList.OrderBy(s => s.StudentName); for ascending
+        Console.WriteLine(split);
+    }
+}
+
+
+using System;
+using System.Linq;
+					
+public class Program
+{
+	public static void Main()
+	{
+		var foo = "23,45,21,09,33,98,36,89,-11,09,4";
+		//foo = foo.Select(x=>x/2).ToArray();
+		var objects = foo.Split(',').Select(x=>int.Parse(x)).ToArray();
+        //int[] objectsInts = Array.ConvertAll(objects, s => int.Parse(s));
+		var orderByResult = from s in objects
+                   orderby s descending
+                   select s;
+		//int[] numbersAsInt = numbersAsString.Select(s => int.Parse(s)).OrderBy(s => s).ToArray
+		/*foreach (int i in orderByResult) 
+            Console.Write(i + " \n");*/
+		//var firstThreeItems = orderByResult.Take(3);
+		var firstThreeSum = orderByResult.Take(3).Select(x=> x).Sum();
+		//var sum = array.Sum();
+		//int total = (from num in firstThreeSum select num).Sum();
+		Console.Write(firstThreeSum);
+	}
+}
+
+
+
+sorting and stuff array:
+
+using System;
+
+namespace MyApplication
+{
+  class Program
+  {
+    static void Main(string[] args)
+    {
+      int[] arr={2,1,3};
+      foreach(var i in arr){
+      Console.Write(i);
+      }
+      Console.WriteLine("");
+      Array.Sort(arr);
+      foreach(var i in arr){
+      Console.WriteLine(i);
+      }
+      int[] arr2;
+      arr2 = new int[]{2,8,1};
+      Array.Reverse(arr2);
+      foreach(var i in arr2){
+      Console.Write(i);
+      }
+      String[] array=new String[3]{"bb","aa","cc"};
+      for (int i = 0; i < array.Length; i++)
+      {
+        Console.Write(array[i]);
+      }
+      Array.Sort(array);
+      for (int i = 0; i < array.Length; i++)
+      {
+        Console.Write(array[i]);
+      }
+      string letters="anthony";
+      Console.WriteLine(letters.Length);
+	  Array.ForEach<int>(arr2, n => Console.WriteLine(n));//[182]
+	  
+	  //SORTING USING LINQ:
+	  //using System.Linq:
+	  char[] arry=new char[3]{'z','a','e'};
+	  
+	  
+      var sortedarry= from letter in arry
+      					orderby letter ascending
+                        select letter;
+       Array.ForEach<char>(sortedarry.ToArray<char>(),s=>Console.WriteLine(s));
+	   
+	   
+	   array = array.OrderByDescending(c => c).ToArray();//descending order sort using Linq
+	   
+	   //splitting in c#:
+	   string textToSplit="Hello Words With Space";
+       string[] splitter=textToSplit.Split(" ");
+       Array.ForEach<string>(splitter,s=>Console.WriteLine(s));
+	   
+	   
+	   //CONVERSIONS all:
+	   string stringInp="2147483647";
+       int val = Int32.Parse(stringInp);
+       Console.WriteLine(val);
+       double doubleNum = 11.53;
+       int ntNum = Convert.ToInt32(doubleNum);
+       string myStr = "120";
+       int res = int.Parse(myStr);
+       bool res1;
+        int a;
+        string myStr2 = "120";
+        res1 = int.TryParse(myStr2, out a);
+		
+		int num1 = 3;
+		string numberr = num1.ToString()
+        //string numberStr = n.ToString() "|OR|" string numberStr = Convert.toString(n);
+    }
+  }
+}
+
+
+--------------------
+
+Linq equivalents of Map and Reduce: If you’re lucky enough to have linq then you don’t need to write your own map and reduce functions. C# 3.5 and Linq already has it albeit under different names.
+
+Map is Select:
+Enumerable.Range(1, 10).Select(x => x + 2);
+
+Reduce is Aggregate:
+Enumerable.Range(1, 10).Aggregate(0, (acc, x) => acc + x);
+
+Filter is Where:
+Enumerable.Range(1, 10).Where(x => x % 2 == 0);
+
+
+-----------------------------------------------
+LINQ queries:
+
+//linq to get last 2 char in array of words and order them and print them together;
+        string[] n1={"RAM","SHUL", "KRISHNA"};
+        // Console.WriteLine(String.Join(",",n1));
+        var outp=n1.OrderByDescending(x => x).Select(x=>x.Substring(x.Length - 2)).ToList();//(x=>x.ToLower()).Select(x=>x);
+        Console.WriteLine(String.Join(" ",outp));
+		
+var nQuery=n1.Where(x=>x>0 && x<12).Select(x=>x);
+
+var sqNo=arr1.Where(x=>x*x>20).Select(x=> new {x=x,x_Sqr=x*x}); //return object 
+var x = from t in types  group t by t.Type
+         into grp    
+         select new { type = grp.key, count = grp.Count() };
+		 
+group:
+persons[0] = new Person { PersonID = 1, car = "Ferrari" }; 
+persons[1] = new Person { PersonID = 1, car = "BMW"     }; 
+persons[2] = new Person { PersonID = 2, car = "Audi"    }; 
+
+var results = from p in persons
+              group p.car by p.PersonId into g
+              select new { PersonId = g.Key, Cars = g.ToList() };
+Or as a non-query expression:
+
+var results = persons.GroupBy(
+    p => p.PersonId, 
+    p => p.car,
+    (key, g) => new { PersonId = key, Cars = g.ToList() });
+
+Alternatively, you could use a Lookup:
+
+var carsByPersonId = persons.ToLookup(p => p.PersonId, p => p.car);
+You can then get the cars for each person very easily:
+
+// This will be an empty sequence for any personId not in the lookup
+var carsForPerson = carsByPersonId[personId];
+	
+-----------------------------------------------
+class vs struct:
+Class: 
+1. Members of a class are private by default.
+2. Base classes/structures of a class are private by default.
+3. It is declared using the class keyword.
+4. It support inheritance.
+5. It is reference type
+6. It can have NULL values
+7.It may have all the types of constructors and destructors.
+
+Structure:
+1. Members of a structure are public by default. 
+2. Base classes/structures of a structure are public by default.
+3. It is declared using the struct keyword.
+4. It does not support inheritance.
+5. It is value type.
+6. It cannot have NULL values.
+7. It may have only parameterized constructor.
+-----------------------------------------------
+list methods:
+
+Method	Description
+Add(T)	Adds an object to the end of the List<T>.
+AddRange(IEnumerable<T>)	Adds the elements of the specified collection to the end of the List<T>.
+AsReadOnly()	Returns a read-only ReadOnlyCollection<T> wrapper for the current collection.
+BinarySearch()	Uses a binary search algorithm to locate a specific element in the sorted List<T> or a portion of it.
+Clear()	Removes all elements from the List<T>.
+Contains(T)	Determines whether an element is in the List<T>.
+ConvertAll(Converter)	Converts the elements in the current List<T> to another type, and returns a list containing the converted elements.
+CopyTo()	Copies the List<T> or a portion of it to an array.
+Equals(Object)	Determines whether the specified object is equal to the current object.
+Exists(Predicate<T>)	Determines whether the List<T> contains elements that match the conditions defined by the specified predicate.
+Find(Predicate<T>)	Searches for an element that matches the conditions defined by the specified predicate, and returns the first occurrence within the entire List<T>.
+FindAll(Predicate<T>)	Retrieves all the elements that match the conditions defined by the specified predicate.
+FindIndex()	Searches for an element that matches the conditions defined by a specified predicate, and returns the zero-based index of the first occurrence within the List<T> or a portion of it. This method returns -1 if an item that matches the conditions is not found.
+FindLast(Predicate<T>)	Searches for an element that matches the conditions defined by the specified predicate, and returns the last occurrence within the entire List<T>.
+FindLastIndex()	Searches for an element that matches the conditions defined by a specified predicate, and returns the zero-based index of the last occurrence within the List<T> or a portion of it.
+ForEach(Action<T>)	Performs the specified action on each element of the List<T>.
+GetEnumerator()	Returns an enumerator that iterates through the List<T>.
+GetHashCode()	Serves as the default hash function.
+GetRange(Int32, Int32)	Creates a shallow copy of a range of elements in the source List<T>.
+GetType()	Gets the Type of the current instance.
+IndexOf()	Returns the zero-based index of the first occurrence of a value in the List<T> or in a portion of it.
+Insert(Int32, T)	Inserts an element into the List<T> at the specified index.
+InsertRange(Int32, IEnumerable<T>)	Inserts the elements of a collection into the List<T> at the specified index.
+LastIndexOf()	Returns the zero-based index of the last occurrence of a value in the List<T> or in a portion of it.
+MemberwiseClone()	Creates a shallow copy of the current Object.
+Remove(T)	Removes the first occurrence of a specific object from the List<T>.
+RemoveAll(Predicate<T>)	Removes all the elements that match the conditions defined by the specified predicate.
+RemoveAt(Int32)	Removes the element at the specified index of the List<T>.
+RemoveRange(Int32, Int32)	Removes a range of elements from the List<T>.
+Reverse()	Reverses the order of the elements in the List<T> or a portion of it.
+Sort()	Sorts the elements or a portion of the elements in the List<T> using either the specified or default IComparer<T> implementation or a provided Comparison<T> delegate to compare list elements.
+ToArray()	Copies the elements of the List<T> to a new array.
+ToString()	Returns a string that represents the current object.
+TrimExcess()	Sets the capacity to the actual number of elements in the List<T>, if that number is less than a threshold value.
+TrueForAll(Predicate<T>)	Determines whether every element in the List<T> matches the conditions defined by the specified predicate.
+-----------------------
+random prgrm:
+
+sum up using Queryable:
+
+using System;
+using System.Linq;
+class HelloWorld {
+  static void Main() {
+    int[] arr= new int[]{1,2,3};
+    Console.WriteLine(Queryable.Sum(arr.AsQueryable()));
+    
+  }
+}
+
+using cast() to print first 2 letters of array elements:
+
+using System;
+using System.Linq;
+using System.Collections.Generic;
+class HelloWorld {
+   static void Main() {
+      List<object> list = new List<object> { "keyboard", "mouse", "joystick", "monitor" };//()
+      // getting first 2 letters from every string
+      IEnumerable<string> res = list.AsQueryable().Cast<string>().Select(str => str.Substring(0, 2).ToUpper());
+      foreach (string str in res)
+      Console.WriteLine(str);
+   }
+}
+
+---------------------------------------
+using interface and testing:
+
+using System;
+class HelloWorld{
+  static void Main() {
+    ProductDetails pd=new ProductDetails();
+    Console.WriteLine(pd.GetProductDetails().ProductName);
+  }
+public interface IProductDetails    
+    {  
+        int productid{get;set;}
+        ProductDetails GetProductDetails();
+    } 
+public class ProductDetails : IProductDetails      
+{      
+    public string ProductName { get; set; }      
+    public double ProductPrice { get; set; }      
+    public int ProductQuantity { get; set; }
+    public int productid { get; set; }
+  
+    public ProductDetails()      
+    {      
+        ProductName = "IPhone 11";      
+        ProductPrice = 100000;      
+        ProductQuantity = 1;      
+    }       
+   /// <summary>    
+   /// Get properties values assigned in constructor    
+   /// </summary>    
+   /// <returns>Returns this object</returns>    
+    public ProductDetails GetProductDetails()      
+    {      
+        return this;      
+    }      
+}    
+}
+
+----------------------------
+take array input:
+List<int> ar = Console.ReadLine().TrimEnd().Split(' ').ToList().Select(arTemp => Convert.ToInt32(arTemp)).ToList();
+
+using System;
+class HelloWorld {
+  static void Main() {
+    //int[] arr= new int[]{};
+    var s = new { Name = "Deepak", Address = "Noida", Salary=21000 }; 
+    Console.WriteLine(s.Name);
+    Console.WriteLine("enter array elements in one line");
+    var input=Console.ReadLine();
+    var splt=input.Split();
+    int sum=0;
+    foreach(var i in splt){Console.Write(i);sum+=Convert.ToInt32(i);}
+    Console.WriteLine("\nlength = "+ splt.Length +"\n"+sum);
+    Console.Write("enter number of elements in arr n =");
+    int num = Int32.Parse(Console.ReadLine());
+    int[] arr=new int[num];
+    for(int j=0;j<num;j++){arr[j]=Int32.Parse(Console.ReadLine());}
+    foreach(var i in arr){Console.Write(i);}
+  }
+}
+-----------------------------------
+SUM UP ARRAY ELEMENTS C#: hackerrank:
+
+using System.CodeDom.Compiler;
+using System.Collections.Generic;
+using System.Collections;
+using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Runtime.Serialization;
+using System.Text.RegularExpressions;
+using System.Text;
+using System;
+
+class Result
+{
+
+    /*
+     * Complete the 'simpleArraySum' function below.
+     *
+     * The function is expected to return an INTEGER.
+     * The function accepts INTEGER_ARRAY ar as parameter.
+     */
+
+    public static int simpleArraySum(List<int> ar)
+    {
+        //return ar.Aggregate(0,(acc,x)=>acc+x);
+    //     int sum=0;
+    //     ar.ForEach(x=>{sum+=x;});
+    //     return sum;
+        int sum=0;
+        foreach(var element in ar){ sum+=element;}
+        return sum;
+    }
+}
+
+class Solution
+{
+    public static void Main(string[] args)
+    {
+        TextWriter textWriter = new StreamWriter(@System.Environment.GetEnvironmentVariable("OUTPUT_PATH"), true);
+
+        int arCount = Convert.ToInt32(Console.ReadLine().Trim());
+
+        List<int> ar = Console.ReadLine().TrimEnd().Split(' ').ToList().Select(arTemp => Convert.ToInt32(arTemp)).ToList();
+
+        int result = Result.simpleArraySum(ar);
+
+        textWriter.WriteLine(result);
+
+        textWriter.Flush();
+        textWriter.Close();
+    }
+}
+
+-----------------------------
+list stuff default val and print:
+
+using System;
+using System.Linq;
+using System.Collections.Generic;
+class HelloWorld {
+  static void Main() {
+    Console.WriteLine("Enter the number of array elements");//variable storing multiple of all and then dividing the arr[i] by that
+    //int n = int.Parse(Console.ReadLine());
+    List<int> ans = new List<int>(10);
+    ans=Enumerable.Repeat(1, 10).ToList();
+    // int[] ans=new int[2];
+    // Array.Fill(ans,1);
+    ans[0]=2;
+    Console.WriteLine(String.Join(",", ans));
+    //Array.ForEach(ans.ToArray(),Console.WriteLine);
+  }
+}
+----------------------------------
+//take array n number output array n numbers with multiplied value of all except that index
+using System;
+using System.Collections.Generic;
+class HelloWorld {
+  static void Main() {
+    Console.WriteLine("Enter the number of array elements");//variable storing multiple of all and then dividing the arr[i] by that
+    int n = int.Parse(Console.ReadLine());
+    int[] arr= new int[]{1,2,3,4};
+    List<int> ans = new List<int>();
+    for(int i=0;i<n;i++){
+        int mul=1;
+        for(int j=0;j<n;j++){
+            if(j!=i){
+                mul*=arr[j];
+                Console.Write(mul+",");
+            }
+        }
+        ans.Add(mul);//array = array.Concat(new int[] { 2 }).ToArray();
+    }
+    Console.Write("\n");
+    Array.ForEach(ans.ToArray(),Console.WriteLine);
+  }
+}
+
+
+Local Storage
+Session Storage     	
+Cookies 
+
+The storage capacity of local storage is 5MB/10MB	
+The storage capacity of session storage is 5MB	
+The storage capacity of Cookies is 4KB
+
+As it is not session-based, it must be deleted via javascript or manually	
+It’s session-based and works per window or tab. This means that data is stored only for the duration of a session, i.e., until the browser (or tab) is closed	
+Cookies expire based on the setting and working per tab and window 
+
+The client  can only read local storage	
+The client can only read local storage	
+Both clients and servers can read and write the cookies
+
+There is no transfer of data to the server	
+There is no transfer of data to the server	
+Data transfer to the server is exist
+
+There are fewer old browsers that support it	
+There are fewer old browsers that support it	
+It is supported by all the browser including older browser
+
+
+-----------------------------
+Exception vs ERROR:
+Error: This is the syntax problem, which leads to compilation problem. In the terms of programming language, error is include only the COMPILE TIME such as syntax error .That cant not be handle by any Handler. 
+Exception:- This is the RUN TIME error which interrupts the application execution.In the terms of programming language,exception is a logical error such as Stack overflow, array unbounded, one/zero and etc. All the logical error handle by the exception handler such as try-catch ,throws etc.
+
+An error is an indication of an unexpected condition that occurs due to lack of system resources while an exception is an issue in a program that prevents the normal flow of the program.  Thus, this is the main difference between Error and Exception in C#.
+
+Occurrence
+Moreover, an error occurs due to the lack of system resources whereas an exception occurs due to an issue in the program.
+
+Recovery
+Recovery is another difference between Error and Exception in C#. An error is irrecoverable while an exception is recoverable.
+
+Handling 
+Furthermore, there is no way to handle an error using the program. However, it is possible to handle an exception in a program using keywords such as try, catch, finally.
+
+Classification
+An error is classified as an unchecked type whereas an exception is classified as checked and unchecked exceptions. Hence, this is another difference between Error and Exception in C#.
+
+Examples
+OutOfMemoryError, StackOverFlowError, and, IOError are some examples of errors while ArithmeticException, SQLException, and, NullPointerException are some examples of exceptions. This is another difference between Error and Exception in C#.
+
+Conclusion
+The main difference between Error and Exception in C# is that an Error occurs due to unavailability of a system resource while an Exception occurs due to an issue in the program. In brief, an error is a critical condition that is not possible to handle by a C# program while an Exception is an exceptional situation that is possible to handle by a C# program
+
+------------------------------
+Partial class in c#:
+Partial Class is a unique feature of C#. It can break the functionality of a single class into many files. When the application is compiled, these files are then reassembled into a single class file. The partial keyword is used to build a partial class
+
+EmployeeProps.cs
+public partial class Employee
+{
+    public int EmpId { get; set; }
+    public string Name { get; set; }
+}
+EmployeeMethods.cs
+public partial class Employee
+{
+    //constructor
+    public Employee(int id, string name){
+        this.EmpId = id;
+        this.Name = name;
+    }
+
+    public void DisplayEmpInfo() {
+        Console.WriteLine(this.EmpId + " " this.Name);
+    }
+}
+Above, EmployeeProps.cs contains properties of the Employee class, and EmployeeMethods.cs contains all the methods of the Employee class. These will be compiled as one Employee class.
+Partial classes or structs can contain a method that split into two separate .cs files of the partial class or struct. One of the two .cs files must contain a signature of the method, and other file can contain an optional implementation of the partial method. Both declaration and implementation of a method must have the partial keyword
+
+    partial void GenerateEmployeeId();
+partial void GenerateEmployeeId()
+    {
+        this.EmpId = random();
+    }
+------------------------------
+Lambda Expression:
+Func<int, int> square = x => x * x;
+Console.WriteLine(square(5));
+// Output:
+// 25
+
+int[] numbers = { 2, 3, 4, 5 };
+var squaredNumbers = numbers.Select(x => x * x);
+Console.WriteLine(string.Join(" ", squaredNumbers));
+// Output:
+// 4 9 16 25
+
+Action<string> greet = name =>
+{
+    string greeting = $"Hello {name}!";
+    Console.WriteLine(greeting);
+};
+greet("World");
+// Output:
+// Hello World!
+
+
+var IncrementBy = (int source, int increment = 1) => source + increment;
+
+Console.WriteLine(IncrementBy(5)); // 6
+Console.WriteLine(IncrementBy(5, 2)); // 7
+------------------------------
+EXCEPTION HANDLING:
+
+An exception is a problem that arises during the execution of a program. A C# exception is a response to an exceptional circumstance that arises while a program is running, such as an attempt to divide by zero.
+
+Exceptions provide a way to transfer control from one part of a program to another. C# exception handling is built upon four keywords: try, catch, finally, and throw.
+
+try − A try block identifies a block of code for which particular exceptions is activated. It is followed by one or more catch blocks.
+
+catch − A program catches an exception with an exception handler at the place in a program where you want to handle the problem. The catch keyword indicates the catching of an exception.
+
+finally − The finally block is used to execute a given set of statements, whether an exception is thrown or not thrown. For example, if you open a file, it must be closed whether an exception is raised or not.
+
+throw − A program throws an exception when a problem shows up. This is done using a throw keyword.
+
+try {
+   // statements causing exception
+} catch( ExceptionName e1 ) {
+   // error handling code
+} catch( ExceptionName e2 ) {
+   // error handling code
+} catch( ExceptionName eN ) {
+   // error handling code
+} finally {
+   // statements to be executed
+}
+
+
+ALL EXCEPTIONS:
+
+1	
+System.IO.IOException
+Handles I/O errors.
+2	
+System.IndexOutOfRangeException
+Handles errors generated when a method refers to an array index out of range.
+3	
+System.ArrayTypeMismatchException
+Handles errors generated when type is mismatched with the array type.
+4	
+System.NullReferenceException
+Handles errors generated from referencing a null object.
+5	
+System.DivideByZeroException
+Handles errors generated from dividing a dividend with zero.
+6	
+System.InvalidCastException
+Handles errors generated during typecasting.
+7	
+System.OutOfMemoryException
+Handles errors generated from insufficient free memory.
+8	
+System.StackOverflowException
+Handles errors generated from stack overflow.
+
+user defined exception:
+
+using System;
+
+namespace UserDefinedException {
+   class TestTemperature {
+      static void Main(string[] args) {
+         Temperature temp = new Temperature();
+         try {
+            temp.showTemp();
+         } catch(TempIsZeroException e) {
+            Console.WriteLine("TempIsZeroException: {0}", e.Message);
+         }
+         Console.ReadKey();
+      }
+   }
+}
+public class TempIsZeroException: Exception {
+   public TempIsZeroException(string message): base(message) {
+   }
+}
+public class Temperature {
+   int temperature = 0;
+   
+   public void showTemp() {
+      
+      if(temperature == 0) {
+         throw (new TempIsZeroException("Zero Temperature found"));
+      } else {
+         Console.WriteLine("Temperature: {0}", temperature);
+      }
+   }
+}
+When the above
+
+catch (Exception error){
+	Console.WriteLine(error.Message);
+}
+
+STATUS CODE:
+
+1xx Informational - The request was received but is still processing.
+2xx Success - The request was received, accepted and processed successfully.
+3xx Redirection - The client needs to take additional action to complete the request.
+4xx Client Error - An error occurred on the client side.
+5xx Server Error - An error occurred on the Server side.
+1** : Hold On
+2** : It’s All Good
+3** : Go Somewhere Else
+4** : You F’d Up
+5** : I F’d Up
+
+200 OK
+301 Moved permanently
+302 Found
+This status code is also used for redirection, but the HTTP 1.1 spec states that it should only be used for temporary redirects. This means that the resource is only temporarily moved and the client should continue using the original URL for future requests
+304 Not Modified
+The 304 Not Modified response is essentially a caching mechanism
+400 Bad request
+This status code indicates that the request made by the client is invalid
+401 Unauthorized
+403 Forbidden
+401 Unauthorized is the status code to return when the client provides no credentials or invalid credentials. 403 Forbidden is the status code to return when a client has valid credentials but not enough privileges to perform an action on a resource
+404 Not Found
+ This can happen if the page or resource that is requested never existed on the server or was moved to a new location without a 301 or 302 redirect.
+410 Gone
+A 410 Gone response is sometimes returned instead of a 404 error when the requested resource is not present anymore at the specified location, but it used to be there in the past.
+500 Internal Server Error
+The HTTP 500 Internal Server Error is a generic error response code that is used when no specific message is suitable
+-------------------------------
+REST [REpresentational State Transfer] vs SOAP[Simple Object Access Protocol]:
+
+RESTful supports JSON, XML,
+	SOAP supports only XML
+REST is faster than SOAP based web services
+	SOAP is more secure
+REST allows a greater variety of data formats,
+	SOAP only allows XML.
+    
+    1) SOAP
+- Communication happens using XML only
+- Request is sent to SOAP methods
+- Documentation is in WSDL (Wizdal)
+- Heavy, more secure, more stable
+- getting less popular
+    2) REST API
+- Communication happens using Json, XML
+- Requests are sent to API methods/urls using
+- Communication happens in HTTP(Internet)
+- Lightweight, stable
+- Easy to develop and automate
+- very popular
+
+RESTful:
+	- is architectural STYLE
+	- stateless
+	- requires HTTP
+	- supports JSON, XML, HTML, CSV, plain text
+	- easy documentation and easy to understand
+	- efficient and faster
+	- less bandwidth
+	- less secure
+	- Uses JAX-RS API for security
+
+SOAP: 
+	- ss XML based protocol itself
+	- State or stateless
+	- Can work with HTTP, SMPT(Simple Mailing Transfer Protocol), 
+    FTP(File Transfer Protocol)
+	- Only works with XML
+	- Documentation is complex and hard to understand  
+	- Slower than REST
+	- More secure
+	- Uses JAX-WS API for security
+	- Platform and programming language independent
+
+REST-Assured library helps us in testing our RESTful APIs easily. 
+It integrates seamlessly with TestNG and JUnit. JSON Path and XML Path 
+allows us to easily parse the response data and test specific elements. 
+Since it uses Hamcrest matchers, there are many options to match actual 
+result with expected data.
+
+------------------------------
+Repository Pattern:
+What is the Repository Design Pattern in C#?
+The Repository Design Pattern in C# Mediates between the domain and the data mapping layers using a collection-like interface for accessing the domain objects.
+
+In other words, we can say that a Repository Design Pattern acts as a middleman or middle layer between the rest of the application and the data access logic. That means a repository pattern isolates all the data access code from the rest of the application. The advantage of doing so is that, if you need to do any changes then you need to do it in one place. Another benefit is that testing your controllers becomes easy because the testing framework need not run against the actual database access code
+As we already discussed, nowadays, most data-driven applications need to access the data residing in one or more other data sources. Most of the time data sources will be a database. Again, these data-driven applications need to have a good and secure strategy for data access to perform the CRUD operations against the underlying database. One of the most important aspects of this strategy is the separation between the actual database, queries, and other data access logic from the rest of the application. In our example, we need to separate the data access logic from the Employee Controller. The Repository Design Pattern is one of the most popular design patterns to achieve such separation between the actual database, queries, and other data access logic from the rest of the application.
+As we already discussed that the Repository Design Pattern in C# is used to create an abstraction layer between the data access layer and the business logic layer of the application. That abstraction layer is generally called the Repository Layer and it will directly communicate with the data access layer, gets the data, and provides it to the business logic layer. 
+
+The main advantage to use the repository design pattern is to isolate the data access logic and business logic. So that if we do any changes in any of this logic, then that should affect other logic. So let us discuss the step-by-step procedure to implement the Repository Design Pattern in C#.
+
+
+EXAMPLE of ATTRIBUTE validation:
+ 
+        [Key]    
+        public int Id { get; set; }    
+    
+        [Required(ErrorMessage = "Please enter name")]    
+        [StringLength(100)]    
+        public string Name { get; set; }    
+    
+        [Required(ErrorMessage = "Please choose gender")]    
+        public string Gender { get; set; }    
+    
+        [Required(ErrorMessage = "Please enter date of birth")]    
+        [Display(Name = "Date of Birth")]    
+        [DataType(DataType.Date)]    
+        public DateTime DateofBirth { get; set; }    
+    
+        [Required(ErrorMessage = "Choose batch time")]  
+        [Display(Name = "Batch Time")]  
+        [DataType(DataType.Time)]   
+        public DateTime BatchTime { get; set; }   
+    
+        [Required(ErrorMessage = "Please enter phone number")]    
+        [Display(Name = "Phone Number")]    
+        [Phone]    
+        public string PhoneNumber { get; set; }    
+    
+        [Required(ErrorMessage = "Please enter email address")]  
+        [Display(Name = "Email Address")]   
+        [EmailAddress]   
+        public string Email { get; set; }  
+    
+        [Required(ErrorMessage = "Please enter website url")]    
+        [Display(Name = "Website Url")]    
+        [Url]    
+        public string WebSite { get; set; }    
+    
+        [Required(ErrorMessage = "Please enter password")]    
+        [DataType(DataType.Password)]    
+        public string Password { get; set; }    
+    
+        [Required(ErrorMessage = "Please enter confirm password")]    
+        [Display(Name = "Confirm Password")]    
+        [Compare("Password", ErrorMessage = "Password and confirm password does not match")]    
+        public string ConfirmPassword { get; set; }   
+		
+		
+		
+<div class="text-danger" asp-validation-summary="ModelOnly"></div> <!--ATtheRATE Html.ValidationSummary(false, "", new { ATtheRATE class = "text-danger" })-->
+        <div class="form-group row">
+            <div class="col-3">
+                <label asp-for="Name"></label>
+            </div>
+            <div class="col-6">
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+
+
+@section Scripts{ 
+<partial name="_ValidationScriptsPartial" />
+}
+
+JQUERY UNOBTRUSIVE validation:---------------------
+@*<input type="text" class="form-control input-validation-error"
+       data-val="true"
+       data-val-required="The Name field is required."
+       id="Name" name="Name" value="">
+<span class="text-danger field-validation-error"
+      data-valmsg-for="Name"
+      data-valmsg-replace="true">The Name field is required.</span>*@
+
+
+---------------------------------
+Binding DropDownList in MVC CORE:
+
+Various ways to do the binding
+
+Using @html.DropDownList Model
+@Html.DropDownList("Mobiledropdown1", Model.MobileList)
+ASP.NET (C#)
+Using @html.DropDownList with Viewbag
+@Html.DropDownList("Mobiledropdown2", ViewBag.VBMobileList as SelectList)
+ASP.NET (C#)
+Using @html.DropDownListFor With Model
+@Html.DropDownListFor(M => M.MobileList, new SelectList(Model.MobileList,"Value", "Text"))
+ASP.NET (C#)
+Using @html.DropDownList With hardcode values on View / with ViewBag.
+1.​​​​
+@Html.DropDownList("Mobiledropdown3", new List<SelectListItem>
+     { new SelectListItem { Text = "HTC DESIRE", Value = "1", Selected=true},
+       new SelectListItem { Text = "Moto G", Value = "2"},
+       new SelectListItem { Text = "GO mobiles", Value = "3"}
+       }, "Select Mobile")
+ASP.NET (C#)
+2.
+@Html.DropDownList("Dr",ViewData["MyhardcodeValue"] as List<SelectListItem>)
+
+++++++++++++++++++++++++++++
+using viewbag:
+
+demo2Entities1 ds = new demo2Entities1();
+var items = ds.schoolnames.ToList();  
+    if(items!=null)  
+    {
+        ViewBag.data = items;  
+    }  
+             
+    return View(); 
+
+add views-> model class: student(webtest1.Models):
+@Html.DropDownList("collegename",new SelectList(ViewBag.data,"colleged","collgnm"))
+----------------------------------
+@html helpers:
+
+Extension Method	Strongly Typed Method	Html Control
+Html.ActionLink()	NA	<a></a>
+Html.TextBox()	Html.TextBoxFor()	<input type="textbox">
+Html.TextArea()	Html.TextAreaFor()	<input type="textarea">
+Html.CheckBox()	Html.CheckBoxFor()	<input type="checkbox">
+Html.RadioButton()	Html.RadioButtonFor()	<input type="radio">
+Html.DropDownList()	Html.DropDownListFor()	<select>
+<option>
+</select>
+Html.ListBox()	Html.ListBoxFor()	multi-select list box: <select>
+Html.Hidden()	Html.HiddenFor()	<input type="hidden">
+Html.Password()	Html.PasswordFor()	<input type="password">
+Html.Display()	Html.DisplayFor()	HTML text: ""
+Html.Label()	Html.LabelFor()	<label>
+Html.Editor()	Html.EditorFor()	Generates Html controls based on data type of specified model property e.g. textbox for string property, numeric field for int, double or other numeric type.
+--------------------------------
+Include Script andd Styles in mvc core:
+he better way to do it is to use: app.UseStaticFiles(); inside startup.cs before routing
+
+I put the CSS files at ~/wwwroot/cs, and the JavaScript files at ~/wwwroot/js. Then I followed the format of the default _Layout.cshtml file.
+
+<head>
+   . . .
+   <link type="text/css" rel="stylesheet" href="~/css/myCSS.min.css" />
+   . . .
+</head>
+
+<body>
+   . . .
+   <script src="~/js/myJS.min.js" asp-append-version="true"></script>
+
+   @RenderSection("Scripts", required: false)
+   . . .
+</body>
+
+It might be a bit late to answer the question, but for the ones who come here via Google: I found that adding asp-append-version="true" worked for me, as all the other options given in the other answers were already provided in _Layout.cshtml.
+In _layout:
+
+@await RenderSectionAsync("Styles", required: false)
+Then your view:
+
+@section Styles{ your CSS }
+
+--------------------------------
+Memory management in .net:
+Resource Allocation
+
+read for GC: https://dzone.com/articles/when-and-how-to-use-dispose-and-finalize-in-c
+
+Although the .NET framework frees managed memory and resources transparently, it's not as adept at freeing unmanaged resources; you have to help it out by implementing the Dispose and Finalize patterns in your code. When the .NET framework instantiates an object, it allocates memory for that object on the managed heap. The object remains on the heap until it's no longer referenced by any active code, at which point the memory it's using is "garbage," ready for memory deallocation by the .NET Garbage Collector (GC). Before the GC deallocates the memory, the framework calls the object's  Finalize()  method, but developers are responsible for calling the  Dispose()  method.
+
+The two methods are not equivalent. Even though both methods perform object clean-up, there are distinct differences between them
+The .NET garbage collector manages the memory of managed objects (native .NET objects) but it does not manage, nor is it directly able to clean up unmanaged resources. Managed resources are those that are cleaned up implicitly by the garbage collector. You do not have to write code to release such resources explicitly. In contrast, you must clean up unmanaged resources (file handles, database collections, etc.) explicitly in your code.
+Briefly, the GC works as shown below:
+
+It searches for managed objects that are referenced in managed code.
+It then attempts to finalize those objects that are not referenced in the code.
+Lastly, it frees the unreferenced objects and reclaims the memory occupied by them.
+The GC maintains lists of managed objects arranged in "generations." A generation is a measure of the relative lifetime of the objects in memory. The generation number indicates to which generation an object belongs. Recently created objects are stored in lower generations compared to those created earlier in the application's life cycle. Longer-lived objects get promoted to higher generations. Because applications tend to create many short-lived objects compared to relatively few long-lived objects, the GC runs much more frequently to clean up objects in the lower generations than in the higher ones.
+Finalization is the process by which the GC allows objects to clean up any unmanaged resources that they're holding, before actually destroying the instance. An implementation of the Finalize method is called a "finalizer." Finalizers should free only external resources held directly by the object itself. The GC attempts to call finalizers on objects when it finds that the object is no longer in use—when no other object is holding a valid reference to it. In other words, finalizers are methods that the GC calls on "seemingly dead objects" before it reclaims memory for that object.
+The GC calls an object's finalizer automatically, typically once per instance—although that's not always the case. The framework calls finalizers on a secondary thread handled by the GC. You should never rely on finalizers to clean up managed resources. A class that has no finalizer implemented but is holding references to unmanaged objects can cause memory leaks, because the resources might become orphaned if a class instance is destroyed before releasing the unmanaged objects.
+
+The Microsoft .NET common language runtime requires that all resources be allocated from the MANAGED HEAP. Objects are automatically freed when they are no longer needed by the application.
+Unlike Finalize, developers should call Dispose explicitly to free unmanaged resources. In fact, you should call the Dispose method explicitly on any object that implements it to free any unmanaged resources for which the object may be holding references. The Dispose method generally doesn't free managed memory—typically, it's used for early reclamation of only the unmanaged resources to which a class is holding references. In other words, this method can release the unmanaged resources in a deterministic fashion.
+
+However, Dispose doesn't remove the object itself from memory. The object will be removed when the garbage collector finds it convenient. It should be noted that the developer implementing the Dispose method must call  GC.SuppressFinalize(this) to prevent the finalizer from running.
+
+Note that an object should implement IDisposable and the Dispose method not only when it must explicitly free unmanaged resources, but also when it instantiates managed classes which in turn use such unmanaged resources. Implementing IDisposable is a good choice when you want your code, not the GC, to decide when to clean up resources. Further, note that the Dispose method should not be called concurrently from two or more different threads as it might lead to unpredictable results if other threads still have access to unmanaged resources belonging to the instance.
+
+
+When a process is initialized, the runtime reserves a contiguous region of address space that initially has no storage allocated for it. This address space region is the managed heap. The heap also maintains a pointer. This pointer indicates where the next object is to be allocated within the heap. Initially, the pointer is set to the base address of the reserved address space region.
+
+An application creates an object using the new operator. This operator first ensures that the bytes required by the new object fit in the reserved region (committing storage if necessary). If the object fits, then the pointer points to the object in the heap, this object's constructor is called, and the new operator returns the address of the object.
+
+The preceding figure shows a managed heap consisting of three objects: A, B, and C. The next object to be allocated will be placed where NextObjPtr points (immediately after object C).
+
+When an application calls the new operator to create an object, there may not be enough address space left in the region to allocate to the object. The heap detects this by adding the size of the new object to NextObjPtr. If NextObjPtr is beyond the end of the address space region, then the heap is full and a collection must be performed.
+
+In reality, a collection occurs when generation 0 is completely full. Briefly, a generation is a mechanism implemented by the garbage collector to improve performance. The idea is that newly created objects are part of a young generation, and objects created early in the application's lifecycle are in an old generation. Separating objects into generations can allow the garbage collector to collect specific generations instead of collecting all objects in the managed heap.
+
+The Garbage Collection Algorithm
+
+The garbage collector checks to see if there are any objects in the heap that are no longer being used by the application. If such objects exist, then the memory used by these objects can be reclaimed. (If no more memory is available for the heap, then the new operator throws an OutOfMemoryException.)
+
+Every application has a set of roots. Roots identify storage locations, that refer to objects on the managed heap or to objects that are set to null. For example, all the global and static object pointers in an application are considered part of the application's roots. In addition, any local variable/parameter object pointers on a thread's stack are considered part of the application's roots. Finally, any CPU registers containing pointers to objects in the managed heap are also considered part of the application's roots. The list of active roots is maintained by the just-in-time (JIT) compiler and common language runtime, and is made accessible to the garbage collector's algorithm.
+
+When the garbage collector starts running, it makes the assumption that all objects in the heap are garbage. In other words, it assumes that none of the application's roots refer to any objects in the heap. Now, the garbage collector starts walking the roots and building a graph of all objects reachable from the roots. For example, the garbage collector may locate a global variable that points to an object in the heap.
+
+The following figure shows a heap with several allocated objects where the application's roots refer directly to the objects A, C, D, and F. All of these objects become part of the graph. When adding object D, the collector notices that this object refers to object H, and object H is also added to the graph. The collector continues to walk through all reachable objects recursively.
+
+Once this part of the graph is complete, the garbage collector checks the next root and walks the objects again. As the garbage collector walks from object to object, if it attempts to add an object to the graph that it previously added, then the garbage collector can stop walking down that path. This serves two purposes. First, it helps performance significantly since it doesn't walk through a set of objects more than once. Second, it prevents infinite loops should you have any circular linked lists of objects.
+
+Once all the roots have been checked, the garbage collector's graph contains the set of all objects that are somehow reachable from the application's roots; any objects that are not in the graph are not accessible by the application, and are therefore considered garbage.
+
+The garbage collector now walks through the heap linearly, looking for contiguous blocks of garbage objects (now considered free space). The garbage collector then shifts the non-garbage objects down in memory (using the standard memcpy function), removing all of the gaps in the heap. Of course, moving the objects in memory invalidates all pointers to the objects. So the garbage collector must modify the application's roots so that the pointers point to the objects' new locations. In addition, if any object contains a pointer to another object then the garbage collector is responsible for correcting these pointers as well.
+
+The following figure shows the managed heap after a collection.
+
+Memory5.gif
+
+After all the garbage has been identified, all the non-garbage has been compacted, and all the non-garbage pointers have been fixed-up, the NextObjPtr is positioned just after the last non-garbage object. At this point, the new operation is tried again and the resource requested by the application is successfully created.
+
+GC generates a significant performance hit, and this is the major downside of using a managed heap. However, keep in mind that GCs only occur when the heap is full and, until then, the managed heap is significantly faster than a C runtime heap. The runtime's garbage collector also offers some optimizations using Generations that greatly improve the performance of garbage collection.
+
+You no longer need to implement any code that manages the lifetime of any resources that your application uses. Now it is not possible to leak resources, since any resource not accessible from your application's roots can be collected at some point. Also it is not possible to access a resource that is freed, since the resource won't be freed if it is reachable. If it's not reachable, then your application has no way to access it.
+
+The following code demonstrates how resources are allocated and managed:
+
+class Application
+{
+public static int Main(String[] args)
+{
+// ArrayList object created in heap, myArray is now in root
+ArrayList myArray = new ArrayList();
+// Create 10000 objects in the heap
+for (int x = 0; x < 10000; x++)
+{
+myArray.Add(new Object()); // Object object created in heap
+}
+// Right now, myArray is a root (on the thread's stack). So,
+// myArray is reachable and the 10000 objects it points to are also reachable.
+Console.WriteLine(myArray.Count);
+// After the last reference to myArray in the code, myArray is not a root.
+// Note that the method doesn't have to return, the JIT compiler knows
+// to make myArray not a root after the last reference to it in the code.
+// Since myArray is not a root, all 10001 objects are not reachable
+// and are considered garbage. However, the objects are not
+// collected until a GC is performed.
+}
+}
+
+If GC is so great then you might be wondering why it isn't in ANSI C++. The reason is that a garbage collector must be able to identify an application's roots and must also be able to find all object pointers. The problem with C++ is that it allows casting a pointer from one type to another, and there's no way to know what a pointer refers to. In the common language runtime, the managed heap always knows the actual type of an object, and the metadata information is used to determine which members of an object refer to other objects.
+
+Generations
+
+One feature of the garbage collector that exists purely to improve performance is called generations. A generational garbage collector (also known as an ephemeral garbage collector) makes the following assumptions:
+
+The newer an object is, the shorter its lifetime will be.
+The older an object is, the longer its lifetime will be.
+Newer objects tend to have strong relationships to each other and are frequently accessed around the same time.
+Compacting a portion of the heap is faster than compacting the entire heap.
+When initialized, the managed heap contains no objects. Objects added to the heap are said to be in generation 0, as you can see in the following figure. Stated simply, objects in generation 0 are young objects that have never been examined by the garbage collector.
+
+Memory6.gif
+
+Now, if more objects are added to the heap, the heap fills and a garbage collection must occur. When the garbage collector analyzes the heap, it builds the graph of garbage (shown here in Green) and non-garbage objects. Any objects that survive the collection are compacted into the left-most portion of the heap. These objects have survived a collection, are older, and are now considered to be in generation 1.
+
+Memory7.gif
+
+As even more objects are added to the heap, these new, young objects are placed in generation 0. If generation 0 fills again, a GC is performed. This time, all objects in generation 1 that survive are compacted and considered to be in generation 2 (see following figure). All survivors in generation 0 are now compacted and considered to be in generation 1. Generation 0 currently contains no objects, but all new objects will go into generation 0.
+
+Memory8.gif
+
+Currently, generation 2 is the highest generation supported by the runtime's garbage collector. When future collections occur, any surviving objects currently in generation 2 simply stay in generation 2.
+
+Generational GC Performance Optimizations
+
+Generational garbage collecting improves performance. When the heap fills and a collection occurs, the garbage collector can choose to examine only the objects in generation 0 and ignore the objects in any greater generations. After all, the newer an object is, the shorter its lifetime is expected to be. So, collecting and compacting generation 0 objects is likely to reclaim a significant amount of space from the heap and be faster than if the collector had examined the objects in all generations.
+
+A generational collector can offer more optimizations by not traversing every object in the managed heap. If a root or object refers to an object in an old generation, the garbage collector can ignore any of the older objects' inner references, decreasing the time required to build the graph of reachable objects. Of course, it is possible that an old object refers to a new object. So that these objects are examined, the collector can take advantage of the system's write-watch support (provided by the Win32 GetWriteWatch function in Kernel32.dll). This support lets the collector know which old objects (if any) have been written to since the last collection. These specific old objects can have their references checked to see if they refer to any new objects.
+
+If collecting generation 0 doesn't provide the necessary amount of storage, then the collector can attempt to collect the objects from generations 1 and 0. If all else fails, then the collector can collect the objects from all generations-2, 1, and 0.
+
+One of the assumptions stated earlier was that newer objects tend to have strong relationships to each other and are frequently accessed around the same time. Since new objects are allocated contiguously in memory, you gain performance from the locality of the reference. More specifically, it is highly likely that all the objects can reside in the CPU's cache. Your application will access these objects with phenomenal speed since the CPU will be able to perform most of its manipulations without having cache misses that forces RAM access.
+
+Microsoft's performance tests show that managed heap allocations are faster than standard allocations performed by the Win32 HeapAlloc function. These tests also show that it takes less than 1 millisecond on a 200 MHz Pentium to perform a full GC of generation 0. It is Microsoft's goal to make GCs take no more time than an ordinary page fault
+
+
+--------------------------------
+So, if you want to use WCF on the client side with .NET Core, you can certainly do so. First, make sure you add the System.ServiceModel.Primitives and one of System.ServiceModel.Http (for the BasicHttpBinding/BasicHttpsBinding or NetHttpBinding/NetHttpsBinding bindings, which includes SOAP and REST) or System.ServiceModel.NetTcp (for NetTcpBinding, a Windows-only binary protocol). Absent are named pipes, MSMQ and support for the WS-* specs.
+
+A simple example is in order, first, the contract:
+
+[ServiceContract]
+public interface IPingService
+{
+	[OperationContract]
+	string Ping(string msg);
+}
+Then, the client code:
+
+var binding = new BasicHttpBinding();
+var endpoint = new EndpointAddress(new Uri("http://server/PingService.svc"));
+var channelFactory = new ChannelFactory(binding, endpoint);
+var serviceClient = channelFactory.CreateChannel();
+var result = serviceClient.Ping("Ping");
+channelFactory.Close();
+As you can see, nothing different to what you would do in the full .NET framework. Of course, there is no App.config or Web.config files, so you need to configure things manually, like creating the appropriate binding and endpoint address.
+
+You can also use svcutil.exe manually to generate proxy classes for you that will work with .NET Core.
+
+However, if you think about it, SOAP is not that complex, and, also, ASP.NET Core is very easy to extend.
+
+[adinserter block=”33″]
+
+How to Create a SOAP Service with ASP.NET Core
+Microsoft wrote a blog post about implementing a middleware component capable of handling SOAP requests.
+
+The example is very clear and informative and is a pleasant read, and Digital Design must have thought the same, because they made available on GitHub a fully functional (and extended) version of the blog’s sample code, which you can find here: https://github.com/DigDes/SoapCore.
+
+Because we live in the age of NuGet, a package is also available; it’s called SoapCore.
+
+By using SoapCore on top of ASP.NET Core, you can benefit from all the ASP.NET Core goodies, such as routing and filters.
+
+As an example, for the client-side, you can use pretty much the same class as I showed before. For the server end, you will need to write a service class that implements the contract:
+
+public class SampleService : IPingService
+{
+	public string Ping(string msg)
+	{
+		return string.Join(string.Empty, msg.Reverse());
+	}
+}
+And we just need to register the service implementation under a well-known address:
+
+public void ConfigureServices(IServiceCollection services)
+{
+     services.AddSingleton(new PingService());
+     services.AddMvc();
+     //rest goes here
+}
+public void Configure(IApplicationBuilder app, IHostingEnvironment env,  ILoggerFactory loggerFactory)
+{
+    app.UseSoapEndpoint(path: "/PingService.svc", binding: new BasicHttpBinding());
+    app.UseMvc();
+    //rest goes here
+}
+If you are interested, you can add a custom exception-to-string transformer, if you do, you can extract a meaningful message from any exception that should occur and return it to the client as a fault string:
+
+services.AddSoapExceptionTransformer((ex) => ex.Message);
+What the code does is inject a custom middleware to the ASP.NET Core pipeline which listens to HTTP POSTs, checks if the proper headers are present and extracts the action method and its parameters from the payload, which then forwards to the given implementation class.
+
+A couple of notes:
+
+The .svc extension is, of course, unnecessary, it is just here to remind us that WCF once mandated it
+You can use any life cycle for the PingService, not necessarily singleton
+The bindings on the client and server must match
+You won’t be able to add any of the ASP.NET Core filters to the service implementation, as they will be ignored; but you can use dependency injection
+Even though you can surely use this code for backward compatibility, in the case where you need to have a SOAP service written in .NET Core (for example, if you need to deploy it to Docker), be aware of its limitations:
+
+No support of the WS-* specifications
+No support for MTOM
+No support for security other than HTTPS or ASP.NET Core’s built-in
+No behaviors or throttling
+--------------------------------
+RestFul APIs:
+
+There are 4 main principles of REST as laid out by Roy Fielding and his colleagues in 2000. They set out to create a standard that allowed servers to communicate with other servers easily. This is what they came up with, changing the landscape of APIs:
+
+Client-Server: There is always a client and a server, and these two systems need boundaries for how they operate. Which one is being called (server) and which one is making the request (client)? Having these boundaries leads to smoother operation.
+Stateless: Servers need to be able to process messages they receive. In order to do this, every request a server receives should have the necessary information required for the server to work.
+Uniform Interface: Using similar terminology and resources helps standardize APIs. According to this principle, the following HTTP verbs are used: GET, PUT, POST, and DELETE. Resources always refer to URIs (uniform resource identifier). HTTP responses always come with a status and a body.
+Cacheable: Clients need to be able to cache representations. Because of statelessness (every representation being self-descriptive), this is possible in a RESTful API.
+--------------------------------
+HTTP Status COdes:
+== I information
+100 Continue
+101 Switching Protocols
+103 Early Hints
+== V Victory= Success
+200 OK
+201 Created
+202 Accepted
+203 Non-Authoritative Information
+204 No Content
+205 Reset Content
+206 Partial Content
+== E redirect
+300 Multiple Choices
+301 Moved Permanently
+302 Found
+303 See Other
+304 Not Modified
+307 Temporary Redirect
+308 Permanent Redirect
+== 404 client side error
+400 Bad Request
+401 Unauthorized
+402 Payment Required
+403 Forbidden
+404 Not Found
+405 Method Not Allowed
+406 Not Acceptable
+407 Proxy Authentication Required
+408 Request Timeout
+409 Conflict
+410 Gone
+411 Length Required
+412 Precondition Failed
+413 Payload Too Large
+414 URI Too Long
+415 Unsupported Media Type
+416 Range Not Satisfiable
+417 Expectation Failed
+418 I'm a teapot
+422 Unprocessable Entity
+425 Too Early
+426 Upgrade Required
+428 Precondition Required
+429 Too Many Requests
+431 Request Header Fields Too Large
+451 Unavailable For Legal Reasons
+== 5 Server side
+500 Internal Server Error
+501 Not Implemented
+502 Bad Gateway
+503 Service Unavailable
+504 Gateway Timeout
+505 HTTP Version Not Supported
+506 Variant Also Negotiates
+507 Insufficient Storage
+508 Loop Detected
+510 Not Extended
+511 Network Authentication Required
+--------------------------------
+Entity Framework  adding custom code and seeddata:
+
+Up
+migrationBuilder.Sql(@"CREATE PROCEDURE MyCustomProcedure
+                               AS
+                               SELECT * FROM Student");
+Down
+        migrationBuilder.Sql(@"DROP PROCEDURE MyCustomProcedure");
+
+
+OnModelCreating:
+protected override void OnModelCreating(ModelBuilder modelBuilder)
+{...
+modelBuilder.Entity<Student>()
+        .HasData(
+            new Student
+            {
+                Id = Guid.NewGuid(),
+                Name = "John Doe",
+                Age = 30
+            },
+            new Student
+            {
+                Id = Guid.NewGuid(),
+                Name = "Jane Doe",
+                Age = 25
+            }
+        );			   
+							   
+--------------------------------
+How many Catch block in try:
+as many as you want
+
+try
+            {
+                Console.WriteLine("Enter First Number");
+                Number1 = int.Parse(Console.ReadLine());
+            }
+            catch (DivideByZeroException DBZE)
+            {
+                Console.WriteLine("Second Number Should Not Be Zero");
+            }
+            catch (FormatException FE)
+            {
+                Console.WriteLine("Enter Only Integer Numbers");
+            }
+--------------------------------
+.net stack:
+.NET is an umbrella term associated with development tools and technologies that Microsoft created during the early 2000s. It includes applications for developing enterprise, mobile and web applications. “.NET web development is associated with such technologies as ASP.NET, WCF, WebAPI, Microsoft SQL Server and Windows hosting under MS IIS web server. Though now, after .NET Core was introduced, you can also use Linux, macOS with various DBs and web servers to host .NET web applications,”
+
+jam stack:
+JAMStack has been described as a “modern web development architecture” that is based on client-side JavaScript (J), reusable APIs (A), and prebuilt Markup (M). API-driven applications like Single-Page-Applications (SPAs)
+
+As one of the oldest tech stacks, LAMP represents the foundation of a Linux hosted website. LAMP stacks are comprised of four different components, a Linux operating system (L), an Apache Web Server (A), a MySQL database layer (M) and a PHP scripting layer (P).
+--------------------------------
+Dispose method:
+
+Dispose is never called by the .NET Framework; you must call it manually - preferably by wrapping its creation in a using() block
+The Dispose method. This method comes from the IDisposable
+interface and it is used to free up any unmanaged resources used by an object
+when its work is finished.
+When the close brace is reached, the Dispose( ) method will be called on the object automatically
+  
+using System;
+public sealed class Foo : IDisposable
+{
+    private readonly IDisposable _bar;
+
+    public Foo()
+    {
+        _bar = new Bar();
+    }
+
+    public void Dispose() => _bar.Dispose();
+}
+
+static void Test()
+{
+    using (DisposeImplementation di = new DisposeImplementation())
+    {
+        // Do stuff with di
+    }
+}
+Manually calling Dispose will also work, but the advantage of the using statement is that the object will also be disposed when you leave the control block because an exception is thrown.
+
+You could add a finalizer that handles the resource disposing in case someone "forgets" to use the IDisposable interface:
+
+public class DisposeImplementation : IDisposable
+{    
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+
+    protected virtual void Dispose(bool disposing)
+    {
+        if (disposing)
+        {
+            // get rid of managed resources
+        }   
+        // get rid of unmanaged resources
+    }
+
+    ~DisposeImplementation()
+    {
+        Dispose(false);
+    }
+}
+
+NOTE:::::
+
+The GC does not call Dispose, it calls your finalizer (which you should make call Dispose(false)).
+Because you cannot be certain that your user will call Dispose( ) reliably, and because finalization is nondeterministic (i.e., you can't control when the GC will run), C# provides a using statement which ensures that Dispose( ) will be called at the earliest possible time
+
+In the context of C#, dispose is an object method invoked to execute code required for memory cleanup and release and reset unmanaged resources, such as file handles and database connections. Dispose improves performance and optimizes memory by releasing unmanageable objects and scarce resources, like Graphics Device Interface (GDI) handles used in applications with restricted Windows space.
+
+The Dispose method, provided by the IDisposable interface, implements Dispose calls. The Dispose pattern is designed for timely and predictable cleanup, prevention of temporary memory leaks and disposal of resources.
+
+Techopedia Explains Dispose
+The .NET framework facilitates garbage collection (GC), manages object memory and resources and reclaims invalid object memory references by invoking Finalize – a non-deterministic method. The Dispose method controls the lifetime of object memory instances and provides explicit memory cleanup control, versus Finalize’s implicit memory cleanup. Dispose may be invoked even when other memory object instances exist, whereas Finalize may only be invoked after the last memory object is destroyed.
+
+Dispose method rules are as follows:
+
+Used for unmanaged resources requiring immediate release after use.
+If Dispose is not called, the Finalize method should be implemented.
+After calling the Dispose method, the GC.SuppressFinalize method must be called to avert the Finalize method and avoid unnecessary GC.
+Exceptions should be carefully handled if the Dispose method is invoked more than once. If resources are disposed, any instance method may throw the ObjectDisposedException.
+An object with a previously called Dispose method may not be reused.
+Dispose is recommended only for the management of native resource objects and Component Object Model (COM) objects exposed to the .NET Framework.
+Dispose may not be concurrently invoked from multiple threads, due to unpredictable results.
+Value types should not be created as disposable types or with unmanaged resource members.
+When using unmanaged resources, it is considered best practice to apply the source code’s Using statement, which automatically invokes the object’s Dispose method after completing the object code.
+
+This piece of code will show you some memory management in classes.
+
+When we give application to client, we don't know how will he use that whether he will call dispose or not?
+
+It may be missing at client side so our application should be smart enough to free used resources, here is code that will give the idea to implement finalizer and dispose in same class to take care of resource cleaning.
+
+using System;
+namespace disposeConsole
+{
+    class ResourceManagement : IDisposable
+    {
+        public ResourceManagement()
+        {}
+        private bool IsDisposed = false;
+        public void Free()
+        {
+            if (IsDisposed)
+                throw new System.ObjectDisposedException("Object Name");
+        }
+        //Call Dispose to free resources explicitly
+        public void Dispose()
+        {
+            //Pass true in dispose method to clean managed resources too and say GC to skip finalize in next line.
+            Dispose(true);
+            //If dispose is called already then say GC to skip finalize on this instance.
+            GC.SuppressFinalize(this);
+        }
+        ~ResourceManagement()
+        {
+            //Pass false as param because no need to free managed resources when you call finalize it will be done
+            //by GC itself as its work of finalize to manage managed resources.
+            Dispose(false);
+        }
+        //Implement dispose to free resources
+        protected virtual void Dispose(bool disposedStatus)
+        {
+            if (!IsDisposed)
+            {
+                IsDisposed = true;
+                // Released unmanaged Resources
+                if (disposedStatus)
+                {
+                    // Released managed Resources
+                }
+            }
+        }
+    }
+}
+--------------------------------
+Git Pull vs Git Fetch:
+
+Git Pull vs Fetch
+You’re likely in the following situation: there were changes recently made to your remote repository and you want to incorporate them into your local copy. You have a few options here; the two most common actions to get changes from your remote are Git pull and Git fetch.
+
+So, what’s the difference between Git pull vs fetch, and when should you utilize which command? We’re glad you asked.
+
+What is Git fetch?
+Git fetch is a command that allows you to download objects from another repository.
+
+What is Git pull?
+Git pull is a command that allows you to fetch from and integrate with another repository or local branch.
+
+From this definition, you can see that a Git pull is actually a Git fetch followed by an additional action(s)—typically a Git merge. 
+--------------------------------
+Git Commands:
+git code .                                //Open vs code
+git status                                //Show file status
+git status -s                             //show short file status
+git add <filename>                        //Add the particular file to staging area
+git add .                                  //Add all the file to the staging area
+git commit --amend                        //Add these changes to the last commit (will have to use vim editor)
+git commit -m "message"                   //Commit the files in the staging area    
+git commit -am "message"                  //Will commit without adding the file to the staging area
+git checkout --<filename>                 //will restore the file from the last commit
+git checkout -f                           //All the files will be replaced with last commit
+git checkout -b <branch name> 		   	  //Create a branch
+git branch 								//To see the branches
+git branch -d <branch name>				//To delete a branch
+git branch -v 							//will show the branch and its last commit
+git branch --merged 					//will show the branches that are merged
+git branch --no-merged 					//will show the branches that are not merged
+git merge <branch name>					//while in a branch you can merge another branch
+git log                                   //Show all the commits
+git log -n                                //n can be replaced by any number "will show last n commits"
+git log -p                                //Will show detailed discription of the commits  
+git log -p -n                             //use of n is similar as described above  
+git log --stat                            //will show short detailing of the commits  
+git log --stat -n                         //use of n is similar as described above    
+git log --since=n.days                    //commit of last n days/weeks/months "days can be replaced by weeks,months"
+git rm --cached <filename>                //will remove to file from the tracking area 
+git rm -rf                                //will uninitialized the current repository              
+git rm <filename>                         //will delete the file  
+git mv <Present filename> <The filename after the change>  //to Rename the file
+git clone <URL>                           //Cloning a repository in the current folder
+git clone <URL> foldername                //Cloning the repository in the given folder name (Folder will be created by itself) 
+git config --global alias. <new name> 'old command'  //while create an alias command for the given command
+git remote 						//Show all the name of remote repository
+git remote -v 					//Show all the path (fetch/push) of the remote repository
+git remote add <name> url			//Add a remote repository
+git remote rm <name>				//To remove a remote
+git push <remote name> <branch name>	//To push a branch to remote repository
+git push <remote name> <branch name>:<branch name you want to have in the remote repository>
+git reset HEAD						//To move to a previous commit
+
+How to undo this commit?
+If you wish to undo/revert the last commit you can do the following, using the commit hash that you get from the git log command:
+git revert <commit hash>
+
+
+git reset --hard 53333305
+The --hard part of the command tells Git to reset the files to the state of the previous commit and discard any staged changes. To do the same in Visual Studio, right-click the commit that you want to reset your branch to, and then select Reset > Delete Changes (--hard).
+
+To delete the last unpushed commit AND keep the changes, use:
+
+git reset --soft HEAD~1
+Use the git status command to verify that the command worked.
+
+To undo the last unpushed commit AND unstage the files, use:
+
+git reset --mixed HEAD~
+To delete the last unpushed commit AND destroy the work, use:
+
+git reset --hard HEAD~1
+
+-----------------------------
+Types of constructors:
+
+Default constructor
+public Customer()  
+        {  
+  
+        }  
+		
+Parameterized constructor
+public ParameterConstructor(int firstNumber, int secondNumber)  
+        {  
+            FirstNumber = firstNumber;  
+            SecondNumber = secondNumber;  
+        }  
+Copy constructor
+The constructor which creates an object by copying variables from another object is called a copy constructor.
+
+public class Employee  
+    {  
+       public string firstName;  
+       public string lastName;  
+       public string position;  
+       public int salary;  
+        public Employee()  
+        {  
+                  
+        }  
+        // Copy constructor.  
+        public Employee(Employee employee)  
+        {  
+            firstName = employee.firstName;  
+            lastName  = employee.lastName;  
+            position  = employee.position;  
+            salary    = employee.salary;  
+        }  
+  
+    }  
+    class Program  
+    {  
+        static void Main(string[] args)  
+        {  
+            Employee emp = new Employee();  
+            Employee emp1 = new Employee(emp); 
+Console.WriteLine("Enter your first name:");  
+            emp1.firstName = Convert.ToString(Console.ReadLine());			
+			...
+Static constructor
+A static constructor is used to initialize any static data, or to perform a particular action that needs to be performed once only. It is called automatically before the first instance is created or any static members are referenced.
+A static constructor does not take any access modifiers.
+A static constructor does not have a parameter.
+A static constructor is called automatically to initialize the class before the first instance is created or any static members are referenced.
+A static constructor cannot be called directly.
+The user has no control over when the static constructor is executed in the program.
+A typical use of static constructors is when the class is using a log file and the constructor is used to write entries to this file.
+A class can have only one static constructor.
+It can access only static members of a class.
+
+public class Customer  
+    {  
+        public string firstName;  
+        public string lastName;  
+        public static string discount;  
+  
+        public Customer(string FirstName, string LastName)  
+        {  
+            firstName = FirstName;  
+            lastName = LastName;  
+        }  
+        static Customer()  
+        {  
+            discount = 10+"%";  
+        }
+Private constructor(for static members)
+A private constructor is a special instance constructor. It is generally used in classes that contain static members only. If a class has one or more private constructors and no public constructors, other classes (except nested classes) cannot create instances of this class. The use of private constructor is to serve singleton classes. A singleton class is one which limits the number of objects created to one. Using private constructor we can ensure that no more than one object can be created at a time
+One use of private constructor is when we have the only static member.
+It provides the implementation of singleton class pattern.
+Once we provide constructor (private/public/any) the compiler will not add the no parameter public constructor to any class.
+
+public class Candidate  
+    {  
+        private Candidate()  
+        {  
+                  
+        }  
+        public static int CandidateVisitedForInterview;  
+        public static int CountCandidate()  
+        {  
+            return ++CandidateVisitedForInterview;  
+        } 
+
+-----------------------------
+just ref 2d array:
+using System;
+using System.Collections.Generic;
+using System.Linq;
+class HelloWorld {
+  static void Main() {
+    int n = Convert.ToInt32(Console.ReadLine().Trim());//rows num
+    List<List<int>> arr = new List<List<int>>();
+
+    for (int i = 0; i < n; i++)
+    {
+        arr.Add(Console.ReadLine().TrimEnd().Split(' ').ToList().Select(arrTemp => Convert.ToInt32(arrTemp)).ToList());
+    }
+    // Console.WriteLine(arr.Count);//how many items there arr.GetLength(0) length
+    // Console.WriteLine(arr.Capacity);//how much hold before adding more
+    // Action<List<int>> action = new Action<List<int>>(interior);
+    // Array.ForEach(arr.ToArray(),action);
+    // | 0,0 0,1 0,2 |
+    // | 1,0 1,1 1,2 |
+    // | 2,0 2,1 2,2 |
+    // total += array[row][row] + array[row][array.length - row-1];
+    // Console.WriteLine(arr[0][2]);
+    int totala=0,totalb=0;
+    for(int row=0;row<arr.Count;row++){
+        for(int col=0;col<arr.Count;col++){
+            totala += arr[row][row];
+            totalb += arr[row][arr.Count - row-1];
+        }
+    }
+    Console.WriteLine($"{totala} {totalb}");
+  }
+  public static void interior(List<int> arr){
+      Array.ForEach(arr.ToArray(),Console.WriteLine);
+  }
+}
+
+DIAGONAL SUM of 2d array:
+using System;
+using System.Collections.Generic;
+class HelloWorld {
+  static void Main() {
+    List<List<int>> arr = new List<List<int>>();
+    List<int> innerList1 = new List<int>() { 1, 2, 3 };
+    List<int> innerList2 = new List<int>() { 4, 5, 6 };
+    List<int> innerList3 = new List<int>() { 9, 8, 9 };
+
+    arr.Add(innerList1);
+    arr.Add(innerList2);
+    arr.Add(innerList3);  
+    int primary = 0, secondary = 0;
+    for (int i = 0; i < arr.Count; i++) {
+        Console.WriteLine($"{arr[i][i]} {arr[arr.Count - 1 - i][i]}");
+        primary += arr[i][i];
+        secondary += arr[arr[0].Count - 1 - i][i];
+    }
+    Console.WriteLine($"{primary} {secondary}");
+    var ab=Math.Abs(primary - secondary);
+    // return ab;
+    Console.WriteLine(ab);
+  }
+}
+-----------------------------
+Enter Array elements in one line:
+List<int> ar = Console.ReadLine().TrimEnd().Split(' ').ToList().Select(arTemp => Convert.ToInt32(arTemp)).ToList();
+-----------------------------
+Round up:
+using System;
+class HelloWorld {
+  static void Main() {
+    // var x=Math.Round(((decimal)3/6), 3);
+    var x=Math.Round(((decimal)1/6), 6);
+    Console.WriteLine("{0}",x);
+    Console.WriteLine("{0:#,0.000}",x); //to round to 3 places after decimal
+  }
+}
+-----------------------------
+Delegates in c#
+What if we want to pass a function as a parameter? How does C# handles the callback functions or event handler? The answer is - delegate.
+
+The delegate is a reference type data type that defines the method signature. You can define variables of delegate, just like other data type, that can refer to any method with the same signature as the delegate.
+
+There are three steps involved while working with delegates:
+
+Declare a delegate   //delegate void Del(string str);
+Set a target method  //public void hello(string Name){Console.WriteLine("hello " + Name) ;}
+Invoke a delegate    //Del HelloDelegate = new Del(hello); HelloDelegate("IC");
+
+Delegate is one of the base types in .NET. Delegate is a class used to create and invoke delegates at runtime
+ a delegate contains the details of a method
+C# programmers often need to pass a method as a parameter of other methods when dealing with events
+ A DELEGATE IS A CLASS THAT ENCAPSULATES A METHOD SIGNATURE. Although it can be used in any context, it often serves as the basis for the event-handling model in C# and .NET. One good way of understanding delegates is by thinking of a delegate as something that gives a name to a method signature.
+
+Example:
+
+public delegate int DelegateMethod(int x, int y);
+++++++
+//the delegate can point to a void function and takes a string parameter
+
+delegate void Del(string str);
+
+public void hello(string Name)
+{
+ 	Console.WriteLine("hello " + Name) ;
+}
+public static void main()
+{
+  //you need to declare the delegate type above and give it a function
+  //that matches the delegate's funcion 
+  Del HelloDelegate = new Del(hello);
+  HelloDelegate("IC");
+}
+/// (output) -> "hello IC"
++++++++
+set delegate:
+public delegate void MyDelegate(string msg); // declare a delegate
+
+// set target method
+MyDelegate del = new MyDelegate(MethodA);
+// or 
+MyDelegate del = MethodA; 
+// or set lambda expression 
+MyDelegate del = (string msg) =>  Console.WriteLine(msg);
+
+// target method
+static void MethodA(string message)
+{
+    Console.WriteLine(message);
+}
++++++++
+
+In class, we create its object, which is an instance, but in delegate, when we create an instance, that is also referred to as a delegate (which means whatever you do, you will get a delegate).
+
+The delegate does not know or care about the class of the object it references. Any object will do; all that matters is that the method's argument types and return types match the delegate's.
+In simple words, delegates are object-oriented, type-safe, and very secure, as they ensure that the signature of the method being called is correct. Delegates make event handling simple and easy.
+
+Singlecast delegate
+
+Singlecast delegate point to a single method at a time. The delegate is assigned to a single method at a time. They are derived from System.Delegate class.
+
+Multicast Delegate
+
+When a delegate is wrapped with more than one method, that is known as a multicast delegate.
+
+In C#, delegates are multicast, meaning they can point to more than one function at a time. They are derived from System.MulticastDelegate class.
+
+public delegate void DelegateExample();
+DelegateExample d1 = new DelegateExample(Display);
+d1();
+
+
+public delegate void delmethod();
+public class P
+{
+	public static void display()
+		{Console.WriteLine("Hello!");}
+	public static void show()
+		{Console.WriteLine("Hi!");}
+	public void print()
+		{Console.WriteLine("Print");}
+}
+static void Main(string[] args)
+	{
+	// here we have assigned static method show() of class P to delegate delmethod()
+	delmethod del1 = P.show;
+
+	// here we have assigned static method display() of class P to delegate delmethod() using new operator
+	// you can use both ways to assign the delagate
+	delmethod del2 = new delmethod(P.display);
+
+
+	P obj = new P();
+	// here first we have create instance of class P and assigned the method print() to the delegate i.e. delegate with class
+	delmethod del3 = obj.print;
+	del1();
+	del2();
+	del3();
+	Console.ReadLine();
+	}
+}
+}
+
+A sample code demonstrates how to create and use a multicast delegate.
+
+using System;
+namespace delegate_Example4
+{
+	class Program
+	{
+		public delegate void delmethod(int x, int y);
+		public class TestMultipleDelegate
+		{
+			public void plus_Method1(int x, int y)
+			{
+				Console.Write("You are in plus_Method");
+				Console.WriteLine(x + y);
+			}
+
+			public void subtract_Method2(int x, int y)
+			{
+				Console.Write("You are in subtract_Method");
+				Console.WriteLine(x - y);
+			}
+		}
+
+		static void Main(string[] args)
+		{
+			TestMultipleDelegate obj = new TestMultipleDelegate();
+			delmethod del = new delmethod(obj.plus_Method1);
+
+			// Here we have multicast
+			del += new delmethod(obj.subtract_Method2);
+			// plus_Method1 and subtract_Method2 are called
+			del(50, 10);
+			Console.WriteLine();
+			//Here again we have multicast
+			del -= new delmethod(obj.plus_Method1);
+			//Only subtract_Method2 is called
+			del(20, 10);
+			Console.ReadLine();
+		}
+	}
+}
+
+What are Anonymous Delegates in C#?
+You can create a delegate, but there is no need to declare the method associated with it. You do not have to explicitly define a method before using the delegate. Such a method is referred to as anonymous. In other words, if a delegate contains its method definition, it is an anonymous method.
+
+The code is an example of using an anonymous delegate.
+
+using System;
+
+public delegate void Test();
+
+public class Program
+{
+	static int Main()
+	{
+		Test Display = delegate()
+			{
+			Console.WriteLine("Anonymous Delegate method");
+			};
+
+		Display();
+		return 0;
+	}
+}
+++++++++++++++++++++
+10. How to Use Events and Delegates in C#?
+Once an event is declared, it must be associated with one or more event handlers before it can be raised. An event handler is nothing but a method that is called using a delegate. Use the += operator to associate an event with an instance of a delegate that already exists.
+
+Example:
+
+obj.MyEvent += new MyDelegate(obj.Display);
+An event has the value null if it has no registered listeners.
+Although events are mostly used in Windows control programming, they can also be implemented in console, web, and other applications.
+Program for creating a custom Singlecast delegate and event
+
+using System;
+namespace delegate_custom
+{
+	class Program
+	{
+		public delegate void MyDelegate(int a);
+
+		public class XX
+		{
+			public event MyDelegate MyEvent;
+			public void RaiseEvent()
+			{
+				MyEvent(20);
+				Console.WriteLine("Event Raised");
+			}
+			public void Display(int x)
+			{
+				Console.WriteLine("Display Method {0}", x);
+			}
+		}
+	static void Main(string[] args)
+		{
+			XX obj = new XX();
+			obj.MyEvent += new MyDelegate(obj.Display);
+			obj.RaiseEvent();
+			Console.ReadLine();
+		}
+	}
+}
+
+ANOTHER EXAMPLE OF EVENTS AND DELEGATES:
+Events are user actions such as key press, clicks, mouse movements, etc., or some occurrence such as system generated notifications. Applications need to respond to events when they occur. For example, interrupts. Events are used for inter-process communication.
+
+Using Delegates with Events
+The events are declared and raised in a class and associated with the event handlers using delegates within the same class or some other class. The class containing the event is used to publish the event. This is called the publisher class. Some other class that accepts this event is called the subscriber class. Events use the publisher-subscriber model.
+A publisher is an object that contains the definition of the event and the delegate. The event-delegate association is also defined in this object. A publisher class object invokes the event and it is notified to other objects.
+A subscriber is an object that accepts the event and provides an event handler. The delegate in the publisher class invokes the method (event handler) of the subscriber class.
++++++
+Declaring Events:
+To declare an event inside a class, first of all, you must declare a delegate type for the even as:
+
+public delegate string BoilerLogHandler(string str);
+then, declare the event using the event keyword −
+
+event BoilerLogHandler BoilerEventLog;
+The preceding code defines a delegate named BoilerLogHandler and an event named BoilerEventLog, which invokes the delegate when it is raised.
+
+Example
+ Live Demo
+using System;
+
+namespace SampleApp {
+   public delegate string MyDel(string str);
+	
+   class EventProgram {
+      event MyDel MyEvent;
+		
+      public EventProgram() {
+         this.MyEvent += new MyDel(this.WelcomeUser);
+      }
+      public string WelcomeUser(string username) {
+         return "Welcome " + username;
+      }
+      static void Main(string[] args) {
+         EventProgram obj1 = new EventProgram();
+         string result = obj1.MyEvent("Tutorials Point");
+         Console.WriteLine(result);
+      }
+   }
+}
+-----------------------------
+Covariance and Contravariance in C#
+Covariance and contravariance allow us to be flexible when dealing with class hierarchy.
+a base class can hold a derived class but a derived class cannot hold a base class. In other word, an instance can accept big even if it demands small, but it cannot accept small if it demands big.
+ex: Small sml=new Small(); correct
+Small sml2=new Big(); correct 
+Small sml3=new Bigger(); correct 
+XX Big big2=new Small(); Incorrect 
+
+Covariance enables you to pass a derived type where a base type is expected. Co-variance is like variance of the same kind. The base class and other derived classes are considered to be the same kind of class that adds extra functionalities to the base type. So covariance allows you to use a derived class where a base class is expected (rule: can accept big if small is expected).
+
+Covariance can be applied on delegate, generic, array, interface, etc.
+
+Covariance with Delegate
+Covariance in delegates allows flexiblity in the return type of delegate methods.
+
+Example: Covariance with Delegate
+public delegate Small covarDel(Big mc);
+
+public class Program
+{
+    public static Big Method1(Big bg)
+    {
+        Console.WriteLine("Method1");
+        return new Big();
+    }
+    public static Small Method2(Big bg)
+    {
+        Console.WriteLine("Method2");
+        return new Small();
+    }
+        
+    public static void Main(string[] args)
+    {
+        covarDel del = Method1;
+        Small sm1 = del(new Big());
+        del= Method2;
+        Small sm2 = del(new Big());
+    }
+}
+Output:
+Method1
+Method2
+
+As you can see in the above example, delegate expects a return type of small (base class) but we can still assign Method1 that returns Big (derived class) and also Method2 that has same signature as delegate expects.
+Thus, covariance allows you to assign a method to the delegate that has a less derived return type.
+++++
+CONTRAVARIANCE:
+Contravariance is applied to parameters. Contravariance allows a method with the parameter of a base class to be assigned to a delegate that expects the parameter of a derived class.
+
+Continuing with the example above, add Method3 that has a different parameter type than delegate:
+
+Example: Contravariance with Delegate
+delegate Small covarDel(Big mc);
+
+class Program
+{
+    static Big Method1(Big bg)
+    {
+        Console.WriteLine("Method1");
+        return new Big();
+    }
+    static Small Method2(Big bg)
+    {
+        Console.WriteLine("Method2");
+        return new Small();
+    }
+
+static Small Method3(Small sml)
+{
+	Console.WriteLine("Method3");
+	
+	return new Small();
+}
+    static void Main(string[] args)
+    {
+        covarDel del = Method1;
+        del += Method2;
+        del += Method3;
+
+        Small sm = del(new Big());
+}
+Output:
+Method1
+Method2
+Method3
+As you can see, Method3 has a parameter of Small class whereas delegate expects a parameter of Big class. Still, you can use Method3 with the delegate.
+You can also use covariance and contravariance in the same method as shown below.
+
+Example: Covariance and Contravariance
+delegate Small covarDel(Big mc);
+
+class Program
+{
+
+    static Big Method4(Small sml)
+    {
+        Console.WriteLine("Method3");
+    
+        return new Big();
+    }
+
+    static void Main(string[] args)
+    {
+        covarDel del = Method4;
+    
+        Small sm = del(new Big());
+    }
+}
+Output:
+Method4
+-----------------------------
+Developer exception page:
+The Developer Exception Page groups this detailed information into five tabbed sections — Stack, Query, Cookies, Headers, and Routing.
+
+When you create a new ASP.NET Core MVC project in Visual Studio, the ASP.NET Core template generates the following code in the Configure method of the Startup class.
+
+public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {
+      if (env.IsDevelopment()) {
+            app.UseDeveloperExceptionPage();
+      }
+      else {
+            app.UseExceptionHandler("/Home/Error");
+      }
+      app.UseStaticFiles();
+      app.UseRouting();
+      app.UseAuthorization();
+      app.UseEndpoints(endpoints = >{
+            endpoints.MapControllerRoute(
+            name: "default", pattern:"{controller=Home}/{action=Index}/{id?}");
+		});
+	}
+
+or
+
+app.UseExceptionHandler(errorApp = >{
+			  errorApp.Run(async context = >{
+					context.Response.StatusCode = (int)
+					HttpStatusCode.InternalServerError;
+					context.Response.ContentType = "text/html";
+					await context.Response.WriteAsync("<htmllang=\"en\"><body>\r\n");
+					await context.Response.WriteAsync("An error occurred...<br><br>\r\n");
+					await context.Response.WriteAsync("</body></html>\r\n");
+					await context.Response.WriteAsync(new string(' ', 512));
+			  });
+			});
+-----------------------------
+EXCEPTION HANDLING IN .Net:
+By default, ASP.NET Core returns a simple status code for any exception that occurs in an application.
+
+To handle exceptions and display user friendly messages, we need to install Microsoft.AspNetCore.Diagnostics NuGet package and add middleware in the Configure() method
+
+The Microsoft.AspNetCore.Diagnostics package includes following extension methods to handle exceptions in different scenario:
+
+UseDeveloperExceptionPage
+UseExceptionHandler
+
+
+-----------------------------
+In C# class inside class is nested class:
+
+To access members of the nested classes we first need to create their objects.
+
+1.Create object of Outer class
+
+OuterClass obj1 = new OuterClass();
+Here, we have created the obj1 object of the class OuterClass.
+
+2. Create object of Inner Class
+
+OuterClass.InnerClass obj2 = new OuterClass.InnerClass();
+-----------------------------
+table sorter:
+<link rel="stylesheet" href="/path/to/theme.default.css">
+<!-- load jQuery and tablesorter scripts -->
+<script type="text/javascript" src="/path/to/jquery-latest.js"></script>
+<script type="text/javascript" src="/path/to/jquery.tablesorter.js"></script>
+
+<!-- tablesorter widgets (optional) -->
+<script type="text/javascript" src="/path/to/jquery.tablesorter.widgets.js"></script>
+
+<table id="myTable" class="tablesorter">
+  <thead>
+    <tr>
+      <th>Last Name</th>
+	  
+$(function() {
+  $("#myTable").tablesorter();//.tablesorter({ sortList: [[0,0], [1,0]] });
+});
+-----------------------------
+Datatable:
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>  
+<link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />  
+  
+<link href="https://cdn.datatables.net/1.10.15/css/dataTables.bootstrap.min.css" rel="stylesheet" />  
+<link href="https://cdn.datatables.net/responsive/2.1.1/css/responsive.bootstrap.min.css" rel="stylesheet" />  
+  
+<script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>  
+<script src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap4.min.js "></script>  
+
+
+<table id="example" class="table table-striped table-bordered dt-responsive nowrap" width="100%" cellspacing="0">  
+            <thead>  
+                <tr>  
+                    <th>CustomerID</th>  
+
+$('#example').dataTable( {  
+} );
+
+
+$(document).ready(function() {
+    $('#example').dataTable( {
+        "lengthMenu": [20, 40, 60, 80, 100],
+        "pageLength": 20
+    } );
+} );
+
+@ {  
+    Layout = null;  
+}  
+  
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>   
+<link href = "~/lib/bootstrap/dist/css/bootstrap.css" rel = "stylesheet" / >  
+  
+<link href="https://cdn.datatables.net/1.10.15/css/dataTables.bootstrap.min.css" rel="stylesheet" />   
+<link href = "https://cdn.datatables.net/responsive/2.1.1/css/responsive.bootstrap.min.css" rel = "stylesheet" / >  
+  
+<script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>   
+<script src = "https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap4.min.js">< /script>    
+  
+    <div class = "container" >  
+    <br />   
+    <div style = "width:90%; margin:0 auto;" >  
+    <table id="example" class="table table-striped table-bordered dt-responsive nowrap" width="100%" cellspacing="0">    
+                <thead>    
+                    <tr>    
+                        <th>CustomerID</th>    
+                        <th>Name</th>    
+                        <th>Address</th>    
+                        <th>Country</th>    
+                        <th>City</th>    
+                        <th>Phoneno</th>    
+                        <th>Edit</th>    
+                        <th>Delete</th>    
+                    </tr>    
+                </thead>    
+            </table>   
+            </div>     
+            </div>    
+  
+    <script>  
+  
+    $(document).ready(function() {  
+        $("#example").DataTable({  
+            "processing": true, // for show progress bar    
+            "serverSide": true, // for process server side    
+            "filter": true, // this is for disable filter (search box)    
+            "orderMulti": false, // for disable multiple column at once    
+            "ajax": {  
+                "url": "/DemoGrid/LoadData",  
+                "type": "POST",  
+                "datatype": "json"  
+            },  
+            "columnDefs": [{  
+                "targets": [0],  
+                "visible": false,  
+                "searchable": false  
+            }],  
+            "columns": [  
+                { "data": "CustomerID", "name": "CustomerID", "autoWidth": true },  
+                { "data": "Name", "name": "Name", "autoWidth": true },  
+                { "data": "Address", "name": "Address", "autoWidth": true },  
+                { "data": "Country", "name": "Country", "autoWidth": true },  
+                { "data": "City", "name": "City", "autoWidth": true },  
+                { "data": "Phoneno", "name": "Phoneno", "autoWidth": true },  
+                {  
+                    "render": function(data, type, full, meta) { return '<a class="btn btn-info" href="/DemoGrid/Edit/' + full.CustomerID + '">Edit</a>'; }  
+                },  
+                {  
+                    data: null,  
+                    render: function(data, type, row) {  
+                        return "<a href='#' class='btn btn-danger' onclick=DeleteData('" + row.CustomerID + "'); >Delete</a>";  
+                    }  
+                },  
+            ]  
+  
+        });  
+    });  
+  
+  
+function DeleteData(CustomerID) {  
+    if (confirm("Are you sure you want to delete ...?")) {  
+        Delete(CustomerID);  
+    } else {  
+        return false;  
+    }  
+}  
+  
+  
+function Delete(CustomerID) {  
+    var url = '@Url.Content("~/")' + "DemoGrid/Delete";  
+  
+    $.post(url, { ID: CustomerID }, function(data) {  
+        if (data) {  
+            oTable = $('#example').DataTable();  
+            oTable.draw();  
+        } else {  
+            alert("Something Went Wrong!");  
+        }  
+    });  
+}  
+  
+</script> 
+-----------------------------
+DESIGN PATTERNS:
+
+IMP: SingletonS,FactoryF,StrategyS,ObserverO,BuilderB,AdapterA,StateS
+OFBASSS
+
+CREATIONAL:AbstractFctry,Buildr,FactryMethod,Prototype,Singleton;
+STRUCTURAL:Adapter,Bridge,COmposite,Decorator,Facade,Flyweight,Proxy;
+BEHAVIORAL:Mediatr,memento,interprtr,iteratot,chainOfResp,Cmd,Stt,Strtgy,Obsrvr,TempltMethd,Vstr
+
+
+
+
+
+
+
+
+

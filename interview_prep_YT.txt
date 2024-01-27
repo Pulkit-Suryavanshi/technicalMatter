@@ -1,0 +1,19 @@
+https://youtu.be/u99wAoBjDvQ oops interview
+https://youtu.be/pXmMdmJUC0g mvc core interview(15:45)
+https://youtu.be/-jeoyDJDsSM angular interview 
+https://youtu.be/5sUUWa4SiY4 .net core interview 
+https://youtu.be/SEdAF8mSKS4 sql server interview
+
+ • mongo express angular node
+ • asp.net, mvc, mvc core,
+ • ssms
+ • js things(promises,callbacks,hoisting,async await)
+ • oops
+ • collections in c#, dictionary, coding questions
+
+oops,c#,.net,asp,mvc,core,api,sql
+https://youtube.com/playlist?list=PLVlQHNRLflP8jTEt-a_Wdg1ehcl72vmxC mvc playlist
+https://youtube.com/playlist?list=PLaFzfwmPR7_LTXu0Vz9Zz_Y0OMMC7ArHZ mvc core playlist 13/120
+
+
+Angular: Authguard, services,modules, routing, view encapsulation, observables, behavioursubject, subscribe,
